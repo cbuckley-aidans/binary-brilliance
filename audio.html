@@ -51,10 +51,12 @@
             transition: max-height 0.3s ease-out;
             opacity: 0;
             transition: opacity 0.3s ease-out;
+            margin: 0;
         }
         .wave-info.expanded {
             max-height: 500px;
             opacity: 1;
+            margin: 1rem 0;
         }
     </style>
 </head>
@@ -69,7 +71,7 @@
                     Sound in real life is a wave that travels through the air - like ripples in a pond! When you speak or play music, you create vibrations that make the air move up and down in waves.
                 </p>
                 <p class="text-gray-600">
-                    When we record audio, it usually looks like this:
+                    Sound in the real world can look like this:
                 </p>
                 <canvas id="exampleAnalogueWave" width="800" height="300"></canvas>
                 
@@ -218,20 +220,22 @@
         <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
             <h2 class="text-2xl font-semibold mb-4 text-gray-700">Additional Resources 📚</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="border p-4 rounded">
-                    <h3 class="font-bold mb-2">🎓 Learning Resources</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-blue-500 hover:underline">Interactive Sound Wave Simulator</a></li>
-                        <li><a href="#" class="text-blue-500 hover:underline">Digital Audio Fundamentals Course</a></li>
-                    </ul>
-                </div>
-                <div class="border p-4 rounded">
-                    <h3 class="font-bold mb-2">🛠️ Tools & Software</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-blue-500 hover:underline">Free Audio Analysis Tools</a></li>
-                        <li><a href="#" class="text-blue-500 hover:underline">Sound Wave Visualization Software</a></li>
-                    </ul>
-                </div>
+                <a href="https://youtu.be/USCBCmwMCDA?si=_tRmd3UH08ouo-su" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">🎥</span>
+                    <span>Binary and Data video</span>
+                </a>
+                <a href="https://www.teachwithict.com/binary-representation-of-sound.html" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">✍️</span>
+                    <span>Amplitude and Wavelength</span>
+                </a>
+                <a href="https://synth.playtronica.com/touchme/" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">🎹</span>
+                    <span>Interactive Digital Synthesiser</span>
+                </a>
+                <a href="https://www.youtube.com/watch?v=g3tfly9mKhY" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">🎥</span>
+                    <span>Digital Audio Explained in 2 Minutes</span>
+                </a>
             </div>
         </div>
     </div>
@@ -276,6 +280,8 @@
     </div>
 
     <script>
+
+        
         function drawAxis(ctx, width, height) {
             ctx.beginPath();
             ctx.strokeStyle = '#94a3b8';
@@ -463,6 +469,8 @@
         drawPitchWave(document.getElementById('lowPitchWave'), 4);
         drawSamplingDemo(20);
         drawBitDepthDemo(4);
+
+        
     </script>
 </body>
 </html>
