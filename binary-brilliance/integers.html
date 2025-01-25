@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Numbers Explorer</title>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+        .lightbulb {
+            width: 80px;
+            height: 80px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .lightbulb:hover {
+            transform: scale(1.1);
+        }
+
+        .lightbulb.on path {
+            fill: #FCD34D;
+        }
+
+        .lightbulb.off path {
+            fill: #E5E7EB;
+        }
+
+        .digital-display {
+            font-family: 'Courier New', monospace;
+            background: #1F2937;
+            color: #10B981;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            letter-spacing: 0.5em;
+            width: 100%;
+            font-size: 2rem;
+            box-shadow: inset 0 0 10px rgba(16, 185, 129, 0.5);
+            text-shadow: 0 0 5px #10B981;
+        }
+
+        .tooltip {
+            background: #1F2937;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            max-width: 200px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .calculation {
+            background: #F3F4F6;
+            border-left: 4px solid #3B82F6;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-8">
+        <h1 class="text-3xl font-bold text-center mb-4 text-blue-600">Binary Numbers Explorer</h1>
+        
+        <div class="bg-blue-50 p-4 rounded-lg mb-8">
+            <h2 class="text-xl font-bold mb-2">What is Binary?</h2>
+            <p class="mb-2">Binary is how computers store and process numbers. Just like we use light switches that are either ON or OFF, computers use 1s and 0s to represent numbers.</p>
+            <p>Each position in a binary number represents a <span class="text-blue-600 underline cursor-help" id="powerTooltip">power of 2</span>, starting from the right. By turning different positions ON (1) or OFF (0), we can create any number!</p>
+            <div class="tooltip" role="tooltip" id="tooltip">
+                Example: 2³ (2 to the power of 3)<br>
+                2 × 2 × 2 = 8<br>
+                So 2³ equals 8
+            </div>
+            <h2 class="text-xl font-bold mt-4 mb-2">What is a Byte?</h2>
+            <p class="mb-2">A byte is a group of eight bits, just like the example below.</p>
+            <p class="mb-2">We tend to use bytes to group together bits, as the math behind it is nice and convenient.</p>
+            <p class="mb-2">Try clicking the lightbulbs below to turn them on and then check what number it creates!</p>
+        </div>
+
+        <div class="flex justify-center gap-4 mb-8" id="bulbContainer">
+            <!-- Bulbs will be added here by JavaScript -->
+        </div>
+
+        <div class="digital-display text-center text-xl mb-6" id="binaryDisplay">
+            00000000
+        </div>
+
+        <div class="flex justify-center mb-4">
+            <button id="toggleBtn" class="bg-blue-500 text-white px-6 py-3 rounded-lg transition-all duration-300 hover:bg-blue-600 flex items-center gap-2">
+                <span class="text-xl">👁️</span>
+                Show Number
+            </button>
+        </div>
+
+        <div id="calculation" class="hidden fade-in"></div>
+
+        <div class="mt-8 border-t pt-6">
+            <h2 class="text-xl font-bold mb-4 text-blue-600">Additional Resources</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <a href="https://youtu.be/USCBCmwMCDA?si=_tRmd3UH08ouo-su" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">🎥</span>
+                    <span>Binary and Data video</span>
+                </a>
+                <a href="https://learningcontent.cisco.com/games/binary/index.html" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">🎮</span>
+                    <span>The Binary Game</span>
+                </a>
+                <a href="https://groklearning.com/course/aca-dt-py-functions-data-rep/" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">✍️</span>
+                    <span>Check Your Understanding</span>
+                </a>
+                <a href="https://www.youtube.com/watch?v=zDNaUi2cjv4" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
+                    <span class="text-2xl">📺</span>
+                    <span>Binary Explained in 100 Seconds</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize state
+        let bits = Array(8).fill(0);
+        let showCalculation = false;
+
+        // Bulb SVG template
+        const bulbSVG = `
+            <svg class="lightbulb" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <path d="m363.9,54.2c-31.2-29.8-72.3-45.1-115.4-43-77.6,3.6-141.3,64.6-148.1,141.9-3.7,41.3 8.8,81.6 35,113.4 26.4,32.1 48,89 48,126.9 0,0-2.1,13.8 10.4,14.4h124.7c13.6-1 10.4-17 10.4-17 0-37 21.1-92.3 47.1-123.3 23.5-28 36.4-63.6 36.4-100.1-0.1-43.2-17.3-83.4-48.5-113.2zm-116.1,332.7l-24-145.9h64.5l-24,145.9h-16.5zm112.1-132.9c-28.3,33.7-50.6,91.2-51.9,132.8h-22.6l25.5-154.6c0.7-3.2-0.7-11.6-10.3-12.1h-89c-9.2,0.3-11,9-10.3,12.1l25.5,154.6h-22.7c-2.1-42.3-24.5-99.6-52.6-133.7-22.7-27.5-33.5-62.4-30.3-98.3 5.8-66.8 61-119.6 128.2-122.8 37.5-1.8 73,11.5 100,37.3 27.1,25.8 42,60.6 42,98 0.1,31.7-11.1,62.5-31.5,86.7z"/>
+                    <path d="m319.7,433.9h-127.4c-5.8,0-10.4,4.7-10.4,10.4 0,5.8 4.7,10.4 10.4,10.4h9.7c4.1,26.1 26.7,46.2 54,46.2 27.3,0 49.9-20.1 54-46.2h9.7c5.8,0 10.4-4.7 10.4-10.4 5.68434e-14-5.7-4.6-10.4-10.4-10.4zm-63.7,46.2c-15,0-27.7-9.8-32.1-23.3h64.2c-4.4,13.5-17.1,23.3-32.1,23.3z"/>
+                </g>
+            </svg>
+        `;
+
+        // Setup bulbs
+        const bulbContainer = document.getElementById('bulbContainer');
+        for (let i = 0; i < 8; i++) {
+            const bulb = document.createElement('div');
+            bulb.innerHTML = bulbSVG;
+            bulb.firstElementChild.classList.add('off');
+            bulb.onclick = () => toggleBit(i);
+            bulbContainer.appendChild(bulb);
+        }
+
+        // Setup popper tooltip
+        const button = document.getElementById('powerTooltip');
+        const tooltip = document.getElementById('tooltip');
+        
+        const popperInstance = Popper.createPopper(button, tooltip, {
+            placement: 'bottom',
+            modifiers: [
+                {
+                    name: 'offset',
+                    options: {
+                        offset: [0, 8],
+                    },
+                },
+            ],
+        });
+
+        function showTooltip() {
+            tooltip.classList.add('show');
+            popperInstance.update();
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('show');
+        }
+
+        button.addEventListener('mouseenter', showTooltip);
+        button.addEventListener('mouseleave', hideTooltip);
+        button.addEventListener('focus', showTooltip);
+        button.addEventListener('blur', hideTooltip);
+
+        function toggleBit(index) {
+            bits[index] = bits[index] === 0 ? 1 : 0;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            // Update bulbs
+            const bulbs = document.querySelectorAll('.lightbulb');
+            bits.forEach((bit, i) => {
+                bulbs[i].classList.toggle('on', bit === 1);
+                bulbs[i].classList.toggle('off', bit === 0);
+            });
+
+            // Update binary display
+            document.getElementById('binaryDisplay').textContent = bits.join('');
+
+            // Update calculation if visible
+            if (showCalculation) {
+                updateCalculation();
+            }
+        }
+
+        function updateCalculation() {
+            const calc = document.getElementById('calculation');
+            let total = 0;
+            let steps = bits.map((bit, i) => {
+                const power = 7 - i;
+                const value = bit * Math.pow(2, power);
+                total += value;
+                if (bit === 1) {
+                    return `<div class="mb-2">Position ${power}: 1 × 2<sup>${power}</sup> = ${value}</div>`;
+                }
+                return '';
+            }).filter(step => step !== '').join('');
+
+            calc.innerHTML = `
+                <div class="calculation">
+                    <h3 class="font-bold mb-2">How did we get ${total}?</h3>
+                    <div class="pl-4">
+                        ${steps}
+                        <div class="font-bold mt-2">Total: ${total}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Toggle button handler
+        document.getElementById('toggleBtn').onclick = function() {
+            showCalculation = !showCalculation;
+            const calc = document.getElementById('calculation');
+            
+            if (showCalculation) {
+                calc.classList.remove('hidden');
+                updateCalculation();
+                this.innerHTML = '<span class="text-xl">👁️‍🗨️</span> Hide Number';
+            } else {
+                calc.classList.add('hidden');
+                this.innerHTML = '<span class="text-xl">👁️</span> Show Number';
+            }
+        };
+    </script>
+</body>
+</html>
