@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Sampling & Bit Depth Demo</title>
+    <title>Audio</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        canvas { background-color: #f8fafc; }
+        canvas { 
+            background-color: #1a1a1a;
+        }
         .slider {
             -webkit-appearance: none;
             width: 100%;
             height: 15px;
             border-radius: 5px;
-            background: #d1d5db;
+            background: #2a2a2a;
             outline: none;
         }
         .slider::-webkit-slider-thumb {
@@ -38,12 +41,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
+            background: #2a2a2a;
             padding: 2rem;
             border-radius: 0.5rem;
             max-width: 600px;
             width: 90%;
             z-index: 51;
+            color: #ffffff;
         }
         .wave-info {
             max-height: 0;
@@ -58,226 +62,278 @@
             opacity: 1;
             margin: 1rem 0;
         }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 5rem;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: #222;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #002654;
+        }
     </style>
 </head>
-<body class="bg-gray-100 p-8">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">Understanding Digital Audio 🎵</h1>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">How Does Digital Audio Work? 🤔</h2>
-            <div class="space-y-4">
-                <p class="text-gray-600">
-                    Sound in real life is a wave that travels through the air - like ripples in a pond! When you speak or play music, you create vibrations that make the air move up and down in waves.
-                </p>
-                <p class="text-gray-600">
-                    Sound in the real world can look like this:
-                </p>
-                <canvas id="exampleAnalogueWave" width="800" height="300"></canvas>
-                
-                <button id="waveToggle" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    Why can audio look like a wave?
-                </button>
-                <div id="waveInfo" class="wave-info bg-gray-50 p-4 rounded-lg">
-                    <p class="mb-2">Sound waves are created by vibrating objects pushing air molecules back and forth:</p>
-                    <ol class="list-decimal list-inside space-y-2">
-                        <li>When something vibrates (like a guitar string), it pushes nearby air molecules</li>
-                        <li>These molecules bump into their neighbors, creating a chain reaction</li>
-                        <li>This creates areas of high pressure and low pressure</li>
-                        <li>These pressure changes travel through the air as waves</li>
-                        <li>When they reach your ear, your eardrum vibrates in the same pattern!</li>
-                    </ol>
+<body class="bg-base-200 min-h-screen">
+    <div class="drawer">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content">
+            <!-- Navbar -->
+            <div class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
+                <div class="flex-none lg:hidden">
+                    <label for="my-drawer" class="btn btn-square btn-ghost">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </label>
                 </div>
-
-                <p class="text-gray-600">
-                    But computers can't understand these waves directly - they only understand numbers (specifically, 1s and 0s, called binary). So we need to convert these waves into numbers the computer can use!
-                </p>
-                <p class="text-gray-600">
-                    We do this in two important ways:
-                </p>
-                <ol class="list-decimal list-inside space-y-2 text-gray-600">
-                    <li>Taking many quick snapshots of the wave (Sampling Frequency)</li>
-                    <li>Measuring how tall the wave is at each snapshot (Bit Depth)</li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <div class="flex justify-between items-start mb-4">
-                <h2 class="text-2xl font-semibold text-gray-700">Sampling Frequency 📸</h2>
-                <button onclick="showModal('sampling-info')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    What's happening?
-                </button>
-            </div>
-            
-            <p class="mb-4 text-gray-600">
-                Sampling is like taking photos of a moving object. The more photos you take per second, the smoother the movement appears when you play them back!
-            </p>
-
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">
-                    Sampling Rate: <span id="samplingValue">20</span> samples
-                </label>
-                <input type="range" min="4" max="50" value="20" class="slider" id="samplingSlider">
-            </div>
-            <canvas id="samplingCanvas" width="800" height="300"></canvas>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <div class="flex justify-between items-start mb-4">
-                <h2 class="text-2xl font-semibold text-gray-700">Bit Depth 📊</h2>
-                <button onclick="showModal('bitdepth-info')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    What's happening?
-                </button>
+                <div class="flex-1">
+                    <a href="index.html" class="btn btn-ghost normal-case text-xl">Audio</a>
+                </div>
+                <div class="flex-none hidden lg:block">
+                    <ul class="menu menu-horizontal px-1">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#sampling">Sampling</a></li>
+                        <li><a href="#bitdepth">Bit Depth</a></li>
+                        <li><a href="#pitch">Pitch</a></li>
+                        <li><a href="#examples">Examples</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                    </ul>
+                </div>
             </div>
 
-            <p class="mb-4 text-gray-600">
-                Bit depth determines how precisely we can measure the height of each sample. More bits means we can represent more different volume levels!
-            </p>
+            <div class="container mx-auto px-4 py-8">
+                <!-- Introduction Section -->
+                <section id="introduction" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h1 class="text-3xl font-bold mb-8 text-center">Understanding Digital Audio 🎵</h1>
 
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">
-                    Bit Depth: <span id="bitDepthValue">4</span> bits
-                    <span class="text-sm text-gray-500 ml-2">
-                        (Can store <span id="bitValueCount">16</span> different volume levels)
-                    </span>
-                </label>
-                <input type="range" min="2" max="16" value="4" class="slider" id="bitDepthSlider">
-            </div>
-            <canvas id="bitDepthCanvas" width="800" height="300"></canvas>
-        </div>
+                        <h2 class="text-2xl font-semibold mb-4">How Does Digital Audio Work? 🤔</h2>
+                        <div class="space-y-4">
+                            <p>Sound in real life is a wave that travels through the air - like ripples in a pond! When you speak or play music, you create vibrations that make the air move up and down in waves.</p>
+                            <p>Sound in the real world can look like this:</p>
+                            <canvas id="exampleAnalogueWave" width="800" height="300"></canvas>
+                            
+                            <button id="waveToggle" class="btn btn-primary">Why can audio look like a wave?</button>
+                            <div id="waveInfo" class="wave-info bg-base-200 p-4 rounded-lg">
+                                <p class="mb-2">Sound waves are created by vibrating objects pushing air molecules back and forth:</p>
+                                <ol class="list-decimal list-inside space-y-2">
+                                    <li>When something vibrates (like a guitar string), it pushes nearby air molecules</li>
+                                    <li>These molecules bump into their neighbors, creating a chain reaction</li>
+                                    <li>This creates areas of high pressure and low pressure</li>
+                                    <li>These pressure changes travel through the air as waves</li>
+                                    <li>When they reach your ear, your eardrum vibrates in the same pattern!</li>
+                                </ol>
+                            </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Understanding Pitch 🎹</h2>
-            <div class="space-y-4">
-                <p class="text-gray-600">
-                    The wavelength of a sound wave determines its pitch - how "high" or "low" it sounds to our ears.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="border p-4 rounded">
-                        <h3 class="font-bold mb-2">Short Wavelength = High Pitch</h3>
-                        <canvas id="highPitchWave" width="400" height="150"></canvas>
-                        <p class="text-sm text-gray-500 mt-2">Like a piccolo or bird chirp</p>
+                            <p>But computers can't understand these waves directly - they only understand numbers (specifically, 1s and 0s, called binary). So we need to convert these waves into numbers the computer can use!</p>
+                            <p>We do this in two important ways:</p>
+                            <ol class="list-decimal list-inside space-y-2">
+                                <li>Taking many quick snapshots of the wave (Sampling Frequency)</li>
+                                <li>Measuring how tall the wave is at each snapshot (Bit Depth)</li>
+                            </ol>
+                        </div>
                     </div>
-                    <div class="border p-4 rounded">
-                        <h3 class="font-bold mb-2">Long Wavelength = Low Pitch</h3>
-                        <canvas id="lowPitchWave" width="400" height="150"></canvas>
-                        <p class="text-sm text-gray-500 mt-2">Like a bass drum or thunder</p>
+                </section>
+
+                <!-- Sampling Section -->
+                <section id="sampling" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-2xl font-semibold">Sampling Frequency 📸</h2>
+                        </div>
+                        
+                        <p class="mb-4">Sampling is like taking photos of a moving object. The more photos you take per second, the smoother the movement appears when you play them back!</p>
+
+                        <div class="mb-4">
+                            <label class="block font-bold mb-2">
+                                Sampling Rate: <span id="samplingValue">20</span> samples
+                            </label>
+                            <input type="range" min="4" max="50" value="20" class="slider" id="samplingSlider">
+                        </div>
+                        <canvas id="samplingCanvas" width="800" height="300"></canvas>
                     </div>
-                </div>
+                </section>
+
+                <!-- Bit Depth Section -->
+                <section id="bitdepth" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-2xl font-semibold">Bit Depth 📊</h2>
+                        </div>
+
+                        <p class="mb-4">Bit depth determines how precisely we can measure the height of each sample. More bits means we can represent more different volume levels!</p>
+
+                        <div class="mb-4">
+                            <label class="block font-bold mb-2">
+                                Bit Depth: <span id="bitDepthValue">4</span> bits
+                                <span class="text-sm opacity-70 ml-2">
+                                    (Can store <span id="bitValueCount">16</span> different volume levels)
+                                </span>
+                            </label>
+                            <input type="range" min="2" max="16" value="4" class="slider" id="bitDepthSlider">
+                        </div>
+                        <canvas id="bitDepthCanvas" width="800" height="300"></canvas>
+                    </div>
+                </section>
+
+                <!-- Pitch Section -->
+                <section id="pitch" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="text-2xl font-semibold mb-4">Understanding Pitch 🎹</h2>
+                        <div class="space-y-4">
+                            <p>The wavelength of a sound wave determines its pitch - how "high" or "low" it sounds to our ears.</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="card bg-base-200">
+                                    <div class="card-body">
+                                        <h3 class="font-bold mb-2">Short Wavelength = High Pitch</h3>
+                                        <canvas id="highPitchWave" width="400" height="150"></canvas>
+                                        <p class="text-sm opacity-70 mt-2">Like a piccolo or bird chirp</p>
+                                    </div>
+                                </div>
+                                <div class="card bg-base-200">
+                                    <div class="card-body">
+                                        <h3 class="font-bold mb-2">Long Wavelength = Low Pitch</h3>
+                                        <canvas id="lowPitchWave" width="400" height="150"></canvas>
+                                        <p class="text-sm opacity-70 mt-2">Like a bass drum or thunder</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Try It Section -->
+                <section class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="text-2xl font-semibold mb-4">Let's put this to the test! 🔊</h2>
+                        <div class="space-y-4">
+                            <p>Visit the <a href="https://academo.org/demos/virtual-oscilloscope/" class="link link-primary">Virtual Oscilloscope</a> to see your voice waves in action!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Reflection Activity -->
+                <section class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="text-2xl font-semibold mb-4">Reflection Activity 🤔</h2>
+                        <div class="space-y-6">
+
+                                <p class="font-semibold mb-2">Try humming a low note...</p>
+                                <p>What does the sound wave look like? How many sample frequencies would you need for a simple note like this?</p>
+
+                            
+                                <p class="font-semibold mb-2">Now try a higher note with vibrato (quick regular change in pitch)...</p>
+                                <p>What happens to the sound wave? Do you think you would need to use more sample frequencies and bit depth to capture everything?</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Examples Section -->
+                <section id="examples" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="text-2xl font-semibold mb-4">Real-world Examples 🌎</h2>
+                        <h4 class="text-l font-semibold mb-4">What kind of values are used in the technology we use day-to-day?</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="card bg-base-200">
+                                <div class="card-body">
+                                    <h3 class="font-bold mb-2">📞 Telephone Quality</h3>
+                                    <p>8,000 samples per second, 8 bits</p>
+                                    <p class="text-sm opacity-70">This explains why phone audio can sound compressed!</p>
+                                </div>
+                            </div>
+                            <div class="card bg-base-200">
+                                <div class="card-body">
+                                    <h3 class="font-bold mb-2">💿 CD Quality</h3>
+                                    <p>44,100 samples per second, 16 bits</p>
+                                    <p class="text-sm opacity-70">Perfect for most music!</p>
+                                </div>
+                            </div>
+                            <div class="card bg-base-200">
+                                <div class="card-body">
+                                    <h3 class="font-bold mb-2">🎥 YouTube Audio</h3>
+                                    <p>48,000 samples per second, 16 bits</p>
+                                    <p class="text-sm opacity-70">High quality for videos</p>
+                                </div>
+                            </div>
+                            <div class="card bg-base-200">
+                                <div class="card-body">
+                                    <h3 class="font-bold mb-2">🎼 Studio Recording</h3>
+                                    <p>192,000 samples per second, 24 bits</p>
+                                    <p class="text-sm opacity-70">Professional music production</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Resources Section -->
+                <section id="resources" class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <h2 class="text-2xl font-semibold mb-4">Additional Resources 📚</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <a href="https://youtu.be/USCBCmwMCDA" target="_blank" 
+                               class="card bg-base-200 hover:bg-base-300 transition-colors duration-300">
+                                <div class="card-body flex flex-row items-center gap-4">
+                                    <div class="text-2xl">🎥</div>
+                                    <div>
+                                        <h3 class="font-bold">Binary and Data video</h3>
+                                        <p class="text-sm opacity-70">Understanding binary representation</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://www.teachwithict.com/binary-representation-of-sound.html" target="_blank" 
+                               class="card bg-base-200 hover:bg-base-300 transition-colors duration-300">
+                                <div class="card-body flex flex-row items-center gap-4">
+                                    <div class="text-2xl">✍️</div>
+                                    <div>
+                                        <h3 class="font-bold">Amplitude and Wavelength</h3>
+                                        <p class="text-sm opacity-70">In-depth explanation of wave properties</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://synth.playtronica.com/touchme/" target="_blank" 
+                               class="card bg-base-200 hover:bg-base-300 transition-colors duration-300">
+                                <div class="card-body flex flex-row items-center gap-4">
+                                    <div class="text-2xl">🎹</div>
+                                    <div>
+                                        <h3 class="font-bold">Interactive Digital Synthesiser</h3>
+                                        <p class="text-sm opacity-70">Experiment with digital sound creation</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://www.youtube.com/watch?v=g3tfly9mKhY" target="_blank" 
+                               class="card bg-base-200 hover:bg-base-300 transition-colors duration-300">
+                                <div class="card-body flex flex-row items-center gap-4">
+                                    <div class="text-2xl">🎥</div>
+                                    <div>
+                                        <h3 class="font-bold">Digital Audio Explained</h3>
+                                        <p class="text-sm opacity-70">Quick overview of key concepts</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
 
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Let's put this to the test! 🔊</h2>
-            <div class="space-y-4">
-                <p class="text-gray-600">Visit the <a href="https://academo.org/demos/virtual-oscilloscope/" class="text-blue-500 hover:underline">Virtual Oscilloscope</a> to see your voice waves in action!</p>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Reflection Activity 🤔</h2>
-            <div class="space-y-6">
-                <div class="border-l-4 border-blue-500 pl-4">
-                    <p class="font-semibold mb-2">Try humming a low note...</p>
-                    <p class="text-gray-600">What does the sound wave look like? How many sample frequencies would you need for a simple note like this?</p>
-                </div>
-                
-                <div class="border-l-4 border-blue-500 pl-4">
-                    <p class="font-semibold mb-2">Now try a higher note with vibrato...</p>
-                    <p class="text-gray-600">What happens to the sound wave? Do you think you would need to use more sample frequencies and bit depth to capture everything?</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Real-world Examples 🌎</h2>
-            <h4 class="text-l font-semibold mb-4 text-gray-700">What kind of values are used in the technology we use day-to-day?</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="border p-4 rounded">
-                    <h3 class="font-bold mb-2">📞 Telephone Quality</h3>
-                    <p>8,000 samples per second, 8 bits</p>
-                    <p class="text-sm text-gray-500">This explains why phone audio can sound compressed, or that people sound 'different' over the phone!</p>
-                </div>
-                <div class="border p-4 rounded">
-                    <h3 class="font-bold mb-2">💿 CD Quality</h3>
-                    <p>44,100 samples per second, 16 bits</p>
-                    <p class="text-sm text-gray-500">Perfect for most music!</p>
-                </div>
-                <div class="border p-4 rounded">
-                    <h3 class="font-bold mb-2">🎥 YouTube Audio</h3>
-                    <p>48,000 samples per second, 16 bits</p>
-                    <p class="text-sm text-gray-500">High quality for videos</p>
-                </div>
-                <div class="border p-4 rounded">
-                    <h3 class="font-bold mb-2">🎼 Studio Recording</h3>
-                    <p>192,000 samples per second, 24 bits</p>
-                    <p class="text-sm text-gray-500">Professional music production</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Additional Resources 📚</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a href="https://youtu.be/USCBCmwMCDA?si=_tRmd3UH08ouo-su" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">🎥</span>
-                    <span>Binary and Data video</span>
-                </a>
-                <a href="https://www.teachwithict.com/binary-representation-of-sound.html" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">✍️</span>
-                    <span>Amplitude and Wavelength</span>
-                </a>
-                <a href="https://synth.playtronica.com/touchme/" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">🎹</span>
-                    <span>Interactive Digital Synthesiser</span>
-                </a>
-                <a href="https://www.youtube.com/watch?v=g3tfly9mKhY" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">🎥</span>
-                    <span>Digital Audio Explained in 2 Minutes</span>
-                </a>
-            </div>
+        <!-- Drawer Side -->
+        <div class="drawer-side">
+            <label for="my-drawer" class="drawer-overlay"></label>
+            <ul class="menu p-4 w-80 h-full bg-base-100 text-base-content">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#sampling">Sampling</a></li>
+                <li><a href="#bitdepth">Bit Depth</a></li>
+                <li><a href="#pitch">Pitch</a></li>
+                <li><a href="#examples">Examples</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
         </div>
     </div>
 
-    <div id="modal-overlay" class="modal-overlay" onclick="hideModal()"></div>
     
-    <div id="sampling-info" class="modal" style="display: none;">
-        <div class="flex justify-between items-start mb-4">
-            <h3 class="text-xl font-bold">Understanding Sampling 📸</h3>
-            <button onclick="hideModal()" class="text-gray-500 hover:text-gray-700">✕</button>
-        </div>
-        <div class="space-y-4">
-            <p>Imagine trying to draw a wave by only looking at it through a few windows. That's what sampling is!</p>
-            <ul class="list-disc pl-6 space-y-2">
-                <li>The gray line shows the real sound wave - like what comes out of a speaker</li>
-                <li>Each red dot is a measurement (sample) of the wave's height</li>
-                <li>The dotted lines show where we're measuring</li>
-                <li>More samples = more accurate picture of the wave</li>
-            </ul>
-            <p class="font-semibold mt-4">Why does quality improve with more samples? 🤔</p>
-            <p>When we have few samples, we might miss parts of the wave that move up or down between our measurements. It's like trying to watch a dance through a strobe light - if it flashes too slowly, you'll miss some of the moves!</p>
-        </div>
-    </div>
-
-    <div id="bitdepth-info" class="modal" style="display: none;">
-        <div class="flex justify-between items-start mb-4">
-            <h3 class="text-xl font-bold">Understanding Bit Depth 📊</h3>
-            <button onclick="hideModal()" class="text-gray-500 hover:text-gray-700">✕</button>
-        </div>
-        <div class="space-y-4">
-            <p>Bit depth is about how precisely we can measure the height (volume) of the wave at each point.</p>
-            <ul class="list-disc pl-6 space-y-2">
-                <li>The gray line is the perfect wave - what we want to capture</li>
-                <li>The red line shows how we store it in the computer</li>
-                <li>More bits = more possible volume levels we can represent</li>
-                <li>With 2 bits, we only have 4 levels (like a very rough staircase)</li>
-                <li>With 16 bits, we have 65,536 levels (like a super smooth ramp!)</li>
-            </ul>
-            <p class="font-semibold mt-4">Why does quality improve with more bits? 🤔</p>
-            <p>Think of it like painting a sunset. With few bits, you only have a few colors to work with, so the color changes look chunky. With more bits, you have thousands of colors, so the changes look smooth and natural!</p>
-        </div>
-    </div>
 
     <script>
 

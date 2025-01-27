@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binary Numbers Explorer</title>
+    <title>Integers</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
     <style>
-        @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
-
         .lightbulb {
             width: 80px;
             height: 80px;
@@ -24,7 +26,7 @@
         }
 
         .lightbulb.off path {
-            fill: #E5E7EB;
+            fill: #4B5563;
         }
 
         .digital-display {
@@ -40,23 +42,6 @@
             text-shadow: 0 0 5px #10B981;
         }
 
-        .tooltip {
-            background: #1F2937;
-            color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            max-width: 200px;
-            visibility: hidden;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .tooltip.show {
-            visibility: visible;
-            opacity: 1;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -66,71 +51,109 @@
             animation: fadeIn 0.5s ease-in;
         }
 
-        .calculation {
-            background: #F3F4F6;
-            border-left: 4px solid #3B82F6;
-            padding: 1rem;
-            margin: 1rem 0;
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 5rem;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: #222;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #002654;
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-8">
-    <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-8">
-        <h1 class="text-3xl font-bold text-center mb-4 text-blue-600">Binary Numbers Explorer</h1>
-        
-        <div class="bg-blue-50 p-4 rounded-lg mb-8">
-            <h2 class="text-xl font-bold mb-2">What is Binary?</h2>
-            <p class="mb-2">Binary is how computers store and process numbers. Just like we use light switches that are either ON or OFF, computers use 1s and 0s to represent numbers.</p>
-            <p>Each position in a binary number represents a <span class="text-blue-600 underline cursor-help" id="powerTooltip">power of 2</span>, starting from the right. By turning different positions ON (1) or OFF (0), we can create any number!</p>
-            <div class="tooltip" role="tooltip" id="tooltip">
-                Example: 2³ (2 to the power of 3)<br>
-                2 × 2 × 2 = 8<br>
-                So 2³ equals 8
+<body class="bg-base-200 min-h-screen">
+    <div class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
+        <div class="flex-1">
+            <a href="index.html" class="btn btn-ghost normal-case text-xl">Integers</a>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <section class="card bg-base-100 shadow-xl mb-8">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-4">What is Binary?</h2>
+                <p class="mb-4">Binary is how computers store and process numbers. Just like we use light switches that are either ON or OFF, computers use 1s and 0s to represent numbers.</p>
+                <p class="mb-4">Each position in a binary number represents a <span class="text-primary underline cursor-help" id="powerTooltip">power of 2</span>, starting from the right. By turning different positions ON (1) or OFF (0), we can create any number!</p>
+                
+                <h2 class="card-title text-2xl mt-8 mb-4">What is a Byte?</h2>
+                <p class="mb-4">A byte is a group of eight bits, just like the example below.</p>
+                <p class="mb-4">We tend to use bytes to group together bits, as the math behind it is nice and convenient.</p>
+                <p class="mb-4 font-bold">Try clicking the lightbulbs below to turn them on and then check what number it creates!</p>
+
             </div>
-            <h2 class="text-xl font-bold mt-4 mb-2">What is a Byte?</h2>
-            <p class="mb-2">A byte is a group of eight bits, just like the example below.</p>
-            <p class="mb-2">We tend to use bytes to group together bits, as the math behind it is nice and convenient.</p>
-            <p class="mb-2">Try clicking the lightbulbs below to turn them on and then check what number it creates!</p>
-        </div>
+        </section>
 
-        <div class="flex justify-center gap-4 mb-8" id="bulbContainer">
-            <!-- Bulbs will be added here by JavaScript -->
-        </div>
+        <section class="card bg-base-100 shadow-xl mb-8">
+            
+            <div class="card-body">
+                
+                <div class="flex justify-center gap-4 mb-8" id="bulbContainer">
+                    <!-- Bulbs will be added here by JavaScript -->
+                </div>
 
-        <div class="digital-display text-center text-xl mb-6" id="binaryDisplay">
-            00000000
-        </div>
+                <div class="digital-display text-center text-xl mb-6" id="binaryDisplay">
+                    00000000
+                </div>
 
-        <div class="flex justify-center mb-4">
-            <button id="toggleBtn" class="bg-blue-500 text-white px-6 py-3 rounded-lg transition-all duration-300 hover:bg-blue-600 flex items-center gap-2">
-                <span class="text-xl">👁️</span>
-                Show Number
-            </button>
-        </div>
+                <div class="flex justify-center mb-4">
+                    <button id="toggleBtn" class="btn btn-primary btn-lg gap-2">
+                        <span class="text-xl">👁️</span>
+                        Show Number
+                    </button>
+                </div>
 
-        <div id="calculation" class="hidden fade-in"></div>
-
-        <div class="mt-8 border-t pt-6">
-            <h2 class="text-xl font-bold mb-4 text-blue-600">Additional Resources</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a href="https://youtu.be/USCBCmwMCDA?si=_tRmd3UH08ouo-su" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">🎥</span>
-                    <span>Binary and Data video</span>
-                </a>
-                <a href="https://learningcontent.cisco.com/games/binary/index.html" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">🎮</span>
-                    <span>The Binary Game</span>
-                </a>
-                <a href="https://groklearning.com/course/aca-dt-py-functions-data-rep/" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">✍️</span>
-                    <span>Check Your Understanding</span>
-                </a>
-                <a href="https://www.youtube.com/watch?v=zDNaUi2cjv4" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">📺</span>
-                    <span>Binary Explained in 100 Seconds</span>
-                </a>
+                <div id="calculation" class="hidden fade-in"></div>
             </div>
-        </div>
+        </section>
+
+        <section class="card bg-base-100 shadow-xl mb-8">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-4">Additional Resources</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <a href="https://youtu.be/USCBCmwMCDA?si=_tRmd3UH08ouo-su" target="_blank" 
+                        class="card bg-base-200 hover:bg-base-300 transition-colors">
+                        <div class="card-body flex flex-row items-center gap-4">
+                            <div class="text-2xl">🎥</div>
+                            <div>
+                                <h3 class="font-bold">Binary and Data video</h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://learningcontent.cisco.com/games/binary/index.html" target="_blank" 
+                        class="card bg-base-200 hover:bg-base-300 transition-colors">
+                        <div class="card-body flex flex-row items-center gap-4">
+                            <div class="text-2xl">🎮</div>
+                            <div>
+                                <h3 class="font-bold">The Binary Game</h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://groklearning.com/course/aca-dt-py-functions-data-rep/" target="_blank" 
+                        class="card bg-base-200 hover:bg-base-300 transition-colors">
+                        <div class="card-body flex flex-row items-center gap-4">
+                            <div class="text-2xl">✍️</div>
+                            <div>
+                                <h3 class="font-bold">Check Your Understanding</h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://www.youtube.com/watch?v=zDNaUi2cjv4" target="_blank" 
+                        class="card bg-base-200 hover:bg-base-300 transition-colors">
+                        <div class="card-body flex flex-row items-center gap-4">
+                            <div class="text-2xl">📺</div>
+                            <div>
+                                <h3 class="font-bold">Binary Explained in 100 Seconds</h3>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script>
@@ -158,35 +181,13 @@
             bulbContainer.appendChild(bulb);
         }
 
-        // Setup popper tooltip
-        const button = document.getElementById('powerTooltip');
-        const tooltip = document.getElementById('tooltip');
-        
-        const popperInstance = Popper.createPopper(button, tooltip, {
-            placement: 'bottom',
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, 8],
-                    },
-                },
-            ],
+        // Setup tooltip
+        tippy('#powerTooltip', {
+            content: 'Example: 2³ (2 to the power of 3)<br>2 × 2 × 2 = 8<br>So 2³ equals 8',
+            allowHTML: true,
+            theme: 'light',
+            placement: 'bottom'
         });
-
-        function showTooltip() {
-            tooltip.classList.add('show');
-            popperInstance.update();
-        }
-
-        function hideTooltip() {
-            tooltip.classList.remove('show');
-        }
-
-        button.addEventListener('mouseenter', showTooltip);
-        button.addEventListener('mouseleave', hideTooltip);
-        button.addEventListener('focus', showTooltip);
-        button.addEventListener('blur', hideTooltip);
 
         function toggleBit(index) {
             bits[index] = bits[index] === 0 ? 1 : 0;
@@ -224,7 +225,7 @@
             }).filter(step => step !== '').join('');
 
             calc.innerHTML = `
-                <div class="calculation">
+                <div class="alert alert-info">
                     <h3 class="font-bold mb-2">How did we get ${total}?</h3>
                     <div class="pl-4">
                         ${steps}

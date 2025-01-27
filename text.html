@@ -1,197 +1,272 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text and Binary</title>
+    <title>Text</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
     <style>
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 5rem;
         }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: #222;
         }
-        .transition-all {
-            transition: all 0.3s ease;
-        }
-        .hover-transform:hover {
-            transform: translateY(-2px);
+        ::-webkit-scrollbar-thumb {
+            background: #002654;
         }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-8">
-    <div class="max-w-4xl mx-auto space-y-8">
-        <!-- Header Section -->
-        <header class="text-center fade-in">
-            <h1 class="text-4xl font-bold text-gray-800 mb-4">Text in Binary 🤖</h1>
-            <p class="text-lg text-gray-600">Understanding how computers read and store text</p>
-        </header>
-
-        
-
-        <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Blast from the Past! ⚡</h2>
-            <div class="space-y-4">
-                <p class="text-gray-600">Long before computers used binary, another code system was used to send messages across vast distances: Morse Code!</p>
-                
-                <div class="flex justify-center my-6">
-                    <div class="rounded-lg shadow-lg overflow-hidden">
-                        <img src="https://cdn.shopify.com/s/files/1/2223/4507/files/morse-chart_grande.png?v=1501447409" alt="Morse Code Chart" class="max-w-full h-auto">
-                    </div>
+<body class="bg-base-200 min-h-screen">
+    <div class="drawer">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content">
+            <!-- Navbar -->
+            <div class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
+                <div class="flex-none lg:hidden">
+                    <label for="my-drawer" class="btn btn-square btn-ghost">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </label>
                 </div>
-
-                <p class="text-gray-600">Just like how computers use 1s and 0s to represent letters, Morse Code used dots (.) and dashes (-) to represent each letter of the alphabet. This was one of humanity's first attempts at converting text into a different format that could be easily transmitted!</p>
-                
-                <div class="bg-yellow-50 p-4 rounded-lg">
-                    <p class="text-gray-700">For example:</p>
-                    <p class="font-mono text-gray-600 mt-2">SOS = ... --- ...</p>
+                <div class="flex-1">
+                    <a href="index.html" class="btn btn-ghost normal-case text-xl">Text</a>
                 </div>
-
-                <p class="text-gray-600">Just like Morse Code revolutionized long-distance communication, binary code revolutionized how computers process information.</p>
-                <p class="text-gray-600">There are actually lots of similarities between Morse Code and binary. Let's see how computers do it!</p>
-            </div>
-        </section>
-
-
-        <!-- ASCII Overview Section -->
-        <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">How Do Computers Store Text? 📝</h2>
-            <div class="space-y-4">
-                <p class="text-gray-600">Computers can only understand numbers - specifically, binary (1s and 0s). To store text, we need a way to convert letters into numbers. That's where ASCII comes in!</p>
-                <p class="text-gray-600">We use a byte (a set of 8 bits) to represent different characters, and even things like spaces and full stops.</p>
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <p class="text-gray-700">For example, in ASCII:</p>
-                    <ul class="list-disc list-inside text-gray-600 mt-2">
-                        <li>The letter 'A' is stored as 01000001</li>
-                        <li>The letter 'B' is stored as 01000010</li>
-                        <li>The letter 'C' is stored as 01000011</li>
+                <div class="flex-none hidden lg:block">
+                    <ul class="menu menu-horizontal px-1">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#morse">Morse Code</a></li>
+                        <li><a href="#ascii">ASCII</a></li>
+                        <li><a href="#converter">Converter</a></li>
+                        <li><a href="#challenge">Challenge</a></li>
+                        <li><a href="#unicode">Unicode</a></li>
+                        <li><a href="#resources">Resources</a></li>
                     </ul>
                 </div>
             </div>
-        </section>
 
-        <!-- Text to Binary Converter -->
-        <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Convert Text to Binary 🔄</h2>
-            <div class="space-y-4">
-                <div class="flex flex-col">
-                    <label class="text-gray-700 mb-2" for="textInput">Try it yourself. Type in a sentence, and see it get converted to basic ASCII binary.</label>
-                    <label class="text-gray-700 mb-2" for="textInput">Enter your text:</label>
-                    <input type="text" id="textInput" class="border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="Type something...">
+            <div class="container mx-auto px-4 py-8">
+                <!-- Header Section -->
+                <section id="introduction" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h1 class="card-title text-4xl mb-4">Text in Binary 🤖</h1>
+                        <p class="text-lg">Understanding how computers read and store text</p>
+                    </div>
+                </section>
+
+                <!-- Morse Code Section -->
+                <section id="morse" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="card-title text-2xl mb-4">Blast from the Past! ⚡</h2>
+                        <p class="mb-4">Long before computers used binary, another code system was used to send messages across vast distances: Morse Code!</p>
+                        
+                        <div class="flex justify-center my-6">
+                            <div class="rounded-lg shadow-lg overflow-hidden">
+                                <img src="https://cdn.shopify.com/s/files/1/2223/4507/files/morse-chart_grande.png?v=1501447409" alt="Morse Code Chart" class="max-w-full h-auto">
+                            </div>
+                        </div>
+
+                        <p class="mb-4">Just like how computers use 1s and 0s to represent letters, Morse Code used dots (.) and dashes (-) to represent each letter of the alphabet. This was one of humanity's first attempts at converting text into a different format that could be easily transmitted!</p>
+                        
+                        <p class="mb-4 font-mono">For example: SOS = ... --- ...</p>
+
+                        <div class="aspect-video mb-8">
+                            <iframe class="w-full h-full rounded-lg" src="https://www.youtube.com/embed/01Fbymf4oMM?si=2wQEOxL-pUvihGWB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+
+                        <p class="mb-4">Just like Morse Code revolutionized long-distance communication, binary code revolutionized how computers process information.</p>
+                        <p>There are actually lots of similarities between Morse Code and binary. Let's see how computers do it!</p>
+                    </div>
+                </section>
+
+                <!-- ASCII Overview Section -->
+                <section id="ascii" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="card-title text-2xl mb-4">How Do Computers Store Text? 📝</h2>
+                        <p class="mb-4">Computers can only understand numbers - specifically, binary (1s and 0s). To store text, we need a way to convert letters into numbers. That's where ASCII comes in!</p>
+                        <p class="mb-4">We use a byte (a set of 8 bits) to represent different characters, and even things like spaces and full stops.</p>
+                        
+                        <p class="mb-2">For example, in ASCII:</p>
+                        <ul class="list-disc list-inside mb-4 pl-4">
+                            <li>The letter 'A' is stored as 01000001</li>
+                            <li>The letter 'B' is stored as 01000010</li>
+                            <li>The letter 'C' is stored as 01000011</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- Text to Binary Converter -->
+                <section id="converter" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="card-title text-2xl mb-4">Convert Text to Binary 🔄</h2>
+                        <p class="mb-4">Try it yourself. Type in a sentence, and see it get converted to basic ASCII binary.</p>
+                        <div class="form-control">
+                            <label class="label">
+                                <span class="label-text">Enter your text:</span>
+                            </label>
+                            <input type="text" id="textInput" class="input input-bordered w-full" placeholder="Type something...">
+                        </div>
+                        <div class="mt-4">
+                            <p class="font-semibold mb-2">Binary output:</p>
+                            <p id="binaryOutput" class="font-mono text-sm break-all p-4 bg-base-300 rounded-lg"></p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Challenge Section -->
+                <section id="challenge" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="card-title text-2xl mb-4">Now You Try! 🎯</h2>
+                        <p class="mb-4">Using the ASCII chart below, try to write the word "banana" in binary! Each letter needs to be converted into its binary value. Look up each letter in the chart, then type the binary numbers into the converter to check if you got it right.</p>
+                        <p class="mb-4">For this challenge, you'll need to put spaces between each byte. This is a simplified ASCII chart that ONLY has lowercase English characters in it.</p>
+                        <p class="mb-4 font-bold">HINT: You'll need six bytes in total to represent the word 'banana'!</p>
+                    </div>
+                </section>
+
+                <!-- ASCII Chart and Binary to Text -->
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <!-- ASCII Chart -->
+                    <section class="card bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title text-2xl mb-4">ASCII Chart 📊</h2>
+                            <div class="overflow-auto max-h-64">
+                                <table class="table table-zebra w-full">
+                                    <thead>
+                                        <tr>
+                                            <th>Character</th>
+                                            <th>Binary</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="asciiTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Binary to Text -->
+                    <section class="card bg-base-100 shadow-xl">
+                        <div class="card-body">
+                            <h2 class="card-title text-2xl mb-4">Binary to Text 🔍</h2>
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text">Enter binary (8 bits per character):</span>
+                                </label>
+                                <input type="text" id="binaryInput" class="input input-bordered" placeholder="01000001 01000010...">
+                            </div>
+                            <div class="mt-4">
+                                <p class="font-semibold mb-2">Text output:</p>
+                                <p id="textOutput" class="font-mono p-4 bg-base-300 rounded-lg"></p>
+                            </div>
+                        </div>
+                    </section>
                 </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <p class="text-gray-700 font-semibold">Binary output:</p>
-                    <p id="binaryOutput" class="font-mono text-sm break-all"></p>
+
+                <!-- Modified Unicode Section -->
+    <section id="unicode" class="card bg-base-100 shadow-xl mb-8">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">Beyond ASCII: Unicode 🌍</h2>
+            <p class="mb-4">ASCII only handles English letters and basic symbols. But what about other languages and symbols? That's where Unicode comes in!</p>
+            <p class="mb-4">ASCII was originally developed for a limited amount of characters and symbols in English. Remember - we can only represent up to 255 values with a single byte!</p>
+            <p class="mb-4">Unicode is the answer to this. Because we have more storage and computing power, we can agree to use from 2 to 4 bytes to represent more characters and symbols.</p>
+            <p class="mb-4">Remember that our available numbers grow rapidly as we add more bits. With four bytes (or 32 bits) we can represent over 4 billion characters or symbols!</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 bg-base-300 rounded-lg">
+                    <h3 class="font-bold mb-4">Languages Unicode Can Handle:</h3>
+                    <ul class="space-y-2">
+                        <li>Chinese: 你好 (Hello)</li>
+                        <li>Arabic: مرحبا (Hello)</li>
+                        <li>Russian: Привет (Hello)</li>
+                        <li>Accented: café, über, señor</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-base-300 rounded-lg">
+                    <h3 class="font-bold mb-4">Even Special Symbols:</h3>
+                    <ul class="space-y-2">
+                        <li>Emojis: 😊 🌟 🎮</li>
+                        <li>Math: ∑ ∏ ∫ ≠</li>
+                        <li>Symbols: ♠ ♥ ♦ ♣</li>
+                        <li>And more: ☮ ☯ ♾️</li>
+                    </ul>
                 </div>
             </div>
-        </section>
 
-        <!-- Challenge Section -->
-        <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Now You Try! 🎯</h2>
-            <p class="text-gray-600 mb-6">Using the ASCII chart below, try to write the word "banana" in binary! Each letter needs to be converted into its binary value. Look up each letter in the chart, then type the binary numbers into the converter to check if you got it right.</p>
-            <p class="text-gray-600 mb-6 font-bold">For this challenge, you'll need to put spaces between each byte. This is a simplified ASCII chart that ONLY has lowercase English characters in it.</p>
-            <p class="text-gray-600 mb-6">HINT: You'll need six bytes in total to represent the word 'banana'!</p>
-
-
-        </section>
-
-        <!-- ASCII Chart and Binary to Text -->
-        <div class="grid md:grid-cols-2 gap-6">
-            <!-- ASCII Chart -->
-            <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">ASCII Chart 📊</h2>
-                <div class="overflow-auto max-h-64">
-                    <table class="w-full text-sm">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="p-2">Character</th>
-                                <th class="p-2">Binary</th>
-                            </tr>
-                        </thead>
-                        <tbody id="asciiTable"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Binary to Text -->
-            <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Binary to Text 🔍</h2>
-                <div class="space-y-4">
-                    <div class="flex flex-col">
-                        <label class="text-gray-700 mb-2" for="binaryInput">Enter binary (8 bits per character):</label>
-                        <input type="text" id="binaryInput" class="border rounded-lg p-2 focus:ring-2 focus:ring-blue-500 outline-none" placeholder="01000001 01000010...">
-                    </div>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <p class="text-gray-700 font-semibold">Text output:</p>
-                        <p id="textOutput" class="font-mono"></p>
+            <div class="mt-8">
+                <h3 class="font-bold mb-4">Watch Unicode in Action:</h3>
+                <div class="flex">
+                    <div class="flex items-center gap-8 bg-base-300 p-8 rounded-lg w-[600px]">
+                        <div id="binary-display" class="font-mono text-lg flex-1"></div>
+                        <div id="symbol-display" class="text-4xl w-16 text-center"></div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
+
+                <!-- Resources Section -->
+                <section id="resources" class="card bg-base-100 shadow-xl mb-8">
+                    <div class="card-body">
+                        <h2 class="card-title text-2xl mb-4">Additional Resources 📚</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <a href="https://www.ascii-code.com/" target="_blank" class="card bg-base-200 hover:bg-base-300 transition-colors">
+                                <div class="card-body">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">📝</span>
+                                        <span>Full ASCII Chart</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://groklearning.com/course/aca-dt-py-functions-data-rep/" target="_blank" class="card bg-base-200 hover:bg-base-300 transition-colors">
+                                <div class="card-body">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">✍️</span>
+                                        <span>Check your Understanding</span>
+                                    </div>
+                                </div>
+                            </a>
+                            <a href="https://youtu.be/iy8BaMs_JuI?si=H_FQwHTJFqzii6_L" target="_blank" class="card bg-base-200 hover:bg-base-300 transition-colors">
+                                <div class="card-body">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">🎥</span>
+                                        <span>How Does Morse Code Work?</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
 
-        <!-- Unicode Section -->
-        <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Beyond ASCII: Unicode 🌍</h2>
-            <div class="space-y-4">
-                <p class="text-gray-600">ASCII only handles English letters and basic symbols. But what about other languages and symbols? That's where Unicode comes in!</p>
-                <p class="text-gray-600">ASCII was originally developed for a limited amount of characters and symbols in English. Remember - we can only represent up to 255 values with a single byte!</p>
-                <p class="text-gray-600">Unicode is the answer to this. Because we have more storage and computing power, we can agree to use from 2 to 4 bytes to represent more characters and symbols.</p>
-                <p class="text-gray-600">Remember that our available numbers grow rapidly as we add more bits. With four bytes (or 32 bits) we can represent over 4 billion characters or symbols!</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-yellow-50 p-4 rounded-lg">
-                        <h3 class="font-bold mb-2">Languages Unicode Can Handle:</h3>
-                        <ul class="space-y-2">
-                            <li>Chinese: 你好 (Hello)</li>
-                            <li>Arabic: مرحبا (Hello)</li>
-                            <li>Russian: Привет (Hello)</li>
-                            <li>Accented: café, über, señor</li>
-                        </ul>
-                    </div>
-                    <div class="bg-green-50 p-4 rounded-lg">
-                        <h3 class="font-bold mb-2">Even Special Symbols:</h3>
-                        <ul class="space-y-2">
-                            <li>Emojis: 😊 🌟 🎮</li>
-                            <li>Math: ∑ ∏ ∫ ≠</li>
-                            <li>Symbols: ♠ ♥ ♦ ♣</li>
-                            <li>And more: ☮ ☯ ♾️</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="bg-white rounded-lg shadow-lg p-6 fade-in hover-transform">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Additional Resources 📚</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <a href="https://www.ascii-code.com/ASCII" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">📝</span>
-                    <span>Full ASCII Chart</span>
-                </a>
-                <a href="https://groklearning.com/course/aca-dt-py-functions-data-rep/" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">✍️</span>
-                    <span>Check your Understanding</span>
-                </a>
-                <a href="https://www.youtube.com/watch?v=iy8BaMs_JuI" target="_blank" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-300 flex items-center gap-3">
-                    <span class="text-2xl">🎥</span>
-                    <span>Why Morse Code Changed the World</span>
-                </a>
-            </div>
-        </section>
-        
+        <!-- Drawer Side -->
+        <div class="drawer-side">
+            <label for="my-drawer" class="drawer-overlay"></label>
+            <ul class="menu p-4 w-80 h-full bg-base-100">
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#morse">Morse Code</a></li>
+                <li><a href="#ascii">ASCII</a></li>
+                <li><a href="#converter">Converter</a></li>
+                <li><a href="#challenge">Challenge</a></li>
+                <li><a href="#unicode">Unicode</a></li>
+                <li><a href="#resources">Resources</a></li>
+            </ul>
+        </div>
     </div>
 
     <script>
         // ASCII table generation
         function generateAsciiTable() {
             const table = document.getElementById('asciiTable');
-            for (let i = 97; i <= 122; i++) { // lowercase a-z
+            for (let i = 97; i <= 122; i++) {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="border p-2">${String.fromCharCode(i)}</td>
-                    <td class="border p-2 font-mono">${i.toString(2).padStart(8, '0')}</td>
+                    <td>${String.fromCharCode(i)}</td>
+                    <td class="font-mono">${i.toString(2).padStart(8, '0')}</td>
                 `;
                 table.appendChild(row);
             }
@@ -218,7 +293,47 @@
             document.getElementById('textOutput').textContent = text;
         });
 
-        // Initialize
+        // Close drawer when clicking menu items on mobile
+        document.querySelectorAll('.drawer-side a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('my-drawer').checked = false;
+            });
+        });
+
+        function startTypewriterAnimation() {
+            const sequences = [
+                { binary: '11110000 10011111 10100010 10000010', symbol: '😂' },
+                { binary: '11110000 10100000 10010011 10000000', symbol: '𓀀' },
+                { binary: '11100110 10001001 10100110', symbol: '好' }
+            ];
+            
+            const symbolDisplay = document.getElementById('symbol-display');
+            const typewriter = new Typewriter('#binary-display', {
+                loop: true,
+                delay: 75,
+                deleteSpeed: 50
+            });
+
+            sequences.forEach((seq) => {
+                typewriter
+                    .typeString(seq.binary)
+                    .callFunction(() => {
+                        symbolDisplay.textContent = seq.symbol;
+                    })
+                    .pauseFor(2000)
+                    .callFunction(() => {
+                        symbolDisplay.textContent = '';
+                    })
+                    .deleteAll()
+                    .pauseFor(500);
+            });
+
+            typewriter.start();
+        }
+
+        document.addEventListener('DOMContentLoaded', startTypewriterAnimation);
+
+        // Initialize all functions
         generateAsciiTable();
     </script>
 </body>
