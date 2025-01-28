@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Help</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: #262626;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1, h2 {
+            color: #fff;
+            font-weight: 300;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            margin: 40px 0 20px;
+            font-size: 1.8rem;
+            position: relative;
+        }
+
+        h2:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 2px;
+            background: #fff;
+            margin: 10px auto;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            justify-items: center;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 3px solid #fff;
+        }
+
+        .card a {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card i {
+            font-size: 40px;
+            color: #262626;
+            transition: .5s;
+            z-index: 3;
+        }
+
+        .card span {
+            margin-top: 10px;
+            color: #262626;
+            font-weight: bold;
+            transition: .5s;
+            z-index: 3;
+            padding: 0 10px;
+        }
+
+        .card a:before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: .5s;
+            z-index: 2;
+        }
+
+        .card:hover i,
+        .card:hover span {
+            color: #fff;
+            transform: rotateY(360deg);
+        }
+
+        .card:hover a:before {
+            top: 0;
+        }
+
+        /* Task 1 Colors */
+        .task1 .card:nth-child(1) a:before { background: #FF6B6B; }
+        .task1 .card:nth-child(2) a:before { background: #4ECDC4; }
+        .task1 .card:nth-child(3) a:before { background: #45B7D1; }
+        .task1 .card:nth-child(4) a:before { background: #96CEB4; }
+
+        /* Task 2 Colors */
+        .task2 .card a:before { background: #6C5B7B; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Assessment Help</h1>
+        
+        <h2>Task 1</h2>
+        <div class="grid task1">
+            <div class="card">
+                <a href="mindmap.html">
+                    <i class="fa-solid fa-sitemap"></i>
+                    <span>Mindmap</span>
+                </a>
+            </div>
+            <div class="card">
+                <a href="assessment-userstories.html">
+                    <i class="fa-solid fa-users"></i>
+                    <span>User Stories / Design Criteria</span>
+                </a>
+            </div>
+            <div class="card">
+                <a href="wireframing.html">
+                    <i class="fa-solid fa-pencil"></i>
+                    <span>Wireframing</span>
+                </a>
+            </div>
+        </div>
+
+        <h2>Task 2</h2>
+        <div class="grid task2">
+            <div class="card">
+                <a href="multimodal.html">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Multimodal Options</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
