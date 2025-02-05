@@ -45,6 +45,7 @@
                         <li><a href="#converter">Converter</a></li>
                         <li><a href="#challenge">Challenge</a></li>
                         <li><a href="#unicode">Unicode</a></li>
+                        <li><a href="#emoji-unicode">Emoji Unicode</a></li>
                         <li><a href="#resources">Resources</a></li>
                     </ul>
                 </div>
@@ -208,6 +209,28 @@
         </div>
     </section>
 
+    <section id="emoji-unicode" class="card bg-base-100 shadow-xl mb-8">
+        <div class="card-body">
+            <h2 class="card-title text-2xl mb-4">Emoji Unicode Chart 🔍</h2>
+            <p class="mb-6">Here's how some common emojis are stored in Unicode binary:</p>
+            
+            <div class="overflow-x-auto">
+                <table class="table w-full">
+                    <thead>
+                        <tr>
+                            <th>Emoji</th>
+                            <th>Unicode</th>
+                            <th>Binary</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="emojiTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
                 <!-- Resources Section -->
                 <section id="resources" class="card bg-base-100 shadow-xl mb-8">
                     <div class="card-body">
@@ -259,6 +282,55 @@
     </div>
 
     <script>
+
+const emojiData = [
+    { emoji: "😂", unicode: "U+1F602", binary: "11110000 10011111 10011000 10000010", name: "Face with Tears of Joy" },
+    { emoji: "🥰", unicode: "U+1F970", binary: "11110000 10011111 10100101 10110000", name: "Smiling Face with Hearts" },
+    { emoji: "😴", unicode: "U+1F634", binary: "11110000 10011111 10011000 10110100", name: "Sleeping Face" },
+    { emoji: "🤔", unicode: "U+1F914", binary: "11110000 10011111 10100100 10010100", name: "Thinking Face" },
+    { emoji: "😎", unicode: "U+1F60E", binary: "11110000 10011111 10011000 10001110", name: "Smiling Face with Sunglasses" },
+    { emoji: "🤯", unicode: "U+1F92F", binary: "11110000 10011111 10100100 10101111", name: "Exploding Head" },
+    { emoji: "🥺", unicode: "U+1F97A", binary: "11110000 10011111 10100101 10111010", name: "Pleading Face" },
+    { emoji: "😭", unicode: "U+1F62D", binary: "11110000 10011111 10011000 10101101", name: "Loudly Crying Face" },
+    { emoji: "🤪", unicode: "U+1F92A", binary: "11110000 10011111 10100100 10101010", name: "Zany Face" },
+    { emoji: "😤", unicode: "U+1F624", binary: "11110000 10011111 10011000 10100100", name: "Face with Steam" },
+    { emoji: "🥳", unicode: "U+1F973", binary: "11110000 10011111 10100101 10110011", name: "Partying Face" },
+    { emoji: "😈", unicode: "U+1F608", binary: "11110000 10011111 10011000 10001000", name: "Smiling Face with Horns" },
+    { emoji: "🤫", unicode: "U+1F92B", binary: "11110000 10011111 10100100 10101011", name: "Shushing Face" },
+    { emoji: "🤮", unicode: "U+1F92E", binary: "11110000 10011111 10100100 10101110", name: "Face Vomiting" },
+    { emoji: "😀", unicode: "U+1F600", binary: "11110000 10011111 10011000 10000000", name: "Grinning Face" },
+    { emoji: "❤️", unicode: "U+2764", binary: "11100010 10011101 10100100", name: "Red Heart" },
+    { emoji: "👍", unicode: "U+1F44D", binary: "11110000 10011111 10010000 10001101", name: "Thumbs Up" },
+    { emoji: "🌟", unicode: "U+1F31F", binary: "11110000 10011111 10001100 10011111", name: "Glowing Star" },
+    { emoji: "🎮", unicode: "U+1F3AE", binary: "11110000 10011111 10001110 10101110", name: "Video Game" },
+    { emoji: "🚀", unicode: "U+1F680", binary: "11110000 10011111 10011010 10000000", name: "Rocket" },
+    { emoji: "🌈", unicode: "U+1F308", binary: "11110000 10011111 10001100 10001000", name: "Rainbow" },
+    { emoji: "🎵", unicode: "U+1F3B5", binary: "11110000 10011111 10001110 10110101", name: "Musical Note" }
+];
+
+function populateEmojiTable() {
+    const table = document.getElementById('emojiTable');
+    emojiData.forEach(({ emoji, unicode, binary, name }) => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-base-200 transition-colors';
+        row.innerHTML = `
+            <td class="text-2xl">${emoji}</td>
+            <td class="font-mono">${unicode}</td>
+            <td class="font-mono text-sm">${binary}</td>
+            <td>${name}</td>
+        `;
+        table.appendChild(row);
+
+        // Add hover effect to reveal binary
+        row.addEventListener('mouseenter', () => {
+            row.querySelector('td:nth-child(3)').style.color = '#3b82f6';
+        });
+        row.addEventListener('mouseleave', () => {
+            row.querySelector('td:nth-child(3)').style.color = '';
+        });
+    });
+}
+
         // ASCII table generation
         function generateAsciiTable() {
             const table = document.getElementById('asciiTable');
@@ -332,6 +404,10 @@
         }
 
         document.addEventListener('DOMContentLoaded', startTypewriterAnimation);
+
+        document.addEventListener('DOMContentLoaded', () => {
+    populateEmojiTable();
+});
 
         // Initialize all functions
         generateAsciiTable();
