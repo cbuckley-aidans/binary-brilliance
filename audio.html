@@ -153,6 +153,19 @@
                             <input type="range" min="4" max="50" value="20" class="slider" id="samplingSlider">
                         </div>
                         <canvas id="samplingCanvas" width="800" height="300"></canvas>
+
+                        <div class="mt-8 space-y-4">
+                            <h3 class="text-xl font-semibold">Try it yourself! 🤔</h3>
+                            <div class="space-y-2">
+                                <p>1. Set the Sampling Rate down to 4 samples. What kind of sound do you think you would capture?</p>
+                                <p>2. Now try setting the Sample Rate to 8 samples. What kind of sound do you think we would capture by doubling the samples?</p>
+                                <p>3. Now try setting it to 50 samples.</p>
+                            </div>
+
+                            <div class="bg-base-200 p-4 rounded-lg mt-4">
+                                <p>Think of sampling rate like taking photos of a moving object. With only 4 samples, we capture very little information - like taking just 4 photos of someone doing a cartwheel. At 8 samples, we get a bit more detail, but the sound would still be quite rough. At 50 samples, we capture much more of the original sound wave's shape, resulting in clearer, more accurate audio. This is why CDs use 44,100 samples per second - to capture even the finest details of the sound!</p>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -175,34 +188,78 @@
                             <input type="range" min="2" max="16" value="4" class="slider" id="bitDepthSlider">
                         </div>
                         <canvas id="bitDepthCanvas" width="800" height="300"></canvas>
-                    </div>
-                </section>
 
-                <!-- Pitch Section -->
-                <section id="pitch" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="text-2xl font-semibold mb-4">Understanding Pitch 🎹</h2>
-                        <div class="space-y-4">
-                            <p>The wavelength of a sound wave determines its pitch - how "high" or "low" it sounds to our ears.</p>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="card bg-base-200">
-                                    <div class="card-body">
-                                        <h3 class="font-bold mb-2">Short Wavelength = High Pitch</h3>
-                                        <canvas id="highPitchWave" width="400" height="150"></canvas>
-                                        <p class="text-sm opacity-70 mt-2">Like a piccolo or bird chirp</p>
-                                    </div>
-                                </div>
-                                <div class="card bg-base-200">
-                                    <div class="card-body">
-                                        <h3 class="font-bold mb-2">Long Wavelength = Low Pitch</h3>
-                                        <canvas id="lowPitchWave" width="400" height="150"></canvas>
-                                        <p class="text-sm opacity-70 mt-2">Like a bass drum or thunder</p>
-                                    </div>
-                                </div>
+                        <div class="mt-8 space-y-4">
+                            <h3 class="text-xl font-semibold">Try it yourself! 🤔</h3>
+                            <div class="space-y-2">
+                                <p>1. Set the Bit Depth to 2 bits. What happens to the smooth wave?</p>
+                                <p>2. Now increase it to 4 bits. How many more steps can you see?</p>
+                                <p>3. Try setting it to the maximum of 16 bits. Notice how smooth the red line becomes!</p>
+                            </div>
+
+                            <div class="bg-base-200 p-4 rounded-lg mt-4">
+                                <p>Bit depth is like having different sized measuring sticks for volume. With 2 bits, we only have 4 possible volume levels - imagine trying to measure the height of a mountain with just 4 different sizes! As we increase the bit depth, we get more and more precise measurements. At 16 bits (like on a CD), we have 65,536 different possible volume levels, letting us capture even the tiniest changes in sound!</p>
                             </div>
                         </div>
                     </div>
                 </section>
+
+                <!-- Pitch Section -->
+<section id="pitch" class="card bg-base-100 shadow-xl mb-8">
+    <div class="card-body">
+        <h2 class="text-2xl font-semibold mb-4">Understanding Pitch 🎹</h2>
+        <div class="space-y-4">
+            <p>The wavelength of a sound wave determines its pitch - how "high" or "low" it sounds to our ears.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="card bg-base-200">
+                    <div class="card-body">
+                        <h3 class="font-bold mb-2">Short Wavelength = High Pitch</h3>
+                        <canvas id="highPitchWave" width="400" height="150"></canvas>
+                        <p class="text-sm opacity-70 mt-2">Like a piccolo or bird chirp</p>
+                    </div>
+                </div>
+                <div class="card bg-base-200">
+                    <div class="card-body">
+                        <h3 class="font-bold mb-2">Long Wavelength = Low Pitch</h3>
+                        <canvas id="lowPitchWave" width="400" height="150"></canvas>
+                        <p class="text-sm opacity-70 mt-2">Like a bass drum or thunder</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 space-y-4">
+                <h3 class="text-xl font-semibold">Sampling High vs Low Pitch Sounds 🤔</h3>
+                <div class="bg-base-200 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">The Challenge with High Pitch Sounds</h4>
+                    <p class="mb-4">High pitch sounds (short wavelengths) need more samples to be captured accurately. If we don't use enough samples, we get something called "aliasing" - where the computer misinterprets the sound as a completely different, lower pitch! Think of it like trying to film a helicopter's blades with a slow camera - the blades appear to spin backward because we're not taking enough pictures per second.</p>
+                    
+                    <h4 class="font-semibold mb-2">Sampling Rate and Pitch</h4>
+                    <p class="mb-4">This is why CD quality audio uses 44,100 samples per second - it can accurately capture frequencies up to 22,050 Hz (higher than most humans can hear). Lower sampling rates might miss the quick changes in high-pitched sounds.</p>
+
+                    <h4 class="font-semibold mb-2">Bit Depth and Pitch</h4>
+                    <p>Bit depth affects all pitches equally, but becomes more noticeable with quiet sounds. High-pitched instruments like flutes often have subtle volume changes that need more bit depth to capture accurately. Low bit depth can make these gentle variations sound "steppy" or rough.</p>
+                </div>
+
+                <div class="bg-base-300 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">Try it yourself:</h4>
+                    <div class="space-y-2">
+                        <p>1. Go back to the sampling rate demo above and set it to 8 samples. Try to imagine what would happen if you were recording a high-pitched flute vs a low-pitched bass drum.</p>
+                        <p>2. With the bit depth demo, set it to 3 bits. Notice how the "steps" affect both the peaks and troughs of the wave equally.</p>
+                    </div>
+                </div>
+
+                <div class="bg-base-300 p-4 rounded-lg">
+                    <h4 class="font-semibold mb-2">Think About It:</h4>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Why do you think telephone calls (8,000 samples/second) can still be understood, even though they miss many high frequencies?</li>
+                        <li>Have you noticed how cymbals and high-hat sounds often sound "weird" in low-quality audio?</li>
+                        <li>Try listening to the same song in high and low quality - which instruments become harder to hear clearly?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
                 <!-- Try It Section -->
                 <section class="card bg-base-100 shadow-xl mb-8">
