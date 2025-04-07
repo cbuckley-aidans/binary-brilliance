@@ -1,399 +1,1644 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Images</title>
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.9.4/dist/full.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Binary Images</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon Icons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
-        /* Existing styles preserved */
-        .pixel {
-            transition: all 0.3s ease;
-            cursor: pointer;
+        /* Additional styles to fix padding and coordinate display */
+        .coordinate-label {
+            position: absolute;
+            font-size: 0.85em;
+            color: #333;
+            pointer-events: none;
         }
-        .pixel:hover {
-            transform: scale(1.1);
+        
+        .grid-container {
+            position: relative;
+            display: inline-block;
+            margin: 40px 50px; /* Increased margin to prevent overlap */
         }
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 5rem;
-        }
-        ::-webkit-scrollbar {
-            width: 10px;
-            background: #222;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #002654;
-        }
+        
         .grid-pixel {
-            border: 1px solid #4a5568;
-            transition: all 0.3s ease;
             position: relative;
         }
+        
         .grid-pixel:hover::after {
             content: attr(data-coords);
             position: absolute;
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.8);
             color: white;
             padding: 4px 8px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 0.85em;
             white-space: nowrap;
             z-index: 10;
         }
-        .binary-sequence {
-            font-family: monospace;
-            overflow-wrap: break-word;
-            padding: 1rem;
-            background: #1a1a1a;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-            line-height: 1.5;
-        }
     </style>
 </head>
-<body class="bg-base-200 min-h-screen">
-    <div class="drawer">
-        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
-            <!-- Navbar -->
-            <div class="navbar bg-base-100 shadow-lg sticky top-0 z-50">
-                <div class="flex-none lg:hidden">
-                    <label for="my-drawer" class="btn btn-square btn-ghost">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-6 h-6 stroke-current">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </label>
+<body>
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" style="overflow-y: auto; overflow-x: hidden;">
+        <div class="sidebar-logo">BINARY IMAGES</div>
+        <a href="https://cbuckley-aidans.github.io/python-basics/resource-hub.html" class="home-button">
+            <i class="fas fa-home"></i>
+            HOME
+        </a>
+        <div class="sidebar-nav">
+            <button class="tab-button active" data-tab="lisc">
+                <i class="fas fa-clipboard-list"></i>
+                LI/SC
+            </button>
+            <button class="tab-button" data-tab="chunk1">
+                <i class="fas fa-cube"></i>
+                CHUNK 1
+            </button>
+            <button class="tab-button" data-tab="chew1">
+                <i class="fas fa-utensils"></i>
+                CHEW 1
+            </button>
+            <button class="tab-button" data-tab="chunk2">
+                <i class="fas fa-cube"></i>
+                CHUNK 2
+            </button>
+            <button class="tab-button" data-tab="chew2">
+                <i class="fas fa-utensils"></i>
+                CHEW 2
+            </button>
+            <button class="tab-button" data-tab="chunk3">
+                <i class="fas fa-cube"></i>
+                CHUNK 3
+            </button>
+            <button class="tab-button" data-tab="chew3">
+                <i class="fas fa-utensils"></i>
+                CHEW 3
+            </button>
+            <button class="tab-button" data-tab="chunk4">
+                <i class="fas fa-cube"></i>
+                CHUNK 4
+            </button>
+            <button class="tab-button" data-tab="chew4">
+                <i class="fas fa-utensils"></i>
+                CHEW 4
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Learning Intentions and Success Criteria section -->
+        <section id="lisc" class="tab-content active light-section">
+            <h1>LEARNING INTENTIONS & SUCCESS CRITERIA <i class="fas fa-bullseye" style="margin-left: 15px;"></i></h1>
+            
+            <div class="card">
+                <div class="element-header" style="margin: -35px -40px 30px -40px; padding: 25px 35px;">
+                    <div class="element-number">1</div>
+                    <h3>Learning Intentions <i class="fas fa-bullseye" style="margin-left: 15px; color: var(--accent-color);"></i></h3>
                 </div>
-                <div class="flex-1">
-                    <a href="index.html" class="btn btn-ghost normal-case text-xl">Images</a>
+                
+                <ul>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Understand how computers represent images using binary</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Learn about pixels as the building blocks of digital images</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Explore how colour depth affects image quality and file size</li>
+                    <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Understand the relationship between resolution and image detail</li>
+                </ul>
+            </div>
+            
+            <div class="card">
+                <div class="element-header" style="margin: -35px -40px 30px -40px; padding: 25px 35px;">
+                    <div class="element-number">2</div>
+                    <h3>Success Criteria <i class="fas fa-trophy" style="margin-left: 15px; color: var(--accent-color);"></i></h3>
                 </div>
-                <div class="flex-none hidden lg:block">
-                    <ul class="menu menu-horizontal px-1">
-                        <li><a href="#pixel-grid">Pixel Grid</a></li>
-                        <li><a href="#binary-storage">Binary Storage</a></li>
-                        <li><a href="#color-and-depth">Colour Depth</a></li>
-                        <li><a href="#resolution">Resolution</a></li>
+                
+                <p>By the end of this lesson, you should be able to:</p>
+                
+                <ul>
+                    <li><i class="fas fa-star" style="color: var(--accent-color); margin-right: 12px;"></i> Explain how images are made up of pixels in a grid</li>
+                    <li><i class="fas fa-star" style="color: var(--accent-color); margin-right: 12px;"></i> Create and interpret simple binary (black and white) images</li>
+                    <li><i class="fas fa-star" style="color: var(--accent-color); margin-right: 12px;"></i> Describe how pixels are addressed using coordinates</li>
+                    <li><i class="fas fa-star" style="color: var(--accent-color); margin-right: 12px;"></i> Explain how colour depth affects the number of colours in an image</li>
+                    <li><i class="fas fa-star" style="color: var(--accent-color); margin-right: 12px;"></i> Discuss how resolution impacts image quality and detail</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- CHUNK 1: Introduction to Pixels -->
+        <section id="chunk1" class="tab-content dark-section">
+            <h1>CHUNK 1: PIXELS & BINARY IMAGES <i class="fas fa-th" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chunk-section">
+                <div class="chunk-badge">TEACHER CHUNK</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 5 mins</div>
+                
+                <h3>How Computers See Images</h3>
+                
+                <p>Images on computers are made up of tiny squares called pixels arranged in a grid. Think of it like a digital mosaic!</p>
+                
+                <div class="two-column-grid" style="margin-top: 30px;">
+                    <div class="interactive-card">
+                        <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                            <div class="element-number">1</div>
+                            <h3>What are Pixels? <i class="fas fa-square" style="margin-left: 10px;"></i></h3>
+                        </div>
+                        
+                        <p>Pixels are the smallest units of a digital image - tiny coloured squares that make up the whole picture.</p>
+                        
+                        <div id="demoGrid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 1px; width: fit-content; margin: 20px auto; padding: 10px; background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius);"></div>
+                        
+                        <div style="background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius); padding: 15px; margin-top: 15px;">
+                            <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--accent-color); margin-right: 10px;"></i> When you zoom in on any digital image, you'll eventually see these individual pixels!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="interactive-card">
+                        <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                            <div class="element-number">2</div>
+                            <h3>Black & White Images <i class="fas fa-adjust" style="margin-left: 10px;"></i></h3>
+                        </div>
+                        
+                        <p>The simplest images use just two colours - black and white. Each pixel is either ON (1) or OFF (0).</p>
+                        
+                        <div style="display: flex; justify-content: center; margin: 20px 0;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <div style="padding: 15px; background-color: white; border: 2px solid var(--outline-color); border-radius: var(--border-radius); font-weight: bold; font-size: 1.2em;">
+                                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px;">
+                                        <div style="width: 20px; height: 20px; background-color: black;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: white; border: 1px solid #ddd;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: black;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: white; border: 1px solid #ddd;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: black;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: white; border: 1px solid #ddd;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: black;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: white; border: 1px solid #ddd;"></div>
+                                        <div style="width: 20px; height: 20px; background-color: black;"></div>
+                                    </div>
+                                </div>
+                                <i class="fas fa-exchange-alt" style="color: var(--accent-color); font-size: 1.5em;"></i>
+                                <div style="padding: 15px; background-color: white; border: 2px solid var(--outline-color); border-radius: var(--border-radius); font-family: monospace; font-size: 1.2em;">
+                                    101<br>010<br>101
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <p>Each pixel in a binary image uses just <strong>1 bit</strong> of data (0 or 1).</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">3</div>
+                        <h3>Binary Storage Pattern <i class="fas fa-save" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Images are stored as a sequence of binary numbers, read from left to right, top to bottom.</p>
+                    
+                    <div class="code-step-container">
+                        <div class="code-step-header">
+                            <span>How a 4×4 Binary Image is Stored</span>
+                        </div>
+                        
+                        <div class="code-step-content" style="padding: 20px;">
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">Step 1: The visual image</p>
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; width: fit-content; margin: 0 auto;">
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: black;"></div>
+                                        <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">Step 2: Converting each pixel to binary (white = 0, black = 1)</p>
+                                    <div style="text-align: center; font-family: monospace; font-size: 1.2em; line-height: 1.6;">
+                                        0 1 1 0<br>
+                                        1 0 0 1<br>
+                                        1 0 0 1<br>
+                                        0 1 1 0
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">Step 3: Reading the image left to right, top to bottom</p>
+                                    <div style="text-align: center; padding: 15px; background-color: var(--accent-color); color: white; border-radius: var(--border-radius); font-family: monospace; font-size: 1.3em; display: inline-block; margin: 0 auto;">
+                                        0110 1001 1001 0110
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                
+                <div class="card">
+                    
+                    <h3>Key Points <i class="fas fa-key" style="margin-left: 10px;"></i></h3>
+                    <div class="elements-grid">
+                        <div class="element-card" style="background-color: #f0f7ff;">
+                            <div class="element-header">
+                                <h3>PIXELS ARE BUILDING BLOCKS <i class="fas fa-th" style="margin-left: 12px;"></i></h3>
+                            </div>
+                            <div class="element-content">
+                                <p>All digital images are made of pixels arranged in a grid</p>
+                            </div>
+                        </div>
+                        
+                        <div class="element-card" style="background-color: #f0fff4;">
+                            <div class="element-header">
+                                <h3>BINARY IMAGES USE 1s & 0s <i class="fas fa-adjust" style="margin-left: 12px;"></i></h3>
+                            </div>
+                            <div class="element-content">
+                                <p>The simplest images use just 1 bit per pixel (black or white)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="element-card" style="background-color: #fff7f0;">
+                            <div class="element-header">
+                                <h3>IMAGES ARE STORED SEQUENTIALLY <i class="fas fa-arrow-right" style="margin-left: 12px;"></i></h3>
+                            </div>
+                            <div class="element-content">
+                                <p>Pixels are stored in order from left to right, top to bottom</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHEW 1: Create Your Own Binary Image -->
+        <section id="chew1" class="tab-content light-section">
+            <h1>CHEW 1: CREATE A BINARY IMAGE <i class="fas fa-paint-brush" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chew-section">
+                <div class="chew-badge">STUDENT ACTIVITY</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 10 mins</div>
+                
+                <h3>Design Your Own Binary Image</h3>
+                
+                <div class="activity-goal">
+                    <h4><i class="fas fa-bullseye" style="color: var(--chew-color);"></i> Activity Goals</h4>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Create a simple binary (black and white) image</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Understand how binary patterns create recognisable images</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Convert your visual design to a binary sequence</li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="container mx-auto px-4 py-8">
-                <!-- Introduction Section -->
-                <section id="introduction" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h1 class="card-title text-4xl mb-4">Understanding Binary Images 🖼️</h1>
-                        <p class="text-lg mb-4">Images on computers are made up of tiny squares called pixels arranged in a grid. Think of it like a digital mosaic!</p>
-                        <div class="grid grid-cols-8 gap-1 w-fit mx-auto p-4 bg-base-200 rounded-lg" id="demoGrid">
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Binary Section -->
-                <section id="binary" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="card-title text-2xl mb-4">Black and White Images (Binary) 🔲</h2>
-                        <p class="mb-4">The simplest images use just two colors - black and white. Each pixel is either ON (1) or OFF (0). Try clicking the pixels below to create your own binary image!</p>
-                        
-                        <div class="grid grid-cols-[repeat(16,minmax(0,1fr))] gap-0.5 w-fit mx-auto p-4 bg-base-200 rounded-lg" id="binaryGrid">
-                        </div>
-                    </div>
-                </section>
-
-                <section id="pixel-grid" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="card-title text-2xl mb-4">Understanding Pixel Coordinates 📍</h2>
-                        <p class="mb-4">Images are divided into a grid of pixels. Each pixel has an (x,y) coordinate, starting from (0,0) in the top-left corner. Hover over the pixels to see their coordinates!</p>
-                        
-                        <div class="grid grid-cols-8 gap-0.5 w-fit mx-auto p-4 bg-base-200 rounded-lg" id="coordGrid">
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Binary Storage Section -->
-                <section id="binary-storage" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="card-title text-2xl mb-4">Binary Storage Pattern 💾</h2>
-                        <p class="mb-4">Now let's think of how we could represent this storage pattern in binary.</p>
-
-                        <p class="mb-4">Images are stored as a sequence of binary numbers, read from left to right, top to bottom. Click pixels below to see how the binary sequence changes!</p>
-                        
-                        <div class="grid grid-cols-4 gap-0.5 w-fit mx-auto p-4 bg-base-200 rounded-lg" id="binaryStorageGrid">
-                        </div>
-                        
-                        <div class="binary-sequence" id="binarySequence">
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Updated Combined Color Section -->
-                <section id="color-and-depth" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="card-title text-2xl mb-4">Interactive Colour Depth 🎨</h2>
-                        
-                        <div class="alert alert-info mb-6">
-                            <div>
-                                <p>Color depth determines how many different values each color can have. With 8 bits, we get 256 different levels (0-255) for each color.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex flex-col md:flex-row items-center gap-8">
-                            <div class="space-y-6 flex-1">
-                                <div>
-                                    <label class="label">
-                                        <span class="label-text">Bit Depth: <span id="bitDepthLabel">8</span> bits</span>
-                                        <span class="label-text-alt">Values: <span id="valuesPerColor">256</span></span>
-                                    </label>
-                                    <input type="range" class="range range-primary" min="1" max="8" value="8" id="bitDepthControl" />
-                                </div>
-
-                                <div>
-                                    <label class="label">
-                                        <span class="label-text">Red (<span id="redLabel">0</span>)</span>
-                                    </label>
-                                    <input type="range" class="range range-error" min="0" max="255" value="0" id="redControl" />
-                                </div>
-
-                                <div>
-                                    <label class="label">
-                                        <span class="label-text">Green (<span id="greenLabel">0</span>)</span>
-                                    </label>
-                                    <input type="range" class="range range-success" min="0" max="255" value="0" id="greenControl" />
-                                </div>
-
-                                <div>
-                                    <label class="label">
-                                        <span class="label-text">Blue (<span id="blueLabel">0</span>)</span>
-                                    </label>
-                                    <input type="range" class="range range-info" min="0" max="255" value="0" id="blueControl" />
-                                </div>
-                            </div>
-                            
-                            <div id="colorPreview" class="w-32 h-32 rounded-lg shadow-lg border border-base-300"></div>
-                        </div>
-
-                        <div class="alert alert-success mt-6">
-                            <div>
-                                <p>Total possible colors: <span id="totalColors">16,777,216</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 
+                <div class="interactive-card">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">1</div>
+                        <h3>Binary Image Creator <i class="fas fa-image" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Click on the grid cells to toggle between black and white, creating your own binary image!</p>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div id="binaryGrid" style="display: inline-grid; grid-template-columns: repeat(16, 1fr); gap: 1px; background-color: #aaa; padding: 10px; border-radius: var(--border-radius); border: 2px solid var(--outline-color);"></div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <button id="clearGridBtn" style="padding: 8px 15px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); margin-right: 10px; cursor: pointer;">
+                            <i class="fas fa-trash"></i> Clear Grid
+                        </button>
+                        <button id="toggleAllBtn" style="padding: 8px 15px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); cursor: pointer;">
+                            <i class="fas fa-sync"></i> Invert Colours
+                        </button>
+                    </div>
+                    
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius); padding: 15px; margin-top: 20px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--chew-color); margin-right: 10px;"></i> <strong>Try creating:</strong> A simple face, your initials, a basic shape, or any pattern you like!</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">2</div>
+                        <h3>Your Binary Sequence <i class="fas fa-code" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Here's the binary representation of your image:</p>
+                    
+                    <div class="binary-sequence" id="binarySequence" style="font-family: monospace; overflow-wrap: break-word; padding: 1rem; background: #1a1a1a; color: white; border-radius: 0.5rem; margin: 1rem 0; line-height: 1.5; height: 150px; overflow-y: auto;">
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                        0000000000000000
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; margin: 20px 0;">
+                        <div>
+                            <span style="display: inline-block; width: 20px; height: 20px; background-color: black; vertical-align: middle;"></span>
+                            <span style="margin-left: 5px; font-weight: 600;">= 1 (ON)</span>
+                        </div>
+                        <div>
+                            <span style="display: inline-block; width: 20px; height: 20px; background-color: white; border: 1px solid #333; vertical-align: middle;"></span>
+                            <span style="margin-left: 5px; font-weight: 600;">= 0 (OFF)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">3</div>
+                        <h3>Reflect on Your Creation <i class="fas fa-brain" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Think about your binary image and discuss with a partner:</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <ol>
+                            <li style="margin-bottom: 10px;">How many total bits did you need to represent your image? (Hint: count the total pixels)</li>
+                            <li style="margin-bottom: 10px;">What were the challenges of creating a recognisable image with just black and white pixels?</li>
+                            <li style="margin-bottom: 10px;">How might your image look different if you had more pixels (higher resolution)?</li>
+                            <li>How does this binary representation relate to how computers store images?</li>
+                        </ol>
+                    </div>
+                    
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius); padding: 15px; margin-top: 15px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--chew-color); margin-right: 10px;"></i> <strong>Fun fact:</strong> Early computer and video game graphics were often limited to binary (1-bit) images because of memory constraints!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <!-- Resolution Section -->
-                <section id="resolution" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="card-title text-2xl mb-4">Image Resolution 📏</h2>
+        <!-- CHUNK 2: Pixel Coordinates -->
+        <section id="chunk2" class="tab-content dark-section">
+            <h1>CHUNK 2: PIXEL COORDINATES <i class="fas fa-map-marker-alt" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chunk-section">
+                <div class="chunk-badge">TEACHER CHUNK</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 8 mins</div>
+                
+                <h3>Finding Pixels with Coordinates</h3>
+                
+                <p>To work with specific pixels in an image, computers need a way to address exactly which pixel they want to modify or read. This is done using a coordinate system.</p>
+                
+                <div class="interactive-card">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">1</div>
+                        <h3>The (x,y) Coordinate System <i class="fas fa-crosshairs" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Images are divided into a grid of pixels. Each pixel has an (x,y) coordinate, starting from (0,0) in the top-left corner.</p>
+
+                    <p><strong>Hover over the pixels to see how we can organise and reference pixels in a grid using coordinates.</strong></p>
+
+                    
+                    <div style="text-align: center; margin: 40px 0;">
+                        <div class="grid-container">
+                            <div style="position: absolute; top: -35px; left: 0; width: 100%; display: flex; justify-content: space-between; padding: 0 20px;">
+                                
+                            </div>
+                            <div style="position: absolute; left: -50px; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 20px 0;">
+                                
+                            </div>
+                            <div id="coordGrid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; padding: 20px; background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius); border: 2px solid var(--outline-color);"></div>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius); padding: 15px; margin-top: 15px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--accent-color); margin-right: 10px;"></i> <strong>Remember:</strong> x moves horizontally (left to right) and y moves vertically (top to bottom).</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">2</div>
+                        <h3>Why Coordinates Matter <i class="fas fa-question-circle" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Pixel coordinates are essential for many image operations:</p>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+                        <div style="flex: 1; min-width: 250px; background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <h4 style="display: flex; align-items: center; margin-top: 0;">
+                                <i class="fas fa-crop" style="color: var(--accent-color); margin-right: 15px; font-size: 1.4em;"></i> Image Editing
+                            </h4>
+                            <p style="margin-bottom: 0;">When you crop or resize an image, the computer uses coordinates to know which parts to keep or change.</p>
+                        </div>
                         
-                        <div class="alert alert-info mb-6">
-                            <div>
-                                <p>Resolution determines image quality by specifying the number of pixels horizontally × vertically. More pixels = more detail!</p>
+                        <div style="flex: 1; min-width: 250px; background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <h4 style="display: flex; align-items: center; margin-top: 0;">
+                                <i class="fas fa-gamepad" style="color: var(--accent-color); margin-right: 15px; font-size: 1.4em;"></i> Games
+                            </h4>
+                            <p style="margin-bottom: 0;">Video games use coordinates to position characters and objects on the screen.</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+                        <div style="flex: 1; min-width: 250px; background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <h4 style="display: flex; align-items: center; margin-top: 0;">
+                                <i class="fas fa-magic" style="color: var(--accent-color); margin-right: 15px; font-size: 1.4em;"></i> Special Effects
+                            </h4>
+                            <p style="margin-bottom: 0;">Filters and effects change pixels at specific coordinates to create their results.</p>
+                        </div>
+                        
+                        <div style="flex: 1; min-width: 250px; background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <h4 style="display: flex; align-items: center; margin-top: 0;">
+                                <i class="fas fa-paint-brush" style="color: var(--accent-color); margin-right: 15px; font-size: 1.4em;"></i> Drawing
+                            </h4>
+                            <p style="margin-bottom: 0;">Digital art programs track your cursor position using coordinates to know where to draw.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">3</div>
+                        <h3>Addressing Image Data <i class="fas fa-memory" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Computers use coordinates to find the right position in the binary sequence that stores the image:</p>
+                    
+                    <div class="code-step-container">
+                        <div class="code-step-header">
+                            <span>Finding a Pixel in Memory</span>
+                        </div>
+                        
+                        <div class="code-step-content" style="padding: 20px;">
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">For a pixel at position (x, y) in an image with width w:</p>
+                                    <div style="text-align: center; padding: 15px; background-color: var(--accent-color); color: white; border-radius: var(--border-radius); font-family: monospace; font-size: 1.3em; display: inline-block; margin: 0 auto;">
+                                        position = y × w + x
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">Example: In an 8×8 image, to find pixel (3,2):</p>
+                                    <div style="font-family: monospace; text-align: center; line-height: 1.6;">
+                                        position = 2 × 8 + 3<br>
+                                        position = 16 + 3<br>
+                                        position = 19
+                                    </div>
+                                    <p style="text-align: center; margin-top: 10px;">So pixel (3,2) is the 20th pixel in the sequence (counting from 0)</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="overflow-x-auto mb-8">
-                            <table class="table table-zebra w-full">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Resolution</th>
-                                        <th>Total Pixels</th>
-                                        <th>Common Uses</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>SD (480p)</td>
-                                        <td>640 × 480</td>
-                                        <td>307,200</td>
-                                        <td>DVD, older videos</td>
-                                    </tr>
-                                    <tr>
-                                        <td>HD (720p)</td>
-                                        <td>1280 × 720</td>
-                                        <td>921,600</td>
-                                        <td>YouTube, web videos</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Full HD (1080p)</td>
-                                        <td>1920 × 1080</td>
-                                        <td>2,073,600</td>
-                                        <td>Modern displays, gaming</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4K UHD</td>
-                                        <td>3840 × 2160</td>
-                                        <td>8,294,400</td>
-                                        <td>High-end displays, cinema</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <p class="mb-4">You can test this out yourself by going on Google Images.</p>
-                        <p class="mb-4">When you select an image, you'll see a small label at the bottom right which shows the number of pixels.</p>
-                        <p class="mb-4">Remember, the more pixels, the higher quality the picture, because you can pack in more detail!</p>
-                        <p class="mb-4">For example, this image has a resolution of 1,920 × 1,330 pixels, similar to Full HD:</p>
-                        
-                        <div class="resolution-image shadow-lg">
-                            <img src="https://i.imgur.com/xnhNt3w.png" alt="Resolution example" class="rounded-lg">
-                        </div>
                     </div>
-                </section>
-
-                <!-- Resources Section -->
-                <section id="resources" class="card bg-base-100 shadow-xl mb-8">
-                    <div class="card-body">
-                        <h2 class="card-title text-2xl mb-4">Additional Resources</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <a href="https://www.youtube.com/watch?v=15aqFQQVBWU" target="_blank" 
-                               class="card bg-base-200 hover:bg-base-300 transition-all duration-300">
-                                <div class="card-body flex flex-row items-center gap-4">
-                                    <div class="text-2xl">🎥</div>
-                                    <div>
-                                        <h3 class="font-bold">How Digital Images Work</h3>
-                                        <p class="text-sm opacity-70">Computerphile's explanation of digital image formats</p>
-                                    </div>
-                                </div>
-                            </a>
-                            
-                            <a href="https://www.piskelapp.com/" target="_blank" 
-                               class="card bg-base-200 hover:bg-base-300 transition-all duration-300">
-                                <div class="card-body flex flex-row items-center gap-4">
-                                    <div class="text-2xl">🎮</div>
-                                    <div>
-                                        <h3 class="font-bold">Piskel</h3>
-                                        <p class="text-sm opacity-70">Create pixel art and animated sprites</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </section>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Drawer Side -->
-        <div class="drawer-side">
-            <label for="my-drawer" class="drawer-overlay"></label>
-            <ul class="menu p-4 w-80 h-full bg-base-100">
-                <li><a href="#introduction">Introduction</a></li>
-                <li><a href="#binary">Binary Images</a></li>
-                <li><a href="#color-and-depth">Color Depth</a></li>
-                <li><a href="#resources">Resources</a></li>
-            </ul>
-        </div>
-    </div>
+        <!-- CHEW 2: Pixel Coordinate Game -->
+        <section id="chew2" class="tab-content light-section">
+            <h1>CHEW 2: PIXEL COORDINATE CHALLENGE <i class="fas fa-puzzle-piece" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chew-section">
+                <div class="chew-badge">STUDENT ACTIVITY</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 8 mins</div>
+                
+                <h3>Coordinate Treasure Hunt</h3>
+                
+                <div class="activity-goal">
+                    <h4><i class="fas fa-bullseye" style="color: var(--chew-color);"></i> Activity Goals</h4>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Practice using pixel coordinates to locate specific points</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Understand how the coordinate system maps to physical locations</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Create simple pixel art using coordinate instructions</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-card">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">1</div>
+                        <h3>Treasure Hunt Grid <i class="fas fa-map" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Find the hidden treasure by clicking on the correct coordinates!</p>
+                    
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin: 20px 0; flex-wrap: wrap;">
+                        <div>
+                            <p id="treasureClue" style="font-weight: bold; margin-bottom: 10px;">Find the treasure at coordinates: (3, 5)</p>
+                            <div id="treasureGrid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 2px; padding: 10px; background-color: #aaa; border-radius: var(--border-radius); border: 2px solid var(--outline-color);"></div>
+                        </div>
+                        
+                        <div style="min-width: 200px;">
+                            <p style="font-weight: bold; margin-bottom: 10px;">Remaining Treasures: <span id="treasuresRemaining">5</span></p>
+                            <p id="treasureMessage" style="min-height: 60px; padding: 10px; background-color: #f5f5f5; border-radius: var(--border-radius); border: 2px solid var(--outline-color);"></p>
+                            <button id="newTreasureBtn" style="margin-top: 10px; padding: 8px 15px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); cursor: pointer;">
+                                <i class="fas fa-sync"></i> New Treasure
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">2</div>
+                        <h3>Pixel Art by Coordinates <i class="fas fa-paint-brush" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Follow the coordinates below to create a simple picture:</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <div style="padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius); margin-bottom: 20px;">
+                            <p style="font-weight: bold; margin-bottom: 10px;">Coordinate Instructions:</p>
+                            <p style="font-family: monospace; line-height: 1.6; margin-bottom: 0;">
+                                Fill in pixels at: (2,1), (3,1), (4,1), (5,1)<br>
+                                Fill in pixels at: (1,2), (6,2)<br>
+                                Fill in pixels at: (1,3), (3,3), (6,3)<br>
+                                Fill in pixels at: (1,4), (6,4)<br>
+                                Fill in pixels at: (2,5), (3,5), (4,5), (5,5)
+                            </p>
+                        </div>
+                        
+                        <div style="display: flex; justify-content: center;">
+                            <div>
+                                <div id="pixelArtGrid" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 1px; padding: 10px; background-color: #aaa; border-radius: var(--border-radius); border: 2px solid var(--outline-color);"></div>
+                                <div style="text-align: center; margin-top: 10px;">
+                                    <button id="clearArtGridBtn" style="padding: 8px 15px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); cursor: pointer;">
+                                        <i class="fas fa-trash"></i> Clear Grid
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius); padding: 15px; margin-top: 20px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--chew-color); margin-right: 10px;"></i> <strong>Bonus challenge:</strong> Create your own pixel art, then write down the coordinates needed to recreate it. Swap with a partner and see if they can follow your instructions!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHUNK 3: Color Depth -->
+        <section id="chunk3" class="tab-content dark-section">
+            <h1>CHUNK 3: COLOUR DEPTH <i class="fas fa-palette" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chunk-section">
+                <div class="chunk-badge">TEACHER CHUNK</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 10 mins</div>
+                
+                <h3>Beyond Black and White: Adding Colour</h3>
+                
+                <p>While binary (1-bit) images are simple, most images we see today use colour. The number of colours an image can display depends on its colour depth.</p>
+                
+                <div class="interactive-card">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">1</div>
+                        <h3>What is Colour Depth? <i class="fas fa-eye-dropper" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p><strong>Colour depth</strong> refers to how many bits are used to represent the colour of each pixel. More bits = more possible colours!</p>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0; justify-content: center;">
+                        <div style="flex: 1; min-width: 220px; max-width: 300px; background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <h4 style="text-align: center; margin-top: 0;">1-bit (2¹ = 2 colours)</h4>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin: 10px 0 15px 0;">
+                                <div style="width: 40px; height: 40px; background-color: white; border: 1px solid #333;"></div>
+                                <div style="width: 40px; height: 40px; background-color: black;"></div>
+                            </div>
+                            <p style="text-align: center; margin-bottom: 0;">Just black and white</p>
+                        </div>
+                        
+                        <div style="flex: 1; min-width: 220px; max-width: 300px; background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <h4 style="text-align: center; margin-top: 0;">2-bit (2² = 4 colours)</h4>
+                            <div style="display: flex; justify-content: center; gap: 10px; margin: 10px 0 15px 0;">
+                                <div style="width: 30px; height: 30px; background-color: black;"></div>
+                                <div style="width: 30px; height: 30px; background-color: darkgray;"></div>
+                                <div style="width: 30px; height: 30px; background-color: lightgray;"></div>
+                                <div style="width: 30px; height: 30px; background-color: white; border: 1px solid #333;"></div>
+                            </div>
+                            <p style="text-align: center; margin-bottom: 0;">Basic grayscale</p>
+                        </div>
+                        
+                        <div style="flex: 1; min-width: 220px; max-width: 300px; background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <h4 style="text-align: center; margin-top: 0;">4-bit (2⁴ = 16 colours)</h4>
+                            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin: 10px 0 15px 0; max-width: 180px; margin-left: auto; margin-right: auto;">
+                                <div style="width: 20px; height: 20px; background-color: black;"></div>
+                                <div style="width: 20px; height: 20px; background-color: maroon;"></div>
+                                <div style="width: 20px; height: 20px; background-color: green;"></div>
+                                <div style="width: 20px; height: 20px; background-color: olive;"></div>
+                                <div style="width: 20px; height: 20px; background-color: navy;"></div>
+                                <div style="width: 20px; height: 20px; background-color: purple;"></div>
+                                <div style="width: 20px; height: 20px; background-color: teal;"></div>
+                                <div style="width: 20px; height: 20px; background-color: gray;"></div>
+                                <div style="width: 20px; height: 20px; background-color: silver;"></div>
+                                <div style="width: 20px; height: 20px; background-color: red;"></div>
+                                <div style="width: 20px; height: 20px; background-color: lime;"></div>
+                                <div style="width: 20px; height: 20px; background-color: yellow;"></div>
+                                <div style="width: 20px; height: 20px; background-color: blue;"></div>
+                                <div style="width: 20px; height: 20px; background-color: fuchsia;"></div>
+                                <div style="width: 20px; height: 20px; background-color: aqua;"></div>
+                                <div style="width: 20px; height: 20px; background-color: white; border: 1px solid #333;"></div>
+                            </div>
+                            <p style="text-align: center; margin-bottom: 0;">Early computer graphics</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius); padding: 15px; margin-top: 15px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--accent-color); margin-right: 10px;"></i> <strong>Formula:</strong> With n bits of colour depth, you can represent 2^n different colours.</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">3</div>
+                        <h3>24-bit Colour (True Colour) <i class="fas fa-rainbow" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Most modern displays use 24-bit colour, also called "true colour":</p>
+                    
+                    <div class="code-step-container">
+                        <div class="code-step-header">
+                            <span>24-bit Colour Breakdown</span>
+                        </div>
+                        
+                        <div class="code-step-content" style="padding: 20px;">
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">Each pixel uses 24 bits total:</p>
+                                    <ul style="margin: 0;">
+                                        <li>8 bits for Red (256 levels)</li>
+                                        <li>8 bits for Green (256 levels)</li>
+                                        <li>8 bits for Blue (256 levels)</li>
+                                    </ul>
+                                </div>
+                                
+                                <div style="text-align: center;">
+                                    <div style="padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius); display: inline-block;">
+                                        <p style="font-weight: bold; margin-bottom: 5px;">Total number of possible colours:</p>
+                                        <p style="font-family: monospace; font-size: 1.3em; margin: 0;">256 × 256 × 256 = 16,777,216 colours</p>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">Example: The colour red</p>
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <div style="width: 60px; height: 60px; background-color: red; border-radius: var(--border-radius);"></div>
+                                        <div>
+                                            <p style="margin: 0; font-family: monospace;">Red: 255 (11111111)</p>
+                                            <p style="margin: 0; font-family: monospace;">Green: 0 (00000000)</p>
+                                            <p style="margin: 0; font-family: monospace;">Blue: 0 (00000000)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius); padding: 15px; margin-top: 20px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--accent-color); margin-right: 10px;"></i> <strong>Higher colour depth = larger file size:</strong> 24-bit colour images are 24 times larger than 1-bit images with the same dimensions!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHEW 3: Interactive Color Mixer -->
+        <section id="chew3" class="tab-content light-section">
+            <h1>CHEW 3: COLOUR MIXER <i class="fas fa-fill-drip" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chew-section">
+                <div class="chew-badge">STUDENT ACTIVITY</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 10 mins</div>
+                
+                <h3>Create Colours with RGB Values</h3>
+                
+                <div class="activity-goal">
+                    <h4><i class="fas fa-bullseye" style="color: var(--chew-color);"></i> Activity Goals</h4>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Understand how the RGB colour model creates different colours</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> See how bit depth affects colour quality and variety</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Create your own custom colours by adjusting RGB values</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-card">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">1</div>
+                        <h3>RGB Colour Mixer <i class="fas fa-sliders-h" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Use the sliders to create your own custom colours!</p>
+                    
+                    <div style="display: flex; flex-wrap: wrap; gap: 30px; margin: 20px 0; align-items: center;">
+                        <div style="flex: 1; min-width: 280px;">
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px;">
+                                    <span style="font-weight: bold; color: #e53935;">Red: </span>
+                                    <span id="redLabel">0</span>
+                                </label>
+                                <input type="range" id="redControl" min="0" max="255" value="0" style="width: 100%; accent-color: #e53935;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px;">
+                                    <span style="font-weight: bold; color: #43a047;">Green: </span>
+                                    <span id="greenLabel">0</span>
+                                </label>
+                                <input type="range" id="greenControl" min="0" max="255" value="0" style="width: 100%; accent-color: #43a047;">
+                            </div>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label style="display: block; margin-bottom: 5px;">
+                                    <span style="font-weight: bold; color: #1e88e5;">Blue: </span>
+                                    <span id="blueLabel">0</span>
+                                </label>
+                                <input type="range" id="blueControl" min="0" max="255" value="0" style="width: 100%; accent-color: #1e88e5;">
+                            </div>
+                            
+                            <div style="margin-top: 20px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: bold;">
+                                    Bit Depth: <span id="bitDepthLabel">8</span> bits per channel
+                                </label>
+                                <input type="range" id="bitDepthControl" min="1" max="8" value="8" style="width: 100%;">
+                                <p style="margin-top: 5px; font-size: 0.9em;">Values per channel: <span id="valuesPerColor">256</span></p>
+                                <p style="font-size: 0.9em;">Total possible colours: <span id="totalColors">16,777,216</span></p>
+                            </div>
+                        </div>
+                        
+                        <div style="flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+                            <div id="colorPreview" style="width: 120px; height: 120px; border-radius: var(--border-radius); border: 2px solid var(--outline-color); box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></div>
+                            <div id="hexValue" style="font-family: monospace; font-size: 1.2em; font-weight: bold;">#000000</div>
+                            <button id="saveColorBtn" style="padding: 8px 15px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); cursor: pointer;">
+                                <i class="fas fa-save"></i> Save Colour
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="savedColorsContainer" style="margin-top: 20px; display: none;">
+                        <h4>Your Saved Colours:</h4>
+                        <div id="savedColors" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+                    </div>
+                    
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius); padding: 15px; margin-top: 20px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--chew-color); margin-right: 10px;"></i> <strong>Try this:</strong> Reduce the bit depth and notice how the colours become less smooth. This shows how colour depth affects image quality!</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">2</div>
+                        <h3>Colour Challenge <i class="fas fa-trophy" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Try to create these specific colours using the RGB mixer above:</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <div style="width: 40px; height: 40px; background-color: #FF00FF; border-radius: var(--border-radius); margin-bottom: 10px;"></div>
+                            <h4 style="margin: 0 0 5px 0;">Magenta</h4>
+                            <p style="font-family: monospace; margin: 0;">R: 255, G: 0, B: 255</p>
+                        </div>
+                        
+                        <div style="background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <div style="width: 40px; height: 40px; background-color: #FFA500; border-radius: var(--border-radius); margin-bottom: 10px;"></div>
+                            <h4 style="margin: 0 0 5px 0;">Orange</h4>
+                            <p style="font-family: monospace; margin: 0;">R: 255, G: 165, B: 0</p>
+                        </div>
+                        
+                        <div style="background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <div style="width: 40px; height: 40px; background-color: #800080; border-radius: var(--border-radius); margin-bottom: 10px;"></div>
+                            <h4 style="margin: 0 0 5px 0;">Purple</h4>
+                            <p style="font-family: monospace; margin: 0;">R: 128, G: 0, B: 128</p>
+                        </div>
+                        
+                        <div style="background-color: #f0f7ff; padding: 15px; border-radius: var(--border-radius);">
+                            <div style="width: 40px; height: 40px; background-color: #008080; border-radius: var(--border-radius); margin-bottom: 10px;"></div>
+                            <h4 style="margin: 0 0 5px 0;">Teal</h4>
+                            <p style="font-family: monospace; margin: 0;">R: 0, G: 128, B: 128</p>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius); padding: 15px; margin-top: 15px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--chew-color); margin-right: 10px;"></i> <strong>Think about:</strong> How would you create colours like brown, pink, or gray using RGB values?</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">3</div>
+                        <h3>Binary Colour Quiz <i class="fas fa-question-circle" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Test your understanding of colour and binary!</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <div class="quiz-question" style="margin-bottom: 20px; padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius);">
+                            <p style="font-weight: bold; margin-bottom: 10px;">1. How many colours can be represented with 4-bit colour depth?</p>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q1" value="a"> 4 colours
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q1" value="b"> 8 colours
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q1" value="c"> 16 colours
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q1" value="d"> 256 colours
+                                </label>
+                            </div>
+                            <div class="answer-feedback" style="margin-top: 10px; padding: 10px; border-radius: var(--border-radius); display: none;"></div>
+                        </div>
+                        
+                        <div class="quiz-question" style="margin-bottom: 20px; padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius);">
+                            <p style="font-weight: bold; margin-bottom: 10px;">2. In the RGB model, what colour do you get when R=255, G=255, B=0?</p>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q2" value="a"> Red
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q2" value="b"> Green
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q2" value="c"> Blue
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q2" value="d"> Yellow
+                                </label>
+                            </div>
+                            <div class="answer-feedback" style="margin-top: 10px; padding: 10px; border-radius: var(--border-radius); display: none;"></div>
+                        </div>
+                        
+                        <div class="quiz-question" style="padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius);">
+                            <p style="font-weight: bold; margin-bottom: 10px;">3. How many bits are used for each pixel in a true colour (24-bit) image?</p>
+                            <div style="display: flex; flex-direction: column; gap: 8px;">
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q3" value="a"> 8 bits
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q3" value="b"> 16 bits
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q3" value="c"> 24 bits
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                    <input type="radio" name="q3" value="d"> 32 bits
+                                </label>
+                            </div>
+                            <div class="answer-feedback" style="margin-top: 10px; padding: 10px; border-radius: var(--border-radius); display: none;"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="checkQuizBtn" style="padding: 10px 20px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer;">
+                        Check Answers
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHUNK 4: Image Resolution -->
+        <section id="chunk4" class="tab-content dark-section">
+            <h1>CHUNK 4: IMAGE RESOLUTION <i class="fas fa-expand" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chunk-section">
+                <div class="chunk-badge">TEACHER CHUNK</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 7 mins</div>
+                
+                <h3>Pixels, Size, and Quality</h3>
+                
+                <p><strong>Resolution</strong> determines image quality by specifying the number of pixels horizontally × vertically. More pixels = more detail!</p>
+                
+                <div class="interactive-card">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">1</div>
+                        <h3>Understanding Resolution <i class="fas fa-ruler" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Resolution is written as width × height in pixels. For example, 1920 × 1080 means 1920 pixels wide by 1080 pixels tall.</p>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/3/34/YouTube-resolution-comparison.jpg" alt="Resolution comparison" style="max-width: 100%; border-radius: var(--border-radius); border: 2px solid var(--outline-color);">
+                    </div>
+                    
+                    <div style="background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius); padding: 15px; margin-top: 15px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--accent-color); margin-right: 10px;"></i> <strong>Multiply width × height</strong> to find the total number of pixels in an image. This affects file size and detail.</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">2</div>
+                        <h3>Common Resolutions <i class="fas fa-tv" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <div style="overflow-x: auto; margin: 20px 0;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                            <thead>
+                                <tr style="background-color: var(--accent-color); color: white;">
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Name</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Resolution</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Total Pixels</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Common Uses</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">SD (480p)</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">640 × 480</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">307,200</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">DVD, older videos</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">HD (720p)</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">1280 × 720</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">921,600</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">YouTube, web videos</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Full HD (1080p)</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">1920 × 1080</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">2,073,600</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">Modern displays, gaming</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">4K UHD</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">3840 × 2160</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">8,294,400</td>
+                                    <td style="padding: 10px; border: 1px solid #ddd;">High-end displays, cinema</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">3</div>
+                        <h3>Resolution vs. File Size <i class="fas fa-database" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Higher resolution means more pixels, which means larger file sizes. The relationship looks like this:</p>
+                    
+                    <div class="code-step-container">
+                        <div class="code-step-header">
+                            <span>File Size Calculation</span>
+                        </div>
+                        
+                        <div class="code-step-content" style="padding: 20px;">
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">For an uncompressed image:</p>
+                                    <div style="text-align: center; padding: 15px; background-color: var(--accent-color); color: white; border-radius: var(--border-radius); font-family: monospace; font-size: 1.3em; display: inline-block; margin: 0 auto;">
+                                        File Size = Width × Height × Colour Depth
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p style="font-weight: bold; margin-bottom: 10px;">Example: 1920 × 1080 image with 24-bit colour:</p>
+                                    <div style="font-family: monospace; text-align: center; line-height: 1.6;">
+                                        Size = 1920 × 1080 × 24 bits<br>
+                                        Size = 2,073,600 × 24 bits<br>
+                                        Size = 49,766,400 bits<br>
+                                        Size ≈ 6.22 MB
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <p style="text-align: center; margin-top: 10px;">That's why we use compression formats like JPEG and PNG!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(0,0,0,0.05); border-radius: var(--border-radius); padding: 15px; margin-top: 20px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--accent-color); margin-right: 10px;"></i> <strong>Trade-off:</strong> Higher resolution = better quality but larger file size. You need to balance quality and file size based on how the image will be used.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHEW 4: Resolution Detective -->
+        <section id="chew4" class="tab-content light-section">
+            <h1>CHEW 4: RESOLUTION DETECTIVE <i class="fas fa-search" style="margin-left: 15px;"></i></h1>
+            
+            <div class="chew-section">
+                <div class="chew-badge">STUDENT ACTIVITY</div>
+                <div class="timer-badge"><i class="fas fa-clock"></i> 7 mins</div>
+                
+                <h3>Investigate Image Files</h3>
+                
+                <div class="activity-goal">
+                    <h4><i class="fas fa-bullseye" style="color: var(--chew-color);"></i> Activity Goals</h4>
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Calculate file sizes based on resolution and colour depth</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Understand how resolution affects image quality and detail</li>
+                        <li><i class="fas fa-angle-right" style="margin-right: 12px; color: var(--chew-color);"></i> Compare different resolutions and their uses</li>
+                    </ul>
+                </div>
+                
+                <div class="interactive-card">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">1</div>
+                        <h3>Resolution Calculator <i class="fas fa-calculator" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Use this calculator to see how resolution affects file size:</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+                            <div style="flex: 1; min-width: 250px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Width (pixels):</label>
+                                <input type="number" id="imgWidth" min="1" value="1280" style="width: 100%; padding: 8px; border: 2px solid var(--outline-color); border-radius: var(--border-radius);">
+                            </div>
+                            
+                            <div style="flex: 1; min-width: 250px;">
+                                <label style="display: block; margin-bottom: 5px; font-weight: 600;">Height (pixels):</label>
+                                <input type="number" id="imgHeight" min="1" value="720" style="width: 100%; padding: 8px; border: 2px solid var(--outline-color); border-radius: var(--border-radius);">
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: 600;">Colour Depth:</label>
+                            <select id="colorDepth" style="width: 100%; padding: 8px; border: 2px solid var(--outline-color); border-radius: var(--border-radius);">
+                                <option value="1">1-bit (Black & White)</option>
+                                <option value="8">8-bit (256 Colours)</option>
+                                <option value="24" selected>24-bit (True Colour)</option>
+                                <option value="32">32-bit (True Colour with Alpha)</option>
+                            </select>
+                        </div>
+                        
+                        <button id="calculateBtn" style="margin-top: 15px; padding: 10px 20px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer;">
+                            Calculate
+                        </button>
+                        
+                        <div id="calculationResult" style="margin-top: 15px; padding: 15px; background-color: #f5f5f5; border-radius: var(--border-radius); border: 2px solid var(--outline-color); display: none;">
+                            <p style="margin: 0 0 5px 0;"><strong>Total Pixels:</strong> <span id="totalPixels"></span></p>
+                            <p style="margin: 0 0 5px 0;"><strong>Raw File Size:</strong> <span id="fileSize"></span></p>
+                            <p style="margin: 0;"><strong>Approximate Compressed Size (JPEG):</strong> <span id="compressedSize"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius); padding: 15px; margin-top: 20px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--chew-color); margin-right: 10px;"></i> <strong>Try this:</strong> Calculate how much bigger a 4K image (3840×2160) is compared to an HD image (1280×720).</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">2</div>
+                        <h3>Resolution Comparison <i class="fas fa-images" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Compare these images at different resolutions. Notice how detail changes:</p>
+                    
+                    <div id="resolutionComparison" style="margin: 20px 0;">
+                        <!-- Resolution comparison images with updated URLs -->
+                        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                            <div style="text-align: center;">
+                                <img src="https://i.imgur.com/23vRkKp.png" alt="320×214 resolution" style="max-width: 100%; border-radius: var(--border-radius); border: 2px solid var(--outline-color);">
+                                <p style="margin-top: 10px; font-weight: bold;">320×214 (68,480 pixels)</p>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <img src="https://i.imgur.com/vRTNkBN.png" alt="960×640 resolution" style="max-width: 100%; border-radius: var(--border-radius); border: 2px solid var(--outline-color);">
+                                <p style="margin-top: 10px; font-weight: bold;">960×640 (614,400 pixels)</p>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <img src="https://i.imgur.com/iJexMhJ.png" alt="1281×854 resolution" style="max-width: 100%; border-radius: var(--border-radius); border: 2px solid var(--outline-color);">
+                                <p style="margin-top: 10px; font-weight: bold;">1281×854 (1,093,974 pixels)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background-color: rgba(16, 185, 129, 0.1); border-radius: var(--border-radius); padding: 15px; margin-top: 15px;">
+                        <p style="margin: 0;"><i class="fas fa-lightbulb" style="color: var(--chew-color); margin-right: 10px;"></i> <strong>Observation:</strong> Notice how the lower resolution images look blocky or pixelated if we zoom in to try and compare them at similar sizes.</p>
+                    </div>
+                </div>
+                
+                <div class="interactive-card" style="margin-top: 30px;">
+                    <div class="element-header" style="margin: -35px -35px 30px -35px; padding: 20px 25px;">
+                        <div class="element-number">3</div>
+                        <h3>Resolution Challenge <i class="fas fa-trophy" style="margin-left: 10px;"></i></h3>
+                    </div>
+                    
+                    <p>Answer these questions about image resolution:</p>
+                    
+                    <div style="margin: 20px 0;">
+                        <div class="challenge-question" style="margin-bottom: 15px; padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius);">
+                            <p style="font-weight: bold; margin-bottom: 10px;">1. How many total pixels are in a 1920×1080 image?</p>
+                            <input type="text" class="resolution-answer" data-answer="2073600" style="width: 100%; padding: 8px; border: 2px solid var(--outline-color); border-radius: var(--border-radius);" placeholder="Your answer...">
+                            <div class="answer-feedback" style="margin-top: 10px; padding: 10px; border-radius: var(--border-radius); display: none;"></div>
+                        </div>
+                        
+                        <div class="challenge-question" style="margin-bottom: 15px; padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius);">
+                            <p style="font-weight: bold; margin-bottom: 10px;">2. If you double both the width and height of an image, how many times larger does the file size become?</p>
+                            <input type="text" class="resolution-answer" data-answer="4" style="width: 100%; padding: 8px; border: 2px solid var(--outline-color); border-radius: var(--border-radius);" placeholder="Your answer...">
+                            <div class="answer-feedback" style="margin-top: 10px; padding: 10px; border-radius: var(--border-radius); display: none;"></div>
+                        </div>
+                        
+                        <div class="challenge-question" style="padding: 15px; background-color: #f0f7ff; border-radius: var(--border-radius);">
+                            <p style="font-weight: bold; margin-bottom: 10px;">3. Which would have a larger file size: an 800×600 image with 24-bit colour or a 1024×768 image with 8-bit colour?</p>
+                            <input type="text" class="resolution-answer" data-answer="800×600 with 24-bit colour" style="width: 100%; padding: 8px; border: 2px solid var(--outline-color); border-radius: var(--border-radius);" placeholder="Your answer...">
+                            <div class="answer-feedback" style="margin-top: 10px; padding: 10px; border-radius: var(--border-radius); display: none;"></div>
+                        </div>
+                    </div>
+                    
+                    <button id="checkChallengeBtn" style="padding: 10px 20px; background-color: var(--chew-color); color: white; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer;">
+                        Check Answers
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3>Lesson Summary <i class="fas fa-check-circle" style="margin-left: 10px;"></i></h3>
+                
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; flex-direction: column; gap: 20px; margin: 20px 0;">
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 40px; height: 40px; background-color: var(--accent-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</div>
+                            <div>
+                                <h4 style="margin-top: 0; margin-bottom: 5px;">Pixels Build Images</h4>
+                                <p style="margin: 0;">All digital images are made up of tiny squares called pixels arranged in a grid. The simplest images use just 1 bit per pixel (black or white).</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 40px; height: 40px; background-color: var(--accent-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</div>
+                            <div>
+                                <h4 style="margin-top: 0; margin-bottom: 5px;">Pixel Coordinates</h4>
+                                <p style="margin: 0;">Images use (x,y) coordinates to locate pixels, starting from (0,0) in the top-left corner. This system is essential for all image processing tasks.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 40px; height: 40px; background-color: var(--accent-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">3</div>
+                            <div>
+                                <h4 style="margin-top: 0; margin-bottom: 5px;">Colour Depth</h4>
+                                <p style="margin: 0;">Colour depth determines how many colours an image can display. Modern images typically use 24-bit colour (8 bits each for red, green, and blue) for over 16 million possible colours.</p>
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; align-items: flex-start; gap: 15px;">
+                            <div style="width: 40px; height: 40px; background-color: var(--accent-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">4</div>
+                            <div>
+                                <h4 style="margin-top: 0; margin-bottom: 5px;">Resolution</h4>
+                                <p style="margin: 0;">Resolution (width × height in pixels) determines image detail and quality. Higher resolution means more pixels, better detail, but larger file sizes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script>
-        // Coordinate Grid
-        const coordGrid = document.getElementById('coordGrid');
-        for (let y = 0; y < 8; y++) {
-            for (let x = 0; x < 8; x++) {
-                const pixel = document.createElement('div');
-                pixel.className = 'w-8 h-8 bg-base-300 grid-pixel';
-                pixel.setAttribute('data-coords', `(${x},${y})`);
-                coordGrid.appendChild(pixel);
-            }
-        }
-    
-        // Demo grid generation
-        const demoGrid = document.getElementById('demoGrid');
-        for (let i = 0; i < 64; i++) {
-            const pixel = document.createElement('div');
-            pixel.className = 'w-4 h-4 bg-base-300';
-            demoGrid.appendChild(pixel);
-        }
-    
-        // Binary grid generation
-        const binaryGrid = document.getElementById('binaryGrid');
-        for (let i = 0; i < 256; i++) {
-            const pixel = document.createElement('div');
-            pixel.className = 'w-4 h-4 bg-base-100 border border-base-300 pixel';
-            pixel.onclick = () => {
-                pixel.classList.toggle('bg-primary');
-            };
-            binaryGrid.appendChild(pixel);
-        }
-
-        // Binary Storage Grid
-        const binaryStorageGrid = document.getElementById('binaryStorageGrid');
-        const binarySequence = document.getElementById('binarySequence');
-        let binaryState = Array(16).fill(0);
-    
-        function updateBinarySequence() {
-            binarySequence.textContent = binaryState.join(' ');
-        }
-    
-        for (let i = 0; i < 16; i++) {
-            const pixel = document.createElement('div');
-            pixel.className = 'w-8 h-8 bg-base-300 pixel';
-            pixel.onclick = () => {
-                binaryState[i] = 1 - binaryState[i];
-                pixel.style.backgroundColor = binaryState[i] ? '#3b82f6' : '';
-                updateBinarySequence();
-            };
-            binaryStorageGrid.appendChild(pixel);
-        }
-        updateBinarySequence();
-    
-        // Color Depth Controls
+        // Navigation
         document.addEventListener('DOMContentLoaded', function() {
-            const bitDepthControl = document.getElementById('bitDepthControl');
+            // Tab switching
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tab = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and tabs
+                    document.querySelectorAll('.tab-button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Add active class to selected button and tab
+                    this.classList.add('active');
+                    document.getElementById(tab).classList.add('active');
+                });
+            });
+            
+            // Demo Grid
+            const demoGrid = document.getElementById('demoGrid');
+            if (demoGrid) {
+                for (let i = 0; i < 64; i++) {
+                    const pixel = document.createElement('div');
+                    pixel.style.width = '20px';
+                    pixel.style.height = '20px';
+                    pixel.style.backgroundColor = i % 2 === 0 ? '#aaa' : '#ddd';
+                    demoGrid.appendChild(pixel);
+                }
+            }
+            
+            // Coordinate Grid
+            const coordGrid = document.getElementById('coordGrid');
+            if (coordGrid) {
+                for (let y = 0; y < 8; y++) {
+                    for (let x = 0; x < 8; x++) {
+                        const pixel = document.createElement('div');
+                        pixel.style.width = '25px';
+                        pixel.style.height = '25px';
+                        pixel.style.backgroundColor = '#ddd';
+                        pixel.className = 'grid-pixel';
+                        pixel.setAttribute('data-coords', `(${x},${y})`);
+                        pixel.title = `(${x},${y})`;
+                        coordGrid.appendChild(pixel);
+                    }
+                }
+            }
+            
+            // Binary Grid
+            const binaryGrid = document.getElementById('binaryGrid');
+            if (binaryGrid) {
+                const gridSize = 16;
+                let gridState = Array(gridSize * gridSize).fill(0);
+                
+                for (let i = 0; i < gridSize * gridSize; i++) {
+                    const pixel = document.createElement('div');
+                    pixel.style.width = '20px';
+                    pixel.style.height = '20px';
+                    pixel.style.backgroundColor = 'white';
+                    pixel.style.border = '1px solid #aaa';
+                    pixel.style.cursor = 'pointer';
+                    pixel.dataset.index = i;
+                    
+                    pixel.addEventListener('click', function() {
+                        const index = parseInt(this.dataset.index);
+                        gridState[index] = 1 - gridState[index];
+                        this.style.backgroundColor = gridState[index] ? 'black' : 'white';
+                        updateBinarySequence();
+                    });
+                    
+                    binaryGrid.appendChild(pixel);
+                }
+                
+                // Clear and toggle all buttons
+                const clearGridBtn = document.getElementById('clearGridBtn');
+                if (clearGridBtn) {
+                    clearGridBtn.addEventListener('click', function() {
+                        gridState = Array(gridSize * gridSize).fill(0);
+                        document.querySelectorAll('#binaryGrid div').forEach(pixel => {
+                            pixel.style.backgroundColor = 'white';
+                        });
+                        updateBinarySequence();
+                    });
+                }
+                
+                const toggleAllBtn = document.getElementById('toggleAllBtn');
+                if (toggleAllBtn) {
+                    toggleAllBtn.addEventListener('click', function() {
+                        gridState = gridState.map(val => 1 - val);
+                        document.querySelectorAll('#binaryGrid div').forEach((pixel, index) => {
+                            pixel.style.backgroundColor = gridState[index] ? 'black' : 'white';
+                        });
+                        updateBinarySequence();
+                    });
+                }
+                
+                function updateBinarySequence() {
+                    const binarySequence = document.getElementById('binarySequence');
+                    if (binarySequence) {
+                        let sequence = '';
+                        for (let y = 0; y < gridSize; y++) {
+                            for (let x = 0; x < gridSize; x++) {
+                                sequence += gridState[y * gridSize + x];
+                            }
+                            sequence += '\n';
+                        }
+                        binarySequence.textContent = sequence;
+                    }
+                }
+                
+                updateBinarySequence();
+            }
+            
+            // Treasure Hunt Grid
+            const treasureGrid = document.getElementById('treasureGrid');
+            if (treasureGrid) {
+                let treasureX, treasureY;
+                let treasuresRemaining = 5;
+                
+                function setNewTreasure() {
+                    treasureX = Math.floor(Math.random() * 8);
+                    treasureY = Math.floor(Math.random() * 8);
+                    document.getElementById('treasureClue').textContent = `Find the treasure at coordinates: (${treasureX}, ${treasureY})`;
+                    document.getElementById('treasureMessage').textContent = '';
+                }
+                
+                for (let y = 0; y < 8; y++) {
+                    for (let x = 0; x < 8; x++) {
+                        const pixel = document.createElement('div');
+                        pixel.style.width = '30px';
+                        pixel.style.height = '30px';
+                        pixel.style.backgroundColor = '#ddd';
+                        pixel.style.cursor = 'pointer';
+                        pixel.dataset.x = x;
+                        pixel.dataset.y = y;
+                        
+                        pixel.addEventListener('click', function() {
+                            const clickedX = parseInt(this.dataset.x);
+                            const clickedY = parseInt(this.dataset.y);
+                            
+                            if (clickedX === treasureX && clickedY === treasureY) {
+                                this.style.backgroundColor = '#FFD700';
+                                treasuresRemaining--;
+                                document.getElementById('treasuresRemaining').textContent = treasuresRemaining;
+                                document.getElementById('treasureMessage').textContent = 'You found the treasure! 🎉';
+                                
+                                if (treasuresRemaining > 0) {
+                                    setTimeout(() => {
+                                        this.style.backgroundColor = '#ddd';
+                                        setNewTreasure();
+                                    }, 1500);
+                                } else {
+                                    document.getElementById('treasureMessage').textContent = 'Congratulations! You found all the treasures! 🏆';
+                                    document.getElementById('newTreasureBtn').style.display = 'block';
+                                }
+                            } else {
+                                this.style.backgroundColor = '#e57373';
+                                document.getElementById('treasureMessage').textContent = `Not there! You clicked (${clickedX}, ${clickedY})`;
+                                
+                                setTimeout(() => {
+                                    this.style.backgroundColor = '#ddd';
+                                }, 500);
+                            }
+                        });
+                        
+                        treasureGrid.appendChild(pixel);
+                    }
+                }
+                
+                const newTreasureBtn = document.getElementById('newTreasureBtn');
+                if (newTreasureBtn) {
+                    newTreasureBtn.addEventListener('click', function() {
+                        treasuresRemaining = 5;
+                        document.getElementById('treasuresRemaining').textContent = treasuresRemaining;
+                        document.querySelectorAll('#treasureGrid div').forEach(pixel => {
+                            pixel.style.backgroundColor = '#ddd';
+                        });
+                        setNewTreasure();
+                    });
+                }
+                
+                setNewTreasure();
+            }
+            
+            // Pixel Art Grid
+            const pixelArtGrid = document.getElementById('pixelArtGrid');
+            if (pixelArtGrid) {
+                for (let y = 0; y < 8; y++) {
+                    for (let x = 0; x < 8; x++) {
+                        const pixel = document.createElement('div');
+                        pixel.style.width = '30px';
+                        pixel.style.height = '30px';
+                        pixel.style.backgroundColor = 'white';
+                        pixel.style.border = '1px solid #aaa';
+                        pixel.style.cursor = 'pointer';
+                        pixel.dataset.x = x;
+                        pixel.dataset.y = y;
+                        
+                        pixel.addEventListener('click', function() {
+                            this.style.backgroundColor = this.style.backgroundColor === 'black' ? 'white' : 'black';
+                        });
+                        
+                        pixelArtGrid.appendChild(pixel);
+                    }
+                }
+                
+                const clearArtGridBtn = document.getElementById('clearArtGridBtn');
+                if (clearArtGridBtn) {
+                    clearArtGridBtn.addEventListener('click', function() {
+                        document.querySelectorAll('#pixelArtGrid div').forEach(pixel => {
+                            pixel.style.backgroundColor = 'white';
+                        });
+                    });
+                }
+            }
+            
+            // RGB Colour Mixer
             const redControl = document.getElementById('redControl');
             const greenControl = document.getElementById('greenControl');
             const blueControl = document.getElementById('blueControl');
-            const colorPreview = document.getElementById('colorPreview');
-    
-            function quantizeValue(value, bitDepth) {
-                if (bitDepth === 1) return value > 127 ? 255 : 0;
-                const maxValue = Math.pow(2, bitDepth) - 1;
-                const step = 255 / maxValue;
-                return Math.round(Math.round(value / step) * step);
-            }
-    
-            function updateColorDisplay() {
-                const bitDepth = parseInt(bitDepthControl.value);
-                const maxValue = Math.pow(2, bitDepth) - 1;
+            const bitDepthControl = document.getElementById('bitDepthControl');
+            
+            if (redControl && greenControl && blueControl && bitDepthControl) {
+                function updateColorPreview() {
+                    const bitDepth = parseInt(bitDepthControl.value);
+                    const maxValue = Math.pow(2, bitDepth) - 1;
+                    
+                    // Update display values
+                    document.getElementById('bitDepthLabel').textContent = bitDepth;
+                    document.getElementById('valuesPerColor').textContent = maxValue + 1;
+                    document.getElementById('totalColors').textContent = Math.pow(maxValue + 1, 3).toLocaleString();
+                    
+                    // Get RGB values
+                    let r = parseInt(redControl.value);
+                    let g = parseInt(greenControl.value);
+                    let b = parseInt(blueControl.value);
+                    
+                    // Quantize values based on bit depth
+                    const step = 255 / maxValue;
+                    r = Math.round(Math.round(r / step) * step);
+                    g = Math.round(Math.round(g / step) * step);
+                    b = Math.round(Math.round(b / step) * step);
+                    
+                    // Update labels and preview
+                    document.getElementById('redLabel').textContent = r;
+                    document.getElementById('greenLabel').textContent = g;
+                    document.getElementById('blueLabel').textContent = b;
+                    
+                    const colorPreview = document.getElementById('colorPreview');
+                    if (colorPreview) {
+                        colorPreview.style.backgroundColor = `rgb(${r},${g},${b})`;
+                    }
+                    
+                    // Update hex value
+                    const hexValue = document.getElementById('hexValue');
+                    if (hexValue) {
+                        const toHex = (n) => {
+                            const hex = n.toString(16);
+                            return hex.length === 1 ? '0' + hex : hex;
+                        };
+                        hexValue.textContent = `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+                    }
+                }
                 
-                // Update display values
-                document.getElementById('bitDepthLabel').textContent = bitDepth;
-                document.getElementById('valuesPerColor').textContent = maxValue + 1;
-                document.getElementById('totalColors').textContent = Math.pow(maxValue + 1, 3).toLocaleString();
-    
-                // Get and quantize RGB values
-                const r = quantizeValue(parseInt(redControl.value), bitDepth);
-                const g = quantizeValue(parseInt(greenControl.value), bitDepth);
-                const b = quantizeValue(parseInt(blueControl.value), bitDepth);
-    
-                // Update labels and preview
-                document.getElementById('redLabel').textContent = r;
-                document.getElementById('greenLabel').textContent = g;
-                document.getElementById('blueLabel').textContent = b;
-                colorPreview.style.backgroundColor = `rgb(${r},${g},${b})`;
+                redControl.addEventListener('input', updateColorPreview);
+                greenControl.addEventListener('input', updateColorPreview);
+                blueControl.addEventListener('input', updateColorPreview);
+                bitDepthControl.addEventListener('input', updateColorPreview);
+                
+                // Save colour button
+                const saveColorBtn = document.getElementById('saveColorBtn');
+                const savedColorsContainer = document.getElementById('savedColorsContainer');
+                const savedColors = document.getElementById('savedColors');
+                
+                if (saveColorBtn && savedColorsContainer && savedColors) {
+                    saveColorBtn.addEventListener('click', function() {
+                        const r = document.getElementById('redLabel').textContent;
+                        const g = document.getElementById('greenLabel').textContent;
+                        const b = document.getElementById('blueLabel').textContent;
+                        const hex = document.getElementById('hexValue').textContent;
+                        
+                        const colorSwatch = document.createElement('div');
+                        colorSwatch.style.width = '50px';
+                        colorSwatch.style.height = '50px';
+                        colorSwatch.style.backgroundColor = `rgb(${r},${g},${b})`;
+                        colorSwatch.style.borderRadius = 'var(--border-radius)';
+                        colorSwatch.style.border = '2px solid var(--outline-color)';
+                        colorSwatch.style.display = 'flex';
+                        colorSwatch.style.alignItems = 'flex-end';
+                        colorSwatch.style.justifyContent = 'center';
+                        colorSwatch.style.position = 'relative';
+                        colorSwatch.title = `R: ${r}, G: ${g}, B: ${b}\n${hex}`;
+                        
+                        savedColors.appendChild(colorSwatch);
+                        savedColorsContainer.style.display = 'block';
+                    });
+                }
+                
+                // Initial update
+                updateColorPreview();
             }
-    
-            // Add event listeners
-            bitDepthControl.addEventListener('input', updateColorDisplay);
-            redControl.addEventListener('input', updateColorDisplay);
-            greenControl.addEventListener('input', updateColorDisplay);
-            blueControl.addEventListener('input', updateColorDisplay);
-    
-            // Initial update
-            updateColorDisplay();
-        });
-        
-        // Close drawer when clicking menu items on mobile
-        document.querySelectorAll('.drawer-side a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('my-drawer').checked = false;
-            });
+            
+            // Quiz
+            const checkQuizBtn = document.getElementById('checkQuizBtn');
+            if (checkQuizBtn) {
+                checkQuizBtn.addEventListener('click', function() {
+                    // Question 1
+                    const q1Answer = document.querySelector('input[name="q1"]:checked');
+                    const q1Feedback = document.querySelector('.quiz-question:nth-child(1) .answer-feedback');
+                    
+                    if (q1Answer) {
+                        if (q1Answer.value === 'c') { // 16 colours
+                            q1Feedback.textContent = '✓ Correct! 2^4 = 16 colours.';
+                            q1Feedback.style.backgroundColor = 'rgba(80, 200, 120, 0.2)';
+                            q1Feedback.style.color = '#2e7d32';
+                        } else {
+                            q1Feedback.textContent = '✗ Incorrect. 4-bit colour gives 2^4 = 16 colours.';
+                            q1Feedback.style.backgroundColor = 'rgba(200, 80, 80, 0.2)';
+                            q1Feedback.style.color = '#c62828';
+                        }
+                        q1Feedback.style.display = 'block';
+                    }
+                    
+                    // Question 2
+                    const q2Answer = document.querySelector('input[name="q2"]:checked');
+                    const q2Feedback = document.querySelector('.quiz-question:nth-child(2) .answer-feedback');
+                    
+                    if (q2Answer) {
+                        if (q2Answer.value === 'd') { // Yellow
+                            q2Feedback.textContent = '✓ Correct! Red + Green = Yellow';
+                            q2Feedback.style.backgroundColor = 'rgba(80, 200, 120, 0.2)';
+                            q2Feedback.style.color = '#2e7d32';
+                        } else {
+                            q2Feedback.textContent = '✗ Incorrect. Maximum red + maximum green (no blue) gives yellow.';
+                            q2Feedback.style.backgroundColor = 'rgba(200, 80, 80, 0.2)';
+                            q2Feedback.style.color = '#c62828';
+                        }
+                        q2Feedback.style.display = 'block';
+                    }
+                    
+                    // Question 3
+                    const q3Answer = document.querySelector('input[name="q3"]:checked');
+                    const q3Feedback = document.querySelector('.quiz-question:nth-child(3) .answer-feedback');
+                    
+                    if (q3Answer) {
+                        if (q3Answer.value === 'c') { // 24 bits
+                            q3Feedback.textContent = '✓ Correct! 24 bits (8 bits for each of red, green, and blue).';
+                            q3Feedback.style.backgroundColor = 'rgba(80, 200, 120, 0.2)';
+                            q3Feedback.style.color = '#2e7d32';
+                        } else {
+                            q3Feedback.textContent = '✗ Incorrect. True colour uses 24 bits per pixel (8 for each colour channel).';
+                            q3Feedback.style.backgroundColor = 'rgba(200, 80, 80, 0.2)';
+                            q3Feedback.style.color = '#c62828';
+                        }
+                        q3Feedback.style.display = 'block';
+                    }
+                });
+            }
+            
+            // Resolution Calculator
+            const calculateBtn = document.getElementById('calculateBtn');
+            if (calculateBtn) {
+                calculateBtn.addEventListener('click', function() {
+                    const width = parseInt(document.getElementById('imgWidth').value);
+                    const height = parseInt(document.getElementById('imgHeight').value);
+                    const colorDepth = parseInt(document.getElementById('colorDepth').value);
+                    
+                    const totalPixels = width * height;
+                    const bitSize = totalPixels * colorDepth;
+                    const byteSize = bitSize / 8;
+                    
+                    // Convert to appropriate unit
+                    let fileSizeText;
+                    if (byteSize < 1024) {
+                        fileSizeText = `${byteSize.toFixed(2)} bytes`;
+                    } else if (byteSize < 1024 * 1024) {
+                        fileSizeText = `${(byteSize / 1024).toFixed(2)} KB`;
+                    } else {
+                        fileSizeText = `${(byteSize / (1024 * 1024)).toFixed(2)} MB`;
+                    }
+                    
+                    // Approximate compressed size (very rough estimate)
+                    const compressionRatio = colorDepth === 1 ? 0.5 : 0.1; // Different compression for B&W vs. colour
+                    const compressedSize = byteSize * compressionRatio;
+                    
+                    let compressedSizeText;
+                    if (compressedSize < 1024) {
+                        compressedSizeText = `${compressedSize.toFixed(2)} bytes`;
+                    } else if (compressedSize < 1024 * 1024) {
+                        compressedSizeText = `${(compressedSize / 1024).toFixed(2)} KB`;
+                    } else {
+                        compressedSizeText = `${(compressedSize / (1024 * 1024)).toFixed(2)} MB`;
+                    }
+                    
+                    document.getElementById('totalPixels').textContent = totalPixels.toLocaleString();
+                    document.getElementById('fileSize').textContent = fileSizeText;
+                    document.getElementById('compressedSize').textContent = compressedSizeText;
+                    document.getElementById('calculationResult').style.display = 'block';
+                });
+            }
+            
+            // Resolution Challenge
+            const checkChallengeBtn = document.getElementById('checkChallengeBtn');
+            if (checkChallengeBtn) {
+                checkChallengeBtn.addEventListener('click', function() {
+                    document.querySelectorAll('.resolution-answer').forEach(input => {
+                        const userAnswer = input.value.trim().toLowerCase();
+                        const correctAnswer = input.getAttribute('data-answer').toLowerCase();
+                        const feedbackDiv = input.nextElementSibling;
+                        
+                        if (userAnswer === correctAnswer) {
+                            feedbackDiv.textContent = '✓ Correct!';
+                            feedbackDiv.style.backgroundColor = 'rgba(80, 200, 120, 0.2)';
+                            feedbackDiv.style.color = '#2e7d32';
+                        } else {
+                            feedbackDiv.textContent = `✗ Incorrect. The correct answer is: ${input.getAttribute('data-answer')}`;
+                            feedbackDiv.style.backgroundColor = 'rgba(200, 80, 80, 0.2)';
+                            feedbackDiv.style.color = '#c62828';
+                        }
+                        
+                        feedbackDiv.style.display = 'block';
+                    });
+                });
+            }
         });
     </script>
 </body>
-</html>
+</html>                            
