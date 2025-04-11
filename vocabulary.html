@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Representation Vocabulary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Prism CSS for code syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-okaidia.min.css">
+    <!-- Favicon Icons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        /* Color Variables */
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f7f7f7;
+            --accent-bg: #f0f0f0;
+            --accent-color: #002654;
+            --active-color: #002654;
+            --outline-color: #191919;
+            --text-color: #191919;
+            --good-color: #4caf50;
+            --bad-color: #ff4d4f;
+            --border-radius: 0.6em;
+            --shadow-sm: 0 0.15em 0 var(--outline-color);
+            --shadow-md: 0 0.25em 0 var(--outline-color);
+            --transition-time: 0.15s;
+            --section-padding: 40px 60px;
+        }
+        
+        /* Base Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: -0.01em;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            font-size: 16px;
+            min-height: 100vh;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border: 3px solid var(--secondary-bg);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: var(--active-color);
+            transform: scale(1.05);
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-top: 0;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            display: inline-block;
+            padding-bottom: 8px;
+            border-bottom: 3px solid var(--accent-color);
+            width: 100%;
+        }
+        
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 1px;
+        }
+        
+        h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1em;
+        }
+        
+        /* Additional styles for the Design Thinking Vocabulary */
+        .light-section {
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            padding: 40px 20px 20px 20px;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+        
+        .search-container {
+            margin: 0 auto 40px auto;
+            max-width: 1100px; /* Slightly less than main container */
+            padding: 0 20px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            border: 2px solid var(--outline-color);
+            border-radius: var(--border-radius);
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-time), box-shadow var(--transition-time);
+        }
+        
+        .search-input:focus {
+            outline: none;
+            transform: translateY(-0.15em);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-color);
+        }
+        
+        .skill-card {
+            background-color: var(--primary-bg);
+            border: 2px solid var(--outline-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            transition: transform var(--transition-time), box-shadow var(--transition-time);
+            overflow: hidden;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-0.15em);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 30px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-bottom: 2px solid var(--outline-color);
+            background-color: var(--secondary-bg);
+        }
+        
+        .skill-header:hover {
+            background-color: rgba(0, 38, 84, 0.1);
+        }
+        
+        .skill-icon-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .skill-icon {
+            width: 45px;
+            height: 45px;
+            background-color: var(--accent-color);
+            color: white;
+            border: 2px solid var(--outline-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .skill-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .toggle-arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2em;
+            color: var(--accent-color);
+        }
+        
+        .rotate-arrow {
+            transform: rotate(180deg);
+        }
+        
+        .skill-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+            padding: 0 30px;
+        }
+        
+        .skill-content.active {
+            max-height: 5000px;
+            padding: 30px;
+        }
+        
+        .subsection-block {
+            background-color: var(--primary-bg);
+            border: 2px solid var(--outline-color);
+            border-radius: var(--border-radius);
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            transition: transform var(--transition-time), box-shadow var(--transition-time);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+        
+        .subsection-block:hover {
+            transform: translateY(-0.15em);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .subsection-heading {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+        
+        .examples-container {
+            background-color: var(--secondary-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .example-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+        }
+        
+        .skill-card.hidden {
+            display: none;
+        }
+        
+        .results-info {
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 1100px;
+            background-color: var(--secondary-bg);
+            border-radius: var(--border-radius);
+            display: none;
+        }
+        
+        #skills-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .related-terms {
+            margin-top: 20px;
+            background-color: rgba(0, 38, 84, 0.05);
+            padding: 15px;
+            border-radius: var(--border-radius);
+        }
+        
+        .related-terms-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .related-term {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 8px;
+            background-color: var(--secondary-bg);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+        
+        /* Lists and Checkmarks */
+        .subsection-block ul {
+            list-style-type: none;
+            margin: 15px 0 0;
+            padding: 0;
+        }
+        
+        .subsection-block ul li {
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 30px;
+            font-size: 1.1em;
+        }
+        
+        .subsection-block ul li::before {
+            content: "•";
+            position: absolute;
+            left: 8px;
+            color: var(--accent-color);
+            font-size: 1.3em;
+        }
+        
+        /* Card intro paragraph styling */
+        .card p.intro-paragraph {
+            font-size: 1.15em;
+            line-height: 1.6;
+            color: var(--text-color);
+            border-left: 3px solid var(--accent-color);
+            padding-left: 20px;
+            margin: 10px 0 20px 0;
+            font-weight: 400;
+            letter-spacing: -0.01em;
+        }
+        
+        /* Animation for tab content */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid var(--outline-color);
+        }
+        
+        td {
+            padding: 10px;
+            border: 1px solid var(--outline-color);
+        }
+        
+        tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        /* Button styles */
+        .action-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: 2px solid var(--outline-color);
+            border-radius: var(--border-radius);
+            padding: 10px 20px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: transform var(--transition-time), box-shadow var(--transition-time);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-0.15em);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Ensure responsiveness */
+        @media (max-width: 1240px) {
+            .light-section,
+            #skills-container {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .light-section,
+            #skills-container {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .skill-header {
+                padding: 20px 25px;
+            }
+            
+            .skill-icon {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .skill-title {
+                font-size: 1.2em;
+            }
+            
+            .subsection-block {
+                padding: 20px 25px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .skill-content.active {
+                padding: 20px 15px;
+            }
+            
+            .subsection-block {
+                padding: 15px 20px;
+            }
+            
+            .skill-icon {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9em;
+            }
+            
+            .skill-title {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="light-section" style="padding-top: 40px;">
+        <h1 style="text-align: center; margin-bottom: 30px;">BINARY REPRESENTATION VOCABULARY</h1>
+        
+        <div class="search-container">
+            <input type="search" id="search-input" class="search-input" placeholder="Search for binary representation terms (e.g., binary, pixel, bit depth)...">
+        </div>
+        
+        <div id="results-info" class="results-info">
+            <span id="results-count">0</span> results found for "<span id="search-term"></span>"
+        </div>
+        
+        <div id="skills-container">
+            <!-- Binary Term -->
+            <div class="skill-card" data-keywords="binary base-2 number system digital computers bits ones zeros 1 0">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="skill-title">Binary</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>A number system that only uses two digits: 0 and 1.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>Binary is a base-2 number system used by computers to store and process all types of information. Instead of using ten digits (0-9) like our regular decimal system, binary only uses two digits: 0 and 1. These two digits are called "bits" and they represent the two possible states in electronic circuits: off (0) or on (1).</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Why It's Important</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Binary is the fundamental language used by all computers and digital devices</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> It's perfect for electronic circuits that can have two states: on or off</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> All digital information (text, images, audio, video) is ultimately stored as binary data</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"The number 9 in decimal is written as 1001 in <strong>binary</strong>, using only the digits 0 and 1."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Bit</span>
+                        <span class="related-term">Byte</span>
+                        <span class="related-term">Digital</span>
+                        <span class="related-term">Base-2</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bit Term -->
+            <div class="skill-card" data-keywords="bit binary digit 0 1 computing data storage smallest unit">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h3 class="skill-title">Bit</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>A single binary digit (0 or 1), which is the smallest unit of data in computing.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>The term "bit" comes from "binary digit" and represents a single value of either 0 or 1 in the binary number system. Bits are the basic building blocks of all digital information. In physical computer hardware, a bit is typically stored by an electronic component that can be in one of two states: "on" (representing 1) or "off" (representing 0).</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Why It's Important</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Bits are the foundation of all digital computing and data storage</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> By combining multiple bits, computers can represent complex information like numbers, text, images, and sounds</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Bit counts (like 8-bit, 16-bit, 32-bit) are used to measure data capacity and processing power</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"Each character in ASCII encoding is represented by 8 <strong>bits</strong> of data."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Binary</span>
+                        <span class="related-term">Byte</span>
+                        <span class="related-term">Bit Depth</span>
+                        <span class="related-term">Digital</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Byte Term -->
+            <div class="skill-card" data-keywords="byte 8 bits computer memory storage data">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                        <h3 class="skill-title">Byte</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>A group of 8 bits that can represent 256 different values (from 0 to 255).</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>A byte is a unit of digital information that consists of 8 bits grouped together. Since each bit can be either 0 or 1, a byte can represent 2^8 = 256 different values (0-255). Bytes are often used to represent a single character of text in many encoding systems. They are also the basic unit of measurement for computer memory and storage capacity.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Why It's Important</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Bytes are used to measure computer memory and storage (e.g., kilobytes, megabytes, gigabytes)</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> In many text encoding systems, one byte represents one character</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Bytes are a convenient size for computers to process and store information</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"A typical text document might be around 10 kilobytes in size, which is about 10,000 <strong>bytes</strong> or 80,000 bits of information."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Bit</span>
+                        <span class="related-term">Kilobyte</span>
+                        <span class="related-term">Megabyte</span>
+                        <span class="related-term">Memory</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pixel Term -->
+            <div class="skill-card" data-keywords="pixel picture element digital images displays screens resolution">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-th"></i>
+                        </div>
+                        <h3 class="skill-title">Pixel</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>The smallest unit (a tiny coloured square) of a digital image or display.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>A pixel (short for "picture element") is the smallest controllable element of a digital image or display screen. Images on screens are made up of thousands or millions of these tiny squares arranged in a grid. Each pixel can be set to a specific colour, and together they form the complete image. Pixels are usually so small that you can't see individual ones without zooming in.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Why It's Important</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Pixels allow computers to display images on screens in a way that digital systems can process</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> The number of pixels (resolution) determines the level of detail in digital images</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Each pixel's colour information is stored as binary data, with the number of bits determining the range of possible colours</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"If you zoom in close enough on any digital photo, you can see the individual <strong>pixels</strong> that make up the image."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Resolution</span>
+                        <span class="related-term">Colour Depth</span>
+                        <span class="related-term">Digital Image</span>
+                        <span class="related-term">Display</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resolution Term -->
+            <div class="skill-card" data-keywords="resolution pixels display quality image digital width height">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-expand"></i>
+                        </div>
+                        <h3 class="skill-title">Resolution</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>The number of pixels in a digital image or display, usually expressed as width × height.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>Resolution refers to the total number of pixels in a digital image or on a display screen, typically written as width × height (e.g., 1920 × 1080). Higher resolution means more pixels, which allows for more detail and clarity in images. Resolution is a key factor in determining image quality and clarity, as well as file size.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Why It's Important</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Higher resolution provides more detail and sharper images</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Resolution directly affects file size - more pixels mean larger files</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Different devices and uses require different resolutions for optimal performance</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"A Full HD display has a <strong>resolution</strong> of 1920 × 1080 pixels, while a 4K display has 3840 × 2160 pixels."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Pixel</span>
+                        <span class="related-term">Display</span>
+                        <span class="related-term">Image Quality</span>
+                        <span class="related-term">File Size</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colour Depth Term -->
+            <div class="skill-card" data-keywords="colour depth bit depth color image quality colours shades digital">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h3 class="skill-title">Colour Depth</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>The number of bits used to represent the colour of each pixel in a digital image.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>Colour depth refers to how many bits are used to store colour information for each pixel in a digital image. More bits means more possible colours. For example, 1-bit colour can only show black and white (2 colours), 8-bit colour can show 256 different colours, and 24-bit "true colour" can display about 16.7 million colours. Deeper colour depth allows for smoother gradients and more realistic images.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">How Colour Depth Works</h4>
+                        <p>In most modern colour images, the colour depth is divided across three channels:</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 8 bits for Red (256 levels of red)</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 8 bits for Green (256 levels of green)</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 8 bits for Blue (256 levels of blue)</li>
+                        </ul>
+                        <p>This creates 24-bit colour, with 256 × 256 × 256 = 16,777,216 possible colours.</p>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"Early computer games often used 8-bit <strong>colour depth</strong>, limiting them to only 256 colours, while modern displays typically use 24-bit colour depth for much more realistic images."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Pixel</span>
+                        <span class="related-term">Bit Depth</span>
+                        <span class="related-term">RGB</span>
+                        <span class="related-term">Image Quality</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sampling Rate Term -->
+            <div class="skill-card" data-keywords="sampling rate frequency audio digital sound quality hertz samples second">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-wave-square"></i>
+                        </div>
+                        <h3 class="skill-title">Sampling Rate</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>The number of audio samples taken per second when converting sound to digital data.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>Sampling rate measures how many times per second a sound wave is measured (sampled) when converting analog audio to digital. It is measured in Hertz (Hz) or kilohertz (kHz). For example, CD-quality audio has a sampling rate of 44,100 Hz, which means it takes 44,100 measurements of the sound wave every second. Higher sampling rates can capture higher frequencies and produce more accurate digital representations of sound.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Common Sampling Rates</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 8,000 Hz (8 kHz): Used for telephone calls and speech-only audio</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 44,100 Hz (44.1 kHz): CD-quality audio, good for music</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 48,000 Hz (48 kHz): Standard for professional audio and video production</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 96,000 Hz (96 kHz) or higher: High-resolution audio for professional studios</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"Professional audio engineers often record at a <strong>sampling rate</strong> of 96 kHz to capture more detail, even though most listeners can't hear frequencies above what 44.1 kHz can reproduce."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Bit Depth</span>
+                        <span class="related-term">Digital Audio</span>
+                        <span class="related-term">Audio Quality</span>
+                        <span class="related-term">Hertz (Hz)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bit Depth (Audio) Term -->
+            <div class="skill-card" data-keywords="bit depth audio quality resolution volume dynamic range digital sound bits">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <h3 class="skill-title">Bit Depth (Audio)</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>The number of bits used to represent each audio sample, determining how precisely sound levels can be measured.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>In digital audio, bit depth measures how many bits are used to store each audio sample. It determines how precisely the amplitude (loudness) of a sound wave can be measured at each sampling point. Higher bit depth allows for more volume levels and better dynamic range. For example, 16-bit audio (CD quality) can represent 65,536 different volume levels, while 24-bit audio (professional quality) can represent over 16 million levels.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Common Bit Depths</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 8-bit: 256 volume levels (basic speech, older games)</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 16-bit: 65,536 volume levels (CD quality audio)</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 24-bit: 16,777,216 volume levels (professional audio)</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 32-bit float: Even greater precision (studio production)</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"Professional recording studios typically use 24-bit <strong>bit depth</strong> because it allows for more precise volume levels and captures quiet sounds better than the 16-bit format used for CDs."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Sampling Rate</span>
+                        <span class="related-term">Digital Audio</span>
+                        <span class="related-term">Dynamic Range</span>
+                        <span class="related-term">Audio Quality</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ASCII Term -->
+            <div class="skill-card" data-keywords="ascii american standard code information interchange text encoding character set digital">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <h3 class="skill-title">ASCII</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>A standard encoding system that assigns numbers to letters, digits and symbols, allowing computers to store and transmit text.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>ASCII (American Standard Code for Information Interchange) is a character encoding standard created in the 1960s. It assigns a unique number to each letter, digit, punctuation mark, and common symbol. The original ASCII used 7 bits per character, allowing it to represent 128 different characters (0-127). Extended ASCII uses 8 bits (1 byte) for 256 characters. ASCII was one of the first widely-used standards for representing text in computers.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">How ASCII Works</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Each character is assigned a number (e.g., 'A' = 65, 'a' = 97, '0' = 48)</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> This number is converted to binary for computer storage</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 7-bit ASCII covers basic English letters, numbers, and common symbols</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> 8-bit Extended ASCII adds additional symbols and characters</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"The letter 'A' is represented in <strong>ASCII</strong> as the decimal number 65, which is stored as the binary number 01000001."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Text Encoding</span>
+                        <span class="related-term">Unicode</span>
+                        <span class="related-term">Character Set</span>
+                        <span class="related-term">Byte</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unicode Term -->
+            <div class="skill-card" data-keywords="unicode character set encoding text international languages emoji global standard">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h3 class="skill-title">Unicode</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>A universal character encoding standard that includes characters from virtually all languages and writing systems in the world.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>Unicode is an international character encoding standard designed to represent text from all the world's writing systems. Unlike ASCII, which was mainly limited to English characters, Unicode can represent characters from languages such as Chinese, Arabic, Russian, Hindi, and many others. It also includes symbols, emoji, and historical scripts. Unicode assigns a unique number (code point) to each character, regardless of platform, program, or language.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Why It's Important</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Unicode enables computers to display and process text in any language</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> It allows global communication and information sharing across different writing systems</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Most modern software and websites use Unicode (often in UTF-8 format) to support international content</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> Unicode can represent over 143,000 characters and continues to grow</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"Thanks to <strong>Unicode</strong>, websites can display text in multiple languages like English, Chinese (你好), Arabic (مرحبا), and Russian (Привет) on the same page."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">UTF-8</span>
+                        <span class="related-term">ASCII</span>
+                        <span class="related-term">Character Encoding</span>
+                        <span class="related-term">Emoji</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Digital Representation Term -->
+            <div class="skill-card" data-keywords="digital representation binary data computers encoding information storage conversion">
+                <div class="skill-header">
+                    <div class="skill-icon-container">
+                        <div class="skill-icon">
+                            <i class="fas fa-digital-tachograph"></i>
+                        </div>
+                        <h3 class="skill-title">Digital Representation</h3>
+                    </div>
+                    <i class="fas fa-chevron-down toggle-arrow"></i>
+                </div>
+                <div class="skill-content">
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Simple Definition</h4>
+                        <p>The process of converting real-world information into binary data that computers can process and store.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Detailed Definition</h4>
+                        <p>Digital representation refers to how computers convert and store real-world information (like text, images, sounds, and numbers) as patterns of binary digits (1s and 0s). Different types of data use different methods of digital representation, but all ultimately become binary code. This conversion allows computers to process, store, transmit, and manipulate all kinds of information using the same basic system.</p>
+                    </div>
+
+                    <div class="subsection-block">
+                        <h4 class="subsection-heading">Types of Digital Representation</h4>
+                        <ul>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> <strong>Text:</strong> Letters and symbols are converted using encoding standards like ASCII or Unicode</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> <strong>Images:</strong> Pictures are represented as grids of pixels, each with colour information</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> <strong>Audio:</strong> Sound waves are sampled at regular intervals to create digital values</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> <strong>Video:</strong> Combines image representation with timing information</li>
+                            <li><i class="fas fa-check-circle" style="color: var(--accent-color); margin-right: 12px;"></i> <strong>Numbers:</strong> Converted directly to binary using various numbering systems</li>
+                        </ul>
+                    </div>
+
+                    <div class="examples-container">
+                        <p class="example-title">Example in Use:</p>
+                        <p>"The <strong>digital representation</strong> of a colour photograph involves storing information about the colour of each pixel as a binary value."</p>
+                    </div>
+
+                    <div class="related-terms">
+                        <p class="related-terms-title">Related Terms:</p>
+                        <span class="related-term">Binary</span>
+                        <span class="related-term">Encoding</span>
+                        <span class="related-term">Digitisation</span>
+                        <span class="related-term">Data</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Boolean to control clipboard functionality
+        const enableClipboardButtons = true;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Skill card expandable content
+            const skillHeaders = document.querySelectorAll('.skill-header');
+            const searchInput = document.getElementById('search-input');
+            const skillsContainer = document.getElementById('skills-container');
+            const skillCards = document.querySelectorAll('.skill-card');
+            const resultsInfo = document.getElementById('results-info');
+            const resultsCount = document.getElementById('results-count');
+            const searchTerm = document.getElementById('search-term');
+            
+            // Toggle skill content
+            skillHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const arrow = this.querySelector('.toggle-arrow');
+                    
+                    if (content.classList.contains('active')) {
+                        content.classList.remove('active');
+                        arrow.classList.remove('rotate-arrow');
+                    } else {
+                        content.classList.add('active');
+                        arrow.classList.add('rotate-arrow');
+                    }
+                });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                let matchCount = 0;
+                
+                // Show/hide results info based on search query
+                if (query.length > 0) {
+                    resultsInfo.style.display = 'block';
+                    searchTerm.textContent = query;
+                } else {
+                    resultsInfo.style.display = 'none';
+                }
+                
+                skillCards.forEach(card => {
+                    const cardTitle = card.querySelector('.skill-title').textContent.toLowerCase();
+                    const cardContent = card.textContent.toLowerCase();
+                    const cardKeywords = card.getAttribute('data-keywords').toLowerCase();
+                    
+                    // Check if card matches the search
+                    if (query === '' || 
+                        cardTitle.includes(query) || cardContent.includes(query) || 
+                        cardKeywords.includes(query)) {
+                        card.classList.remove('hidden');
+                        matchCount++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                // Update results count
+                resultsCount.textContent = matchCount;
+                
+                // If there's only one result, expand it automatically
+                if (matchCount === 1 && query !== '') {
+                    const visibleCard = document.querySelector('.skill-card:not(.hidden)');
+                    const content = visibleCard.querySelector('.skill-content');
+                    const arrow = visibleCard.querySelector('.toggle-arrow');
+                    
+                    if (!content.classList.contains('active')) {
+                        content.classList.add('active');
+                        arrow.classList.add('rotate-arrow');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
