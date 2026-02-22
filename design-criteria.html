@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Criteria</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="presentation.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<div class="scene" id="s0" style="align-items:center; justify-content:center; text-align:center;">
+  <div class="eyebrow" style="text-align:center; align-self:center;">Design Technologies: Design Process</div>
+  <div class="scene-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Design <span class="hl">Criteria</span></div>
+  <div class="scene-rule" style="align-self:center;"></div>
+  <div class="reveal" id="s0-sub" style="font-size:clamp(0.9rem,1.8vw,1.2rem); color:var(--dim); max-width:520px; line-height:1.6;">
+    What your design must do, and how you will prove it.
+  </div>
+</div>
+
+<div class="scene" id="s1">
+  <div class="eyebrow">Learning Intention</div>
+  <div class="scene-title">What are we learning <span class="hl">today?</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s1-li">
+    <div class="def-card">
+      <div class="def-label">Learning Intention</div>
+      <div class="def-body">We are learning what design criteria are, why they matter, and how to write criteria that are specific and measurable.</div>
+    </div>
+  </div>
+  <div class="reveal" id="s1-sc">
+    <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+      <div class="def-label">Success Criteria</div>
+      <div class="def-body">
+        <div class="reveal" id="s1-sc1" style="color:var(--pink); margin-bottom:6px;">I can explain what design criteria are and why they are written before designing.</div>
+        <div class="reveal" id="s1-sc2" style="color:var(--pink); margin-bottom:6px;">I can identify the difference between vague and specific, measurable criteria.</div>
+        <div class="reveal" id="s1-sc3" style="color:var(--pink);">I can write design criteria using category prompts (Function, Aesthetic, Sustainability, User Need).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="scene" id="s2">
+  <div class="checks"><img src="checksforunderstanding/silentsolo.png" alt="Silent Solo"></div>
+  <div class="scene-title">What are <span class="hl">design criteria?</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s2-def1">
+    <div class="def-card">
+      <div class="def-label">Definition</div>
+      <div class="def-body">Design criteria are the rules your design must follow. They spell out exactly what your solution needs to do, who it is for, and how you will know if it actually works.</div>
+    </div>
+  </div>
+  <div class="reveal" id="s2-def2">
+    <div class="def-card">
+      <div class="def-label">When do you write them?</div>
+      <div class="def-body">You write design criteria <strong style="color:white;">before</strong> you start designing, based on what you have learned from your research, your target audience, or your client.</div>
+    </div>
+  </div>
+  <div class="reveal" id="s2-callout">
+    <div class="callout"><strong>The golden rule:</strong> every criterion must be <strong>specific</strong> and <strong>measurable</strong>. If you cannot test whether your design meets it, it is not a good criterion.</div>
+  </div>
+</div>
+
+<div class="scene" id="s3">
+  <div class="eyebrow">Worked Example</div>
+  <div class="header-row">
+    <div class="scene-title">Vague <span class="hl">vs</span> Specific</div>
+    <div class="phase-pill" style="margin-top:8px;">I Do</div>
+  </div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s3-body" style="font-size:clamp(0.85rem,1.4vw,1rem); color:rgba(255,255,255,0.75); margin-bottom:8px;">
+    Both of these are attempts at a design criterion. Only one of them is actually useful.
+  </div>
+  <div class="concept-row">
+    <div class="concept-panel reveal" id="s3-left">
+      <div class="cp-label">Vague criterion</div>
+      <div class="cp-main" style="font-size:clamp(0.95rem,1.8vw,1.35rem);">"The product must be strong."</div>
+      <div style="width:100%; height:1px; background:rgba(255,255,255,0.1); margin:10px 0;"></div>
+      <div class="cp-sub">What does "strong" mean here? Strong enough to hold what? There is no way to test this.</div>
+    </div>
+    <div class="h-arrow reveal" id="s3-arrow">&#8594;</div>
+    <div class="concept-panel hi reveal" id="s3-right">
+      <div class="cp-label" style="color:var(--pink);">Specific criterion</div>
+      <div class="cp-main" style="color:var(--pink); font-size:clamp(0.95rem,1.8vw,1.35rem);">"The structure must support a static load of 500g without visible deformation."</div>
+      <div style="width:100%; height:1px; background:rgba(235,0,139,0.2); margin:10px 0;"></div>
+      <div class="cp-sub">Clear. Testable. You know exactly what to measure and what counts as passing.</div>
+    </div>
+  </div>
+  <div class="reveal" id="s3-callout" style="margin-top:14px;">
+    <div class="callout"><strong>Ask yourself:</strong> could two different people test this criterion independently and get the same result? If not, it needs to be more specific.</div>
+  </div>
+</div>
+
+<!-- s4: Good or Vague — one criterion on screen at a time -->
+<div class="scene" id="s4">
+  <div class="checks"><img src="checksforunderstanding/fingervote.png" alt="Finger Vote"></div>
+  <div class="header-row">
+    <div class="scene-title">Good or <span class="hl">Vague?</span></div>
+    <div class="phase-pill" style="margin-top:8px;">We Do</div>
+  </div>
+  <div class="scene-rule"></div>
+
+  <div style="font-size:clamp(0.78rem,1.3vw,0.88rem); color:var(--dim); margin-bottom:20px;">
+    Hold up <strong style="color:white;">1 finger</strong> = good &nbsp;|&nbsp; <strong style="color:white;">2 fingers</strong> = vague. Be ready to explain why and suggest how to fix the vague ones.
+  </div>
+
+  <!-- Each criterion + verdict pair is a self-contained block. Only one pair visible at a time via the reveal steps. -->
+  <div id="s4-block1" style="display:none;">
+    <div class="def-card" style="padding:20px 24px; margin-bottom:10px;">
+      <div class="def-label">Criterion A</div>
+      <div class="def-body" style="font-size:clamp(1rem,2vw,1.5rem); font-weight:700; color:white;">"The design must look nice and be appealing to the target audience."</div>
+    </div>
+    <div id="s4-v1" class="callout" style="opacity:0; transition:opacity 0.4s ease;"><strong>Vague.</strong> "Nice" cannot be measured. Better: <em>"The design must use a maximum of three colours selected from the client's brand guidelines."</em></div>
+  </div>
+
+  <div id="s4-block2" style="display:none;">
+    <div class="def-card" style="padding:20px 24px; margin-bottom:10px;">
+      <div class="def-label">Criterion B</div>
+      <div class="def-body" style="font-size:clamp(1rem,2vw,1.5rem); font-weight:700; color:white;">"The product must fit inside a standard school locker (30cm &times; 45cm when flat)."</div>
+    </div>
+    <div id="s4-v2" class="callout" style="opacity:0; transition:opacity 0.4s ease; border-left-color:#4cda64;"><strong style="color:#4cda64;">Good.</strong> Clear dimensions. Testable with a ruler right now.</div>
+  </div>
+
+  <div id="s4-block3" style="display:none;">
+    <div class="def-card" style="padding:20px 24px; margin-bottom:10px;">
+      <div class="def-label">Criterion C</div>
+      <div class="def-body" style="font-size:clamp(1rem,2vw,1.5rem); font-weight:700; color:white;">"The design must be eco-friendly and sustainable."</div>
+    </div>
+    <div id="s4-v3" class="callout" style="opacity:0; transition:opacity 0.4s ease;"><strong>Vague.</strong> Better: <em>"At least 50% of materials must be recycled, upcycled, or from renewable suppliers."</em></div>
+  </div>
+
+  <div id="s4-block4" style="display:none;">
+    <div class="def-card" style="padding:20px 24px; margin-bottom:10px;">
+      <div class="def-label">Criterion D</div>
+      <div class="def-body" style="font-size:clamp(1rem,2vw,1.5rem); font-weight:700; color:white;">"A first-time user must complete the main task in under 60 seconds without instructions."</div>
+    </div>
+    <div id="s4-v4" class="callout" style="opacity:0; transition:opacity 0.4s ease; border-left-color:#4cda64;"><strong style="color:#4cda64;">Good.</strong> Specific time, specific condition, independently testable.</div>
+  </div>
+</div>
+
+<div class="scene" id="s5">
+  <div class="checks">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+  </div>
+  <div class="scene-title">Which is <span class="hl">better?</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s5-instr" style="font-size:clamp(0.8rem,1.3vw,0.88rem); color:var(--dim); margin-bottom:14px; font-style:italic;">
+    For each pair: discuss with a partner: which is the better criterion and why? Be ready to explain how you would improve the weaker one.
+  </div>
+  <div class="reveal" id="s5-p1">
+    <div class="concept-row" style="margin-bottom:0;">
+      <div class="concept-panel">
+        <div class="cp-label">A</div>
+        <div class="cp-main" style="font-size:clamp(0.82rem,1.5vw,1.1rem);">"The garment must fit well and be comfortable to wear."</div>
+      </div>
+      <div class="h-arrow" style="font-size:1.1rem; color:var(--dim); padding:0 10px; flex-shrink:0;">vs</div>
+      <div class="concept-panel hi">
+        <div class="cp-label" style="color:var(--pink);">B</div>
+        <div class="cp-main" style="font-size:clamp(0.82rem,1.5vw,1.1rem); color:var(--pink);">"The garment allows full arm movement and sitting without straining or tearing seams."</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal" id="s5-p2" style="margin-top:14px;">
+    <div class="concept-row" style="margin-bottom:0;">
+      <div class="concept-panel">
+        <div class="cp-label">A</div>
+        <div class="cp-main" style="font-size:clamp(0.82rem,1.5vw,1.1rem);">"The building must be energy efficient and good for the environment."</div>
+      </div>
+      <div class="h-arrow" style="font-size:1.1rem; color:var(--dim); padding:0 10px; flex-shrink:0;">vs</div>
+      <div class="concept-panel hi">
+        <div class="cp-label" style="color:var(--pink);">B</div>
+        <div class="cp-main" style="font-size:clamp(0.82rem,1.5vw,1.1rem); color:var(--pink);">"The building must reduce heating and cooling loads by at least 30% compared to a standard design, using passive solar principles."</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal" id="s5-p3" style="margin-top:14px;">
+    <div class="concept-row">
+      <div class="concept-panel">
+        <div class="cp-label">A</div>
+        <div class="cp-main" style="font-size:clamp(0.82rem,1.5vw,1.1rem);">"The app must be easy to use for older users."</div>
+      </div>
+      <div class="h-arrow" style="font-size:1.1rem; color:var(--dim); padding:0 10px; flex-shrink:0;">vs</div>
+      <div class="concept-panel hi">
+        <div class="cp-label" style="color:var(--pink);">B</div>
+        <div class="cp-main" style="font-size:clamp(0.82rem,1.5vw,1.1rem); color:var(--pink);">"All interactive elements must be at least 44&times;44px and meet WCAG AA contrast standards."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="scene" id="s6">
+  <div class="checks"><img src="checksforunderstanding/choralreading.png" alt="Choral Reading"></div>
+  <div class="scene-title">Criteria <span class="hl">Categories</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s6-intro" style="font-size:clamp(0.85rem,1.4vw,1rem); color:rgba(255,255,255,0.75); margin-bottom:14px;">
+    Categories help you cover all the angles of your design. You do not have to use every one, but they are a useful thinking prompt.
+  </div>
+  <div class="reveal" id="s6-c1">
+    <div class="def-card" style="margin-bottom:8px;">
+      <div class="def-label">Function: How well does it work?</div>
+      <div class="def-body"><em>"Must hold items up to 2kg without tearing."</em></div>
+    </div>
+  </div>
+  <div class="reveal" id="s6-c2">
+    <div class="def-card" style="margin-bottom:8px;">
+      <div class="def-label">Aesthetic: How does it look?</div>
+      <div class="def-body"><em>"Must use a cohesive colour scheme of no more than three colours."</em></div>
+    </div>
+  </div>
+  <div class="reveal" id="s6-c3">
+    <div class="def-card" style="margin-bottom:8px;">
+      <div class="def-label">Sustainability: What is the environmental impact?</div>
+      <div class="def-body"><em>"Must use at least 80% recycled or second-hand materials."</em></div>
+    </div>
+  </div>
+  <div class="reveal" id="s6-c4">
+    <div class="def-card" style="margin-bottom:8px;">
+      <div class="def-label">User Need: Does it suit the user?</div>
+      <div class="def-body"><em>"Must be lightweight enough for daily carrying (under 400g when empty)."</em></div>
+    </div>
+  </div>
+  <div class="reveal" id="s6-callout">
+    <div class="callout"><strong>Requirement:</strong> at least one of your five criteria must relate to <strong>sustainability</strong>.</div>
+  </div>
+</div>
+
+<div class="scene" id="s7">
+  <div class="checks">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+  </div>
+  <div class="header-row">
+    <div class="scene-title">Let&rsquo;s write <span class="hl">together</span></div>
+    <div class="phase-pill" style="margin-top:8px;">We Do</div>
+  </div>
+  <div class="scene-rule"></div>
+  <div class="two-col" style="flex:1; min-height:0;">
+    <div class="col-l" style="gap:12px;">
+      <div class="reveal" id="s7-scenario">
+        <div class="def-card">
+          <div class="def-label">Scenario</div>
+          <div class="def-body">A netball coach runs sessions at three different courts each week. They travel by public transport and need a solution to carry equipment: training bibs, cones, a first aid kit, water bottles, and a clipboard.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s7-instr" style="font-size:clamp(0.8rem,1.3vw,0.92rem); color:var(--dim); font-style:italic;">
+        For each category: write one criterion on your whiteboard. Make it specific and measurable. Chin it when you are done.
+      </div>
+    </div>
+    <div class="col-r" style="gap:10px;">
+      <div class="steps-box">
+        <div class="step-row reveal" id="s7-s1">
+          <div class="step-num">1</div>
+          <div><strong>Function:</strong> What must it do? Think about load, access, and movement.</div>
+        </div>
+        <div class="step-row reveal" id="s7-s2">
+          <div class="step-num">2</div>
+          <div><strong>Aesthetic:</strong> How should it look in a sporting context?</div>
+        </div>
+        <div class="step-row reveal" id="s7-s3">
+          <div class="step-num">3</div>
+          <div><strong>Sustainability:</strong> How do the materials or production reduce environmental impact?</div>
+        </div>
+        <div class="step-row reveal" id="s7-s4">
+          <div class="step-num">4</div>
+          <div><strong>User Need:</strong> What does this person's routine demand? Think: public transport, multiple venues.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s7-note">
+        <div class="callout">Is it specific enough to test? Could a stranger read it and know exactly what to measure?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="scene" id="s8">
+  <div class="checks"><img src="checksforunderstanding/silentsolo.png" alt="Silent Solo"></div>
+  <div class="header-row">
+    <div class="scene-title">Write your own <span class="hl">criteria</span></div>
+    <div class="phase-pill" style="margin-top:8px;">You Do</div>
+  </div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s8-instr" style="font-style:italic; color:var(--dim); font-size:clamp(0.8rem,1.3vw,0.92rem); margin-bottom:12px;">
+    Work silently and independently. Open your workbook to the design criteria page.
+  </div>
+  <div class="two-col" style="flex:1; min-height:0;">
+    <div class="col-l" style="gap:12px;">
+      <div class="reveal" id="s8-task">
+        <div class="def-card">
+          <div class="def-label">Your task</div>
+          <div class="def-body">Write five design criteria for your project. Use the category scaffold to guide you. At least one criterion must relate to sustainability.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s8-check">
+        <div class="callout">For each criterion, ask: <strong>could two different people test this and get the same result?</strong> If not, make it more specific.</div>
+      </div>
+    </div>
+    <div class="col-r">
+      <div class="reveal" id="s8-scaffold">
+        <div class="steps-box">
+          <div class="step-row" style="color:rgba(255,255,255,0.7);">
+            <div class="step-num">F</div>
+            <div><strong>Function:</strong> How well must it work?</div>
+          </div>
+          <div class="step-row" style="color:rgba(255,255,255,0.7);">
+            <div class="step-num">A</div>
+            <div><strong>Aesthetic:</strong> How must it look?</div>
+          </div>
+          <div class="step-row" style="color:var(--pink);">
+            <div class="step-num" style="background:var(--pink); color:white;">S</div>
+            <div><strong>Sustainability:</strong> Required. Environmental impact?</div>
+          </div>
+          <div class="step-row" style="color:rgba(255,255,255,0.7);">
+            <div class="step-num">U</div>
+            <div><strong>User Need:</strong> Does it suit the specific user?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="scene" id="s9" style="align-items:center;">
+  <div class="checks" style="align-self:flex-start;">
+    <img src="checksforunderstanding/fingervote.png" alt="Finger Vote">
+  </div>
+  <div class="scene-title" style="align-self:center; text-align:center;">How <span class="hl">confident</span> are you?</div>
+  <div class="scene-rule" style="align-self:center;"></div>
+  <div style="display:flex; flex-direction:column; align-items:center; gap:12px; width:100%;">
+    <div class="reveal" id="s9-prompt" style="font-size:clamp(0.85rem,1.5vw,1.05rem); color:rgba(255,255,255,0.8); text-align:center;">
+      Show me on five fingers: how confident are you that your criteria are <span class="mono-pink">specific and measurable</span>?
+    </div>
+    <div class="conf-scale">
+      <div class="conf-item" id="ci1"><div class="conf-num">1</div><div class="conf-lbl">Not sure at all</div></div>
+      <div class="conf-item" id="ci2"><div class="conf-num">2</div><div class="conf-lbl">Need more practice</div></div>
+      <div class="conf-item" id="ci3"><div class="conf-num">3</div><div class="conf-lbl">Getting there</div></div>
+      <div class="conf-item" id="ci4"><div class="conf-num">4</div><div class="conf-lbl">Fairly confident</div></div>
+      <div class="conf-item hi" id="ci5"><div class="conf-num">5</div><div class="conf-lbl">I&rsquo;ve got this</div></div>
+    </div>
+  </div>
+</div>
+
+<script src="presentation.js"></script>
+<script>
+
+/* ── s4 custom logic: swap blocks one at a time ───────────── */
+let s4CurrentBlock = 0;
+const s4Blocks = ['s4-block1','s4-block2','s4-block3','s4-block4'];
+const s4Verdicts = ['s4-v1','s4-v2','s4-v3','s4-v4'];
+
+function s4ShowBlock(n) {
+  // Hide all blocks first
+  s4Blocks.forEach(id => { document.getElementById(id).style.display = 'none'; });
+  if (n >= 0 && n < s4Blocks.length) {
+    document.getElementById(s4Blocks[n]).style.display = 'block';
+    s4CurrentBlock = n;
+  }
+}
+
+function s4ShowVerdict(n) {
+  if (n >= 0 && n < s4Verdicts.length) {
+    document.getElementById(s4Verdicts[n]).style.opacity = '1';
+  }
+}
+
+function s4FullReveal() {
+  // Show last block with verdict visible
+  s4ShowBlock(3);
+  s4ShowVerdict(3);
+}
+
+const SCENES = [
+
+  { id:'s0', steps:[
+    () => vis('s0-sub'),
+  ]},
+
+  { id:'s1', steps:[
+    () => vis('s1-li'),
+    () => vis('s1-sc'),
+    () => vis('s1-sc1'),
+    () => vis('s1-sc2'),
+    () => vis('s1-sc3'),
+  ]},
+
+  { id:'s2', steps:[
+    () => vis('s2-def1'),
+    () => vis('s2-def2'),
+    () => vis('s2-callout'),
+  ]},
+
+  { id:'s3', steps:[
+    () => vis('s3-body'),
+    () => vis('s3-left'),
+    () => vis('s3-arrow'),
+    () => vis('s3-right'),
+    () => vis('s3-callout'),
+  ]},
+
+  { id:'s4', steps:[
+    () => s4ShowBlock(0),
+    () => s4ShowVerdict(0),
+    () => s4ShowBlock(1),
+    () => s4ShowVerdict(1),
+    () => s4ShowBlock(2),
+    () => s4ShowVerdict(2),
+    () => s4ShowBlock(3),
+    () => s4ShowVerdict(3),
+  ],
+  fullFn: () => s4FullReveal()
+  },
+
+  { id:'s5', steps:[
+    () => vis('s5-instr'),
+    () => vis('s5-p1'),
+    () => vis('s5-p2'),
+    () => vis('s5-p3'),
+  ]},
+
+  { id:'s6', steps:[
+    () => vis('s6-intro'),
+    () => vis('s6-c1'),
+    () => vis('s6-c2'),
+    () => vis('s6-c3'),
+    () => vis('s6-c4'),
+    () => vis('s6-callout'),
+  ]},
+
+  { id:'s7', steps:[
+    () => vis('s7-scenario'),
+    () => vis('s7-instr'),
+    () => { vis('s7-s1'); act('s7-s1'); },
+    () => { vis('s7-s2'); act('s7-s2'); },
+    () => { vis('s7-s3'); act('s7-s3'); },
+    () => { vis('s7-s4'); act('s7-s4'); vis('s7-note'); },
+  ],
+  fullFn: () => { ['s7-s1','s7-s2','s7-s3','s7-s4'].forEach(id => { vis(id); act(id); }); vis('s7-note'); }
+  },
+
+  { id:'s8', steps:[
+    () => vis('s8-instr'),
+    () => vis('s8-task'),
+    () => vis('s8-check'),
+    () => vis('s8-scaffold'),
+  ]},
+
+  { id:'s9', steps:[
+    () => vis('s9-prompt'),
+    () => stagger(['ci1','ci2','ci3','ci4','ci5']),
+  ],
+  fullFn: () => ['ci1','ci2','ci3','ci4','ci5'].forEach(id => vis(id))
+  },
+
+];
+
+initPresentation(SCENES);
+</script>
+</body>
+</html>
