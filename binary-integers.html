@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binary &amp; Integers</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="presentation.css">
+</head>
+<body>
+<div id="progress"></div>
+
+<!-- S0 TITLE ─────────────────────────────────────────────── -->
+<div class="scene" id="s0" style="align-items:center;justify-content:center;text-align:center;">
+  <div class="eyebrow" style="text-align:center;align-self:center;">Digital Systems &mdash; Data Representation</div>
+  <div class="scene-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">Binary &amp; <span class="hl">Integers</span></div>
+  <div class="scene-rule" style="align-self:center;"></div>
+  <div class="reveal" id="s0-sub" style="font-size:clamp(0.9rem,1.8vw,1.2rem);color:var(--dim);max-width:500px;line-height:1.6;">How computers count using 1s and 0s</div>
+  <div class="reveal" id="s0-code" style="margin-top:18px;font-family:var(--mono);font-size:clamp(0.9rem,1.8vw,1.3rem);color:rgba(235,0,139,0.5);letter-spacing:0.1em;">01001000 &nbsp; 01001001</div>
+</div>
+
+<!-- S1 LEARNING INTENTION ───────────────────────────────── -->
+<div class="scene" id="s1">
+  <div class="eyebrow">Learning Intention</div>
+  <div class="scene-title">What are we learning <span class="hl">today?</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s1-li" style="margin-bottom:12px;">
+    <div class="def-card">
+      <div class="def-label">Learning Intention</div>
+      <div class="def-body" style="font-size:clamp(0.95rem,1.6vw,1.15rem);">Understand how binary represents numbers and convert between binary and integers.</div>
+    </div>
+  </div>
+  <div class="reveal" id="s1-sc">
+    <div class="def-card" style="border-left:3px solid var(--pink);border-radius:0 4px 4px 0;">
+      <div class="def-label">Success Criteria</div>
+      <div class="def-body">
+        <div class="reveal" id="s1-sc1" style="color:var(--pink);margin-bottom:8px;font-size:clamp(0.88rem,1.5vw,1.05rem);">I can explain what binary is and why computers use it.</div>
+        <div class="reveal" id="s1-sc2" style="color:var(--pink);margin-bottom:8px;font-size:clamp(0.88rem,1.5vw,1.05rem);">I can convert a binary number to an integer using place values.</div>
+        <div class="reveal" id="s1-sc3" style="color:var(--pink);font-size:clamp(0.88rem,1.5vw,1.05rem);">I can convert an integer back to binary.</div>
+      </div>
+      <div class="reveal" id="s1-ex" style="margin-top:16px;font-family:var(--mono);font-size:clamp(0.9rem,1.5vw,1.1rem);color:var(--pink);">Example: &nbsp;1011 &nbsp;&#8596;&nbsp; 11</div>
+    </div>
+  </div>
+</div>
+
+<!-- S2 LISTEN TO THIS (Morse audio) ──────────────────────── -->
+<div class="scene" id="s2">
+  <div class="scene-title" style="font-size:clamp(2rem,4.5vw,3.4rem);">Listen to <span class="hl">this.</span></div>
+  <div class="scene-rule"></div>
+  <div class="two-col" style="flex:1;min-height:0;">
+    <div class="col-l" style="justify-content:center;gap:18px;">
+      <div class="reveal" id="s2-t1" style="font-size:clamp(1rem,1.8vw,1.25rem);color:rgba(255,255,255,0.85);line-height:1.7;">
+        This is <strong style="color:white;">Morse code</strong>.<br>It uses only two signals: dots and dashes.
+      </div>
+      
+      <div class="reveal" id="s2-q">
+        <div class="callout" style="font-size:clamp(0.9rem,1.6vw,1.1rem);">Can you work out what that means?</div>
+      </div>
+      <div class="reveal" id="s2-vid">
+        <a href="https://www.youtube.com/watch?v=01Fbymf4oMM" target="_blank" class="yt-btn">
+          <svg viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19 31.43 31.43 0 000 12a31.43 31.43 0 00.5 5.81 3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.43 31.43 0 0024 12a31.43 31.43 0 00-.5-5.81zM9.75 15.5v-7l6.25 3.5z"/></svg>
+          Watch on YouTube
+        </a>
+      </div>
+    </div>
+    <div class="col-r" style="justify-content:center;align-items:center;">
+      <!-- Decorative Morse visual -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;opacity:0.25;">
+        <div style="font-family:var(--mono);font-size:clamp(0.7rem,1.2vw,0.9rem);color:white;letter-spacing:0.2em;line-height:2.4;">
+          S &nbsp; &middot; &middot; &middot;<br>
+          O &nbsp; &mdash; &mdash; &mdash;<br>
+          S &nbsp; &middot; &middot; &middot;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3 NOW WATCH THIS (Morse light) ──────────────────────── -->
+<!-- Video reveals FIRST, then context, then the Turn & Talk prompt -->
+<div class="scene" id="s3">
+  <div class="checks">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+    <img src="checksforunderstanding/volunteer.png" alt="Volunteer">
+  </div>
+  <div class="scene-title" style="font-size:clamp(2rem,4.5vw,3.4rem);">Now <span class="hl">watch</span> this.</div>
+  <div class="scene-rule"></div>
+
+  <!-- Video appears first -->
+  <div class="reveal" id="s3-vid" style="margin-bottom:16px;">
+    <a href="https://www.youtube.com/watch?v=c2G0wu-jbko" target="_blank" class="yt-btn">
+      <svg viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19 31.43 31.43 0 000 12a31.43 31.43 0 00.5 5.81 3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.43 31.43 0 0024 12a31.43 31.43 0 00-.5-5.81zM9.75 15.5v-7l6.25 3.5z"/></svg>
+      Watch on YouTube &mdash; Morse code using light
+    </a>
+  </div>
+
+  <!-- Context and prompt appear after -->
+  <div class="reveal" id="s3-t1" style="font-size:clamp(0.9rem,1.6vw,1.1rem);color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:12px;">
+    This is Morse code transmitted using light — the same two signals, a different medium.
+  </div>
+  <div class="reveal" id="s3-q">
+    <div class="def-card" style="border-left:3px solid var(--pink);border-radius:0 4px 4px 0;">
+      <div class="def-label">Turn &amp; Talk</div>
+      <div class="def-body" style="font-size:clamp(0.92rem,1.6vw,1.1rem);">What did they signal? How does this work? What are the two states?</div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 MORSE CODE DEFINITION ─────────────────────────────── -->
+<div class="scene" id="s4">
+  <div class="checks"><img src="checksforunderstanding/silentsolo.png" alt="Silent Solo"></div>
+  <div class="scene-title">Morse <span class="hl">Code</span></div>
+  <div class="scene-rule"></div>
+  <div class="two-col" style="flex:1;min-height:0;">
+    <div class="col-l" style="gap:12px;justify-content:flex-start;">
+      <div class="reveal" id="s4-def">
+        <div class="def-card">
+          <div class="def-label">Definition</div>
+          <div class="def-body">Morse code is a system that represents letters and numbers using only two signals: short (dot) and long (dash).</div>
+        </div>
+      </div>
+      <div class="reveal" id="s4-table" style="width:100%;">
+        <div class="morse-table">
+          <div class="morse-row"><div class="morse-letter">S</div><div class="morse-sig">&middot; &middot; &middot;</div></div>
+          <div class="morse-row"><div class="morse-letter">O</div><div class="morse-sig">&mdash; &mdash; &mdash;</div></div>
+          <div class="morse-row"><div class="morse-letter">A</div><div class="morse-sig">&middot; &mdash;</div></div>
+          <div class="morse-row"><div class="morse-letter">E</div><div class="morse-sig">&middot;</div></div>
+          <div class="morse-row"><div class="morse-letter">T</div><div class="morse-sig">&mdash;</div></div>
+        </div>
+      </div>
+      <div class="reveal" id="s4-link">
+        <a href="https://www.codebug.org.uk/learn/step/540/morse-code-alphabet/" target="_blank" class="ext-link">
+          View the full Morse code alphabet &nbsp; &#8599;
+        </a>
+      </div>
+    </div>
+    <div class="col-r" style="display:flex;flex-direction:column;gap:8px;">
+      <div class="reveal" id="s4-model" style="flex:1;min-height:0;display:flex;flex-direction:column;">
+        <div class="def-label" style="margin-bottom:6px;">Morse-Vail Telegraph Key — Smithsonian Institution</div>
+        <div class="sketchfab-wrap" style="flex:1;">
+          <iframe title="Morse-Vail Telegraph Key" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/a5b108e3132d46b696c36310c2314ed8/embed"></iframe>
+        </div>
+        <p class="sketchfab-credit">
+          <a href="https://sketchfab.com/3d-models/morse-vail-telegraph-key-a5b108e3132d46b696c36310c2314ed8" target="_blank" rel="nofollow">Morse-Vail Telegraph Key</a> by <a href="https://sketchfab.com/Smithsonian" target="_blank" rel="nofollow">The Smithsonian Institution</a> on Sketchfab
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5 ONE MORE TIME — Stop & Jot + Video ────────────────── -->
+<div class="scene" id="s5">
+  <div class="checks"><img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot"></div>
+  <div class="scene-title">One more <span class="hl">time&hellip;</span></div>
+  <div class="scene-rule"></div>
+  <div class="two-col" style="flex:1;min-height:0;">
+    <div class="col-l" style="justify-content:flex-start;gap:16px;">
+      <div class="reveal" id="s5-prompt">
+        <div class="def-card" style="border-left:3px solid var(--pink);border-radius:0 4px 4px 0;">
+          <div class="def-label">On your whiteboard</div>
+          <div class="def-body" style="font-size:clamp(1rem,1.9vw,1.35rem);line-height:1.8;">
+            Using only dots and dashes, how many different combinations can you make that are:
+          </div>
+        </div>
+      </div>
+      <div class="reveal" id="s5-q" style="display:flex;flex-direction:column;gap:10px;">
+        <div style="font-size:clamp(1rem,1.9vw,1.35rem);color:white;font-weight:700;padding:10px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:4px;">1 symbol long?</div>
+        <div style="font-size:clamp(1rem,1.9vw,1.35rem);color:white;font-weight:700;padding:10px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:4px;">2 symbols long?</div>
+        <div style="font-size:clamp(1rem,1.9vw,1.35rem);color:white;font-weight:700;padding:10px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:4px;">3 or 4 symbols long?</div>
+      </div>
+      <div class="reveal" id="s5-bottom">
+        <div class="callout"><strong>How many letters</strong> are in the English alphabet? Can Morse code handle all of them?</div>
+      </div>
+    </div>
+    <div class="col-r" style="justify-content:center;gap:14px;">
+      <div class="reveal" id="s5-vid">
+        <a href="https://www.youtube.com/watch?v=YPsgEdmlUf0" target="_blank" class="yt-btn">
+          <svg viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.54 3.5 12 3.5 12 3.5s-7.54 0-9.38.55A3.02 3.02 0 00.5 6.19 31.43 31.43 0 000 12a31.43 31.43 0 00.5 5.81 3.02 3.02 0 002.12 2.14C4.46 20.5 12 20.5 12 20.5s7.54 0 9.38-.55a3.02 3.02 0 002.12-2.14A31.43 31.43 0 0024 12a31.43 31.43 0 00-.5-5.81zM9.75 15.5v-7l6.25 3.5z"/></svg>
+          Watch: Telegraph in action
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- S6 MORSE TO BINARY ───────────────────────────────────── -->
+<div class="scene" id="s6">
+  <div class="checks"><img src="checksforunderstanding/silentsolo.png" alt="Silent Solo"></div>
+  <div class="scene-title">From Morse <span class="hl">to Binary</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s6-body" style="font-size:clamp(0.88rem,1.5vw,1.05rem);color:rgba(255,255,255,0.75);max-width:640px;line-height:1.6;margin-bottom:6px;">
+    Morse code uses two signals: dot and dash.<br>Computers do the same thing, but even simpler &mdash; they use just two numbers.
+  </div>
+  <div class="concept-row">
+    <div class="concept-panel reveal" id="s6-morse">
+      <div class="cp-label">Morse Code</div>
+      <div class="cp-main">dot &nbsp;&nbsp; or &nbsp;&nbsp; dash</div>
+      <div style="width:100%;height:1px;background:rgba(255,255,255,0.1);margin:10px 0;"></div>
+      <div class="cp-sub">Two signals. Represents every letter and number.</div>
+    </div>
+    <div class="h-arrow reveal" id="s6-arrow">&#8594;</div>
+    <div class="concept-panel hi reveal" id="s6-bin">
+      <div class="cp-label" style="color:var(--pink);">Binary</div>
+      <div class="cp-main" style="color:var(--pink);">0 &nbsp;&nbsp; or &nbsp;&nbsp; 1</div>
+      <div style="width:100%;height:1px;background:rgba(235,0,139,0.2);margin:10px 0;"></div>
+      <div class="cp-sub">Two digits. The language of computers &mdash; electrical signals: OFF or ON.</div>
+    </div>
+  </div>
+  <div class="reveal" id="s6-callout" style="margin-top:14px;">
+    <div class="callout"><strong>Key term &mdash; bit:</strong> a single binary digit (0 or 1). It is the smallest unit of data in computing.</div>
+  </div>
+</div>
+
+<!-- S7 HOW MANY COMBINATIONS? ───────────────────────────── -->
+<div class="scene" id="s7">
+  <div class="checks">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+  </div>
+  <div class="scene-title">How many <span class="hl">combinations?</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s7-sub" style="font-style:italic;color:var(--dim);font-size:clamp(0.82rem,1.4vw,0.95rem);margin-bottom:6px;">With only 0 and 1, how many different values can you make?</div>
+  <div class="combo-cards">
+    <div class="combo-card reveal" id="s7-c1">
+      <div class="combo-header">1 bit</div>
+      <div class="combo-grid"><div class="combo-row"><div class="cbit off">0</div></div><div class="combo-row"><div class="cbit on">1</div></div></div>
+      <div class="combo-count">= 2 states</div>
+    </div>
+    <div class="combo-card reveal" id="s7-c2">
+      <div class="combo-header">2 bits</div>
+      <div class="combo-grid">
+        <div class="combo-row"><div class="cbit off">0</div><div class="cbit off">0</div></div>
+        <div class="combo-row"><div class="cbit off">0</div><div class="cbit on">1</div></div>
+        <div class="combo-row"><div class="cbit on">1</div><div class="cbit off">0</div></div>
+        <div class="combo-row"><div class="cbit on">1</div><div class="cbit on">1</div></div>
+      </div>
+      <div class="combo-count">= 4 states</div>
+    </div>
+    <div class="combo-card q reveal" id="s7-c3">
+      <div class="combo-header">3 bits</div>
+      <div style="font-size:2.5rem;color:var(--pink);margin:12px 0;">?</div>
+      <div class="combo-count">= ? states</div>
+    </div>
+  </div>
+  <div class="bottom-bar reveal" id="s7-bottom"><div class="bottom-bar-text">Can you spot the pattern? What about 4 bits?</div></div>
+</div>
+
+<!-- S8 WHAT IS BINARY? — one definition at a time ────────── -->
+<div class="scene" id="s8">
+  <div class="checks">
+    <img src="checksforunderstanding/silentsolo.png" alt="Silent Solo">
+    <img src="checksforunderstanding/choralreading.png" alt="Choral Reading">
+  </div>
+  <div class="scene-title">What is <span class="hl">Binary?</span></div>
+  <div class="scene-rule"></div>
+
+  <!-- Three panels swap in/out one at a time; no .reveal class on panels -->
+  <div class="def-stage">
+
+    <div class="def-panel" id="s8-p1">
+      <div class="dp-kicker">Read together — concept 1 of 3</div>
+      <div class="dp-title">Base<span style="color:var(--pink);">&#x2011;2</span></div>
+      <div class="dp-body">We normally count in <strong style="color:white;">base-10</strong> (denary), using the digits 0 through 9. Binary only uses two digits: <span class="mono-pink">0</span> and <span class="mono-pink">1</span>.</div>
+      <div class="dp-note">Every number you can think of can be written using just those two digits.</div>
+    </div>
+
+    <div class="def-panel" id="s8-p2">
+      <div class="dp-kicker">Read together — concept 2 of 3</div>
+      <div class="dp-title">What is a <span style="color:var(--pink);">Bit?</span></div>
+      <div class="dp-body">A <strong style="color:white;">bit</strong> is a single binary digit &mdash; either a <span class="mono-pink">0</span> or a <span class="mono-pink">1</span>. It is the smallest unit of data in computing.</div>
+      <div class="dp-note">The word "bit" comes from <em>binary digit</em>.</div>
+    </div>
+
+    <div class="def-panel" id="s8-p3">
+      <div class="dp-kicker">Read together — concept 3 of 3</div>
+      <div class="dp-title">Why <span style="color:var(--pink);">Binary?</span></div>
+      <div class="dp-body">Computers run on electrical signals: <strong style="color:white;">ON</strong> or <strong style="color:white;">OFF</strong>. Binary maps directly to this hardware reality &mdash; 1 means ON, 0 means OFF.</div>
+      <div class="dp-note">Every piece of data &mdash; text, images, sound, video &mdash; is ultimately stored and processed as binary.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- S9 WHAT IS A BYTE? ───────────────────────────────────── -->
+<div class="scene" id="s9">
+  <div class="checks"><img src="checksforunderstanding/silentsolo.png" alt="Silent Solo"></div>
+  <div class="scene-title">What is a <span class="hl">Byte?</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s9-def">
+    <div class="def-card">
+      <div class="def-label">Definition &mdash; byte</div>
+      <div class="def-body">A byte is a collection of <strong style="color:white;">8 bits</strong>. We group bits together into bytes rather than dealing with them individually. 8 happened to be a convenient number because it could store all English characters.</div>
+    </div>
+  </div>
+  <div class="byte-circles reveal" id="s9-circles">
+    <div class="bcircle on">1</div><div class="bcircle">0</div><div class="bcircle on">1</div><div class="bcircle on">1</div>
+    <div class="bgap"></div>
+    <div class="bcircle">0</div><div class="bcircle">0</div><div class="bcircle on">1</div><div class="bcircle">0</div>
+  </div>
+</div>
+
+<!-- S10 QUICK VOCAB CHECK — cycling examples ─────────────── -->
+<div class="scene" id="s10">
+  <div class="checks">
+    <img src="checksforunderstanding/fingervote.png" alt="Finger Vote">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+  </div>
+  <div class="scene-title">Quick vocab <span class="hl">check</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s10-intro" style="color:var(--dim);font-size:clamp(0.85rem,1.5vw,1.05rem);margin-bottom:6px;font-style:italic;">
+    Hold up 1 finger for <strong style="color:white;">Bit</strong>, 2 fingers for <strong style="color:white;">Byte</strong>.
+  </div>
+
+  <!-- Panels swap one at a time — no .reveal class -->
+  <div class="def-stage">
+
+    <!-- Example 1: 8-bit number -->
+    <div class="def-panel" id="s10-p1">
+      <div class="dp-kicker">What is this?</div>
+      <div class="byte-circles xl">
+        <div class="bcircle on">1</div><div class="bcircle">0</div><div class="bcircle on">1</div><div class="bcircle on">1</div>
+        <div class="bgap"></div>
+        <div class="bcircle">0</div><div class="bcircle">0</div><div class="bcircle on">1</div><div class="bcircle">0</div>
+      </div>
+    </div>
+
+    <!-- Example 2: single 1 bit -->
+    <div class="def-panel" id="s10-p2">
+      <div class="dp-kicker">What about this?</div>
+      <div class="byte-circles xl">
+        <div class="bcircle on" style="width:clamp(70px,10vw,100px);height:clamp(70px,10vw,100px);font-size:clamp(1.6rem,3.5vw,2.6rem);">1</div>
+      </div>
+    </div>
+
+    <!-- Example 3: 8-bit all zeros -->
+    <div class="def-panel" id="s10-p3">
+      <div class="dp-kicker">And this?</div>
+      <div class="byte-circles xl">
+        <div class="bcircle">0</div><div class="bcircle">0</div><div class="bcircle">0</div><div class="bcircle">0</div>
+        <div class="bgap"></div>
+        <div class="bcircle">0</div><div class="bcircle">0</div><div class="bcircle">0</div><div class="bcircle">0</div>
+      </div>
+    </div>
+
+    <!-- Example 4: 8-bit all ones -->
+    <div class="def-panel" id="s10-p4">
+      <div class="dp-kicker">What about this?</div>
+      <div class="byte-circles xl">
+        <div class="bcircle on">1</div><div class="bcircle on">1</div><div class="bcircle on">1</div><div class="bcircle on">1</div>
+        <div class="bgap"></div>
+        <div class="bcircle on">1</div><div class="bcircle on">1</div><div class="bcircle on">1</div><div class="bcircle on">1</div>
+      </div>
+    </div>
+
+    <!-- Example 5: single 0 bit -->
+    <div class="def-panel" id="s10-p5">
+      <div class="dp-kicker">And this single digit?</div>
+      <div class="byte-circles xl">
+        <div class="bcircle" style="width:clamp(70px,10vw,100px);height:clamp(70px,10vw,100px);font-size:clamp(1.6rem,3.5vw,2.6rem);">0</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- S11 POWERS OF 2 — staggered ──────────────────────────── -->
+<div class="scene" id="s11">
+  <div class="checks"><img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot"></div>
+  <div class="scene-title">Powers <span class="hl">of 2</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s11-sub" style="font-style:italic;color:var(--dim);font-size:clamp(0.82rem,1.4vw,0.95rem);margin-bottom:14px;">On your whiteboard, work out each of these. Wait for the answer before moving on.</div>
+  <div class="two-col" style="align-items:flex-start;">
+    <div class="col-l" style="gap:0;">
+      <div class="pow-row reveal" id="s11-r0"><div class="pow-label">2<sup>0</sup></div><div class="pow-eq">=</div><div class="pow-ans" id="p0">1</div></div>
+      <div class="pow-row reveal" id="s11-r1"><div class="pow-label">2<sup>1</sup></div><div class="pow-eq">=</div><div class="pow-ans" id="p1">2</div></div>
+      <div class="pow-row reveal" id="s11-r2"><div class="pow-label">2<sup>2</sup></div><div class="pow-eq">=</div><div class="pow-ans" id="p2">4</div></div>
+      <div class="pow-row reveal" id="s11-r3"><div class="pow-label">2<sup>3</sup></div><div class="pow-eq">=</div><div class="pow-ans" id="p3">8</div></div>
+      <div class="pow-row reveal" id="s11-r4"><div class="pow-label">2<sup>4</sup></div><div class="pow-eq">=</div><div class="pow-ans" id="p4">16</div></div>
+    </div>
+    <div class="col-r" style="padding-top:8px;">
+      <div class="reveal" id="s11-pattern">
+        <div class="def-card">
+          <div class="def-label">The pattern</div>
+          <div class="def-body">Each power of 2 <strong style="color:white;">doubles</strong> the previous one.<br><br>1 &rarr; 2 &rarr; 4 &rarr; 8 &rarr; 16 &rarr; 32 &rarr; 64 &rarr; 128</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12 BINARY PLACE VALUES ──────────────────────────────── -->
+<div class="scene" id="s12">
+  <div class="scene-title">Binary <span class="hl">Place Values</span></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s12-context" style="font-size:clamp(0.85rem,1.5vw,1.05rem);color:rgba(255,255,255,0.75);margin-bottom:14px;line-height:1.6;">
+    In denary, each column is worth <strong style="color:white;">10&times; more</strong> than the one to its right (1, 10, 100&hellip;).<br>In binary, each column is worth <strong style="color:white;">2&times; more</strong>.
+  </div>
+  <div class="reveal" id="s12-grid">
+    <div class="bit-grid">
+      <div class="bit-col"><div class="bit-pv">128</div><div class="bit-val">0</div></div>
+      <div class="bit-col"><div class="bit-pv">64</div><div class="bit-val">0</div></div>
+      <div class="bit-col"><div class="bit-pv">32</div><div class="bit-val">0</div></div>
+      <div class="bit-col"><div class="bit-pv">16</div><div class="bit-val">0</div></div>
+      <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val">0</div></div>
+      <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val">0</div></div>
+      <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val">0</div></div>
+      <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val">0</div></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.7rem;color:rgba(255,255,255,0.3);">
+      <span style="color:var(--pink);">&#8592; Larger place values</span>
+      <span>Smaller place values &#8594;</span>
+    </div>
+  </div>
+  <div class="reveal" id="s12-callout" style="margin-top:14px;">
+    <div class="callout">Each column <strong>doubles</strong> as you move left. Reading right to left: <strong style="color:white;">1, 2, 4, 8, 16, 32, 64, 128.</strong></div>
+  </div>
+</div>
+
+<!-- S13 I DO: BINARY TO INTEGER ──────────────────────────── -->
+<div class="scene" id="s13">
+  <div class="header-row">
+    <div><div class="eyebrow">Worked Example</div><div class="scene-title">Binary <span class="hl">&#8594;</span> Integer</div></div>
+    <div class="phase-pill" style="margin-top:8px;">I Do</div>
+  </div>
+  <div class="scene-rule"></div>
+  <div class="two-col" style="align-items:flex-start;">
+    <div class="col-l" style="gap:12px;">
+      <div class="reveal" id="s13-q" style="font-size:clamp(0.9rem,1.6vw,1.1rem);color:var(--dim);">Convert <span class="mono-pink">1011</span> to an integer.</div>
+      <div class="reveal" id="s13-grid">
+        <div class="bit-grid" style="max-width:420px;">
+          <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val on">1</div></div>
+          <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val" style="opacity:0.3;">0</div></div>
+          <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val on">1</div></div>
+          <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val on">1</div></div>
+        </div>
+      </div>
+      <div class="we-answer" id="s13-ans">1011&#8322; &nbsp;=&nbsp; <span style="color:white;">11</span></div>
+    </div>
+    <div class="col-r" style="gap:10px;">
+      <div class="steps-box">
+        <div class="step-row reveal" id="s13-s1"><div class="step-num">1</div><div>Write out the place values: <span class="mono-pink">8 &nbsp; 4 &nbsp; 2 &nbsp; 1</span></div></div>
+        <div class="step-row reveal" id="s13-s2"><div class="step-num">2</div><div>Find which positions have a <span class="mono-pink">1</span> &mdash; those columns are switched on.</div></div>
+        <div class="step-row reveal" id="s13-s3"><div class="step-num">3</div><div>Add the place values where there is a 1: <span class="mono-pink">8 + 2 + 1 = 11</span></div></div>
+      </div>
+      <div class="reveal" id="s13-note">
+        <div class="callout">The <span class="mono-pink">0</span> in the 4s column is <strong>skipped</strong> &mdash; it means that place value is switched off.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S14 WE DO: BINARY TO INTEGER ─────────────────────────── -->
+<div class="scene" id="s14">
+  <div class="checks">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+  </div>
+  <div class="header-row"><div class="scene-title">Let&rsquo;s try <span class="hl">together</span></div><div class="phase-pill">We Do</div></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s14-instr" style="font-style:italic;color:var(--dim);font-size:clamp(0.8rem,1.3vw,0.92rem);margin-bottom:10px;">Think on your own first, then discuss with a partner. Be ready to share.</div>
+  <div class="two-col" style="align-items:flex-start;">
+    <div class="col-l" style="gap:14px;">
+      <div class="reveal" id="s14-a">
+        <div style="font-weight:900;color:var(--pink);margin-bottom:6px;font-size:1.1rem;">a)</div>
+        <div class="bit-grid">
+          <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val on">1</div></div>
+          <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val on">1</div></div>
+          <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val">0</div></div>
+          <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val on">1</div></div>
+        </div>
+      </div>
+      <div class="reveal" id="s14-b">
+        <div style="font-weight:900;color:var(--pink);margin-bottom:6px;font-size:1.1rem;">b)</div>
+        <div class="bit-grid">
+          <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val">0</div></div>
+          <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val on">1</div></div>
+          <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val on">1</div></div>
+          <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val">0</div></div>
+        </div>
+      </div>
+      <!-- Answers reveal at the end -->
+      <div class="we-answer" id="s14-ans-a" style="text-align:left;">a) 1101&#8322; &nbsp;=&nbsp; <span style="color:white;">13</span></div>
+      <div class="we-answer" id="s14-ans-b" style="text-align:left;">b) 0110&#8322; &nbsp;=&nbsp; <span style="color:white;">6</span></div>
+    </div>
+    <div class="col-r">
+      <div class="reveal" id="s14-steps">
+        <div class="steps-box">
+          <div class="def-label" style="margin-bottom:10px;">Steps</div>
+          <div class="step-row"><div class="step-num">1</div><div>Write place values</div></div>
+          <div class="step-row"><div class="step-num">2</div><div>Find the 1s</div></div>
+          <div class="step-row"><div class="step-num">3</div><div>Add those values</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S15 YOU DO SET A: BINARY TO INTEGER ──────────────────── -->
+<div class="scene" id="s15">
+  <div class="checks"><img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot"></div>
+  <div class="header-row"><div class="scene-title">Your turn <span class="hl">&mdash; Set A</span></div><div class="phase-pill">You Do</div></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s15-instr" style="font-style:italic;color:var(--dim);font-size:clamp(0.8rem,1.3vw,0.92rem);margin-bottom:12px;">Binary &#8594; Integer &nbsp;&nbsp; Write your answers on your whiteboard.</div>
+  <div class="reveal" id="s15-grids" style="display:flex;flex-direction:column;gap:14px;">
+    <div><div style="font-weight:900;color:var(--pink);margin-bottom:5px;font-size:1.05rem;">a)</div>
+      <div class="bit-grid" style="max-width:460px;">
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val on">1</div></div>
+      </div>
+    </div>
+    <div><div style="font-weight:900;color:var(--pink);margin-bottom:5px;font-size:1.05rem;">b)</div>
+      <div class="bit-grid" style="max-width:460px;">
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val">0</div></div>
+      </div>
+    </div>
+    <div><div style="font-weight:900;color:var(--pink);margin-bottom:5px;font-size:1.05rem;">c)</div>
+      <div class="bit-grid" style="max-width:460px;">
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val">0</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S16 YOU DO SET B: BINARY TO INTEGER ──────────────────── -->
+<div class="scene" id="s16">
+  <div class="checks"><img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot"></div>
+  <div class="header-row"><div class="scene-title">Your turn <span class="hl">&mdash; Set B</span></div><div class="phase-pill">You Do</div></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s16-instr" style="font-style:italic;color:var(--dim);font-size:clamp(0.8rem,1.3vw,0.92rem);margin-bottom:12px;">Binary &#8594; Integer &nbsp;&nbsp; Write your answers on your whiteboard.</div>
+  <div class="reveal" id="s16-grids" style="display:flex;flex-direction:column;gap:14px;">
+    <div><div style="font-weight:900;color:var(--pink);margin-bottom:5px;font-size:1.05rem;">d)</div>
+      <div class="bit-grid" style="max-width:460px;">
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val on">1</div></div>
+      </div>
+    </div>
+    <div><div style="font-weight:900;color:var(--pink);margin-bottom:5px;font-size:1.05rem;">e)</div>
+      <div class="bit-grid" style="max-width:460px;">
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val">0</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val on">1</div></div>
+      </div>
+    </div>
+    <div><div style="font-weight:900;color:var(--pink);margin-bottom:5px;font-size:1.05rem;">f)</div>
+      <div class="bit-grid" style="max-width:460px;">
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val on">1</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val on">1</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S17 WHAT ABOUT THESE? ────────────────────────────────── -->
+<div class="scene" id="s17">
+  <div class="checks">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+  </div>
+  <div class="scene-title">What about <span class="hl">these?</span></div>
+  <div class="scene-rule"></div>
+  <div class="q-cards">
+    <div class="q-card reveal" id="s17-q1"><div class="q-card-lbl">Question 1</div><div class="q-card-text">Convert &nbsp;<span class="q-binary">0000 0000</span>&nbsp; to an integer.</div></div>
+    <div class="q-card reveal" id="s17-q2"><div class="q-card-lbl">Question 2</div><div class="q-card-text">Convert &nbsp;<span class="q-binary">1111 1111</span>&nbsp; to an integer.</div></div>
+  </div>
+  <div class="reveal" id="s17-hint" style="margin-top:14px;">
+    <div class="callout">These use <strong>8 bits</strong> &mdash; extend your place value table: 128, 64, 32, 16, 8, 4, 2, 1</div>
+  </div>
+</div>
+
+<!-- S18 CONFIDENCE CHECK ─────────────────────────────────── -->
+<div class="scene" id="s18" style="align-items:center;">
+  <div class="checks" style="align-self:flex-start;"><img src="checksforunderstanding/fingervote.png" alt="Finger Vote"></div>
+  <div class="scene-title" style="align-self:center;text-align:center;">How <span class="hl">confident</span> are you?</div>
+  <div class="scene-rule" style="align-self:center;"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;">
+    <div class="reveal" id="s18-prompt" style="font-size:clamp(0.88rem,1.6vw,1.1rem);color:rgba(255,255,255,0.85);text-align:center;">
+      Show me on five fingers &mdash; how confident are you converting <span class="mono-pink">binary &#8594; integer</span>?
+    </div>
+    <div class="conf-scale">
+      <div class="conf-item" id="ci1"><div class="conf-num">1</div><div class="conf-lbl">Not sure at all</div></div>
+      <div class="conf-item" id="ci2"><div class="conf-num">2</div><div class="conf-lbl">Need more practice</div></div>
+      <div class="conf-item" id="ci3"><div class="conf-num">3</div><div class="conf-lbl">Getting there</div></div>
+      <div class="conf-item" id="ci4"><div class="conf-num">4</div><div class="conf-lbl">Fairly confident</div></div>
+      <div class="conf-item hi" id="ci5"><div class="conf-num">5</div><div class="conf-lbl">I&rsquo;ve got this</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S19 I DO: INTEGER TO BINARY — column-by-column ───────── -->
+<div class="scene" id="s19">
+  <div class="header-row">
+    <div><div class="eyebrow">Worked Example</div><div class="scene-title">Integer <span class="hl">&#8594;</span> Binary</div></div>
+    <div class="phase-pill" style="margin-top:8px;">I Do</div>
+  </div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s19-question" style="margin-bottom:14px;">
+    <span style="color:var(--dim);font-size:clamp(0.9rem,1.6vw,1.1rem);">Convert</span>
+    <span style="font-family:var(--mono);font-size:clamp(1.6rem,3.5vw,2.8rem);color:white;font-weight:900;margin:0 14px;">13</span>
+    <span style="color:var(--dim);font-size:clamp(0.9rem,1.6vw,1.1rem);">to binary</span>
+  </div>
+
+  <div class="reveal" id="s19-grid">
+    <div class="bit-grid" id="s19-bit-grid">
+      <div class="bit-col"><div class="bit-pv">128</div><div class="bit-val q">?</div></div>
+      <div class="bit-col"><div class="bit-pv">64</div><div class="bit-val q">?</div></div>
+      <div class="bit-col"><div class="bit-pv">32</div><div class="bit-val q">?</div></div>
+      <div class="bit-col"><div class="bit-pv">16</div><div class="bit-val q">?</div></div>
+      <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val q">?</div></div>
+      <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val q">?</div></div>
+      <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val q">?</div></div>
+      <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val q">?</div></div>
+    </div>
+  </div>
+
+  <div class="col-question" id="s19-col-q"></div>
+
+  <div class="we-answer" id="s19-ans">13 &nbsp;=&nbsp; <span class="mono-pink">0000 1101</span></div>
+</div>
+
+<!-- S20 WE DO: INTEGER TO BINARY ─────────────────────────── -->
+<div class="scene" id="s20">
+  <div class="checks">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+  </div>
+  <div class="header-row"><div class="scene-title">Let&rsquo;s try <span class="hl">together</span></div><div class="phase-pill">We Do</div></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s20-instr" style="font-style:italic;color:var(--dim);font-size:clamp(0.8rem,1.3vw,0.92rem);margin-bottom:10px;">Think on your own first, then discuss with a partner.</div>
+  <div style="display:flex;flex-direction:column;gap:14px;flex:1;">
+    <div class="reveal" id="s20-a">
+      <div style="font-weight:900;color:var(--pink);margin-bottom:6px;font-size:1.05rem;">a) Convert <span style="font-family:var(--mono);">25</span> to binary</div>
+      <div class="bit-grid">
+        <div class="bit-col"><div class="bit-pv">128</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">64</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">32</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">16</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val q">?</div></div>
+      </div>
+      <div class="we-answer" id="s20-ans-a" style="text-align:left;margin-top:8px;">a) 25 &nbsp;=&nbsp; <span class="mono-pink">0001 1001</span></div>
+    </div>
+    <div class="reveal" id="s20-b">
+      <div style="font-weight:900;color:var(--pink);margin-bottom:6px;font-size:1.05rem;">b) Convert <span style="font-family:var(--mono);">7</span> to binary</div>
+      <div class="bit-grid">
+        <div class="bit-col"><div class="bit-pv">128</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">64</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">32</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">16</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">8</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">4</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">2</div><div class="bit-val q">?</div></div>
+        <div class="bit-col"><div class="bit-pv">1</div><div class="bit-val q">?</div></div>
+      </div>
+      <div class="we-answer" id="s20-ans-b" style="text-align:left;margin-top:8px;">b) 7 &nbsp;=&nbsp; <span class="mono-pink">0000 0111</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- S21 YOU DO SET A: INTEGER TO BINARY ──────────────────── -->
+<div class="scene" id="s21">
+  <div class="checks"><img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot"></div>
+  <div class="header-row"><div class="scene-title">Your turn <span class="hl">&mdash; Set A</span></div><div class="phase-pill">You Do</div></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s21-instr" style="font-style:italic;color:var(--dim);font-size:clamp(0.8rem,1.3vw,0.92rem);margin-bottom:14px;">Integer &#8594; Binary &nbsp;&nbsp; Write your answers on your whiteboard.</div>
+  <div class="reveal" id="s21-content" style="display:flex;flex-direction:column;gap:14px;">
+    <div class="ex-row"><div class="ex-label">a)</div><div class="ex-number">6</div><div class="ex-arrow">&#8594;</div><div class="ex-blanks">_ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _</div></div>
+    <div class="ex-row"><div class="ex-label">b)</div><div class="ex-number">19</div><div class="ex-arrow">&#8594;</div><div class="ex-blanks">_ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _</div></div>
+    <div class="ex-row"><div class="ex-label">c)</div><div class="ex-number">0</div><div class="ex-arrow">&#8594;</div><div class="ex-blanks">_ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _</div></div>
+  </div>
+</div>
+
+<!-- S22 YOU DO SET B: INTEGER TO BINARY ──────────────────── -->
+<div class="scene" id="s22">
+  <div class="checks"><img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot"></div>
+  <div class="header-row"><div class="scene-title">Your turn <span class="hl">&mdash; Set B</span></div><div class="phase-pill">You Do</div></div>
+  <div class="scene-rule"></div>
+  <div class="reveal" id="s22-instr" style="font-style:italic;color:var(--dim);font-size:clamp(0.8rem,1.3vw,0.92rem);margin-bottom:14px;">Integer &#8594; Binary &nbsp;&nbsp; Write your answers on your whiteboard.</div>
+  <div class="reveal" id="s22-content" style="display:flex;flex-direction:column;gap:14px;">
+    <div class="ex-row"><div class="ex-label">d)</div><div class="ex-number">44</div><div class="ex-arrow">&#8594;</div><div class="ex-blanks">_ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _</div></div>
+    <div class="ex-row"><div class="ex-label">e)</div><div class="ex-number">255</div><div class="ex-arrow">&#8594;</div><div class="ex-blanks">_ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _</div></div>
+    <div class="ex-row"><div class="ex-label">f)</div><div class="ex-number">42</div><div class="ex-arrow">&#8594;</div><div class="ex-blanks">_ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _ &thinsp; _</div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════════════════════ -->
+<script src="presentation.js"></script>
+<script>
+
+/* ── s8: swap def-panel panels ────────────────────────────── */
+function s8Show(showId) {
+  ['s8-p1','s8-p2','s8-p3'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('vis');
+  });
+  vis(showId);
+}
+
+/* ── s10: swap vocab-check panels ────────────────────────── */
+function s10Show(showId) {
+  ['s10-p1','s10-p2','s10-p3','s10-p4','s10-p5'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('vis');
+  });
+  vis(showId);
+}
+
+/* ── s19: column-by-column integer→binary animation ─────── */
+function s19Col(colIdx, bit, questionHTML) {
+  const cols = document.querySelectorAll('#s19-bit-grid .bit-col');
+  cols.forEach((el, i) => el.classList.toggle('current', i === colIdx));
+
+  const valEl = cols[colIdx] && cols[colIdx].querySelector('.bit-val');
+  if (valEl) {
+    valEl.textContent = bit;
+    valEl.className = 'bit-val' + (bit === '1' ? ' on' : '');
+  }
+
+  const qEl = document.getElementById('s19-col-q');
+  if (qEl) {
+    qEl.innerHTML = questionHTML;
+    qEl.classList.add('vis');
+  }
+}
+
+function s19Done() {
+  document.querySelectorAll('#s19-bit-grid .bit-col').forEach(el => el.classList.remove('current'));
+}
+
+/* ── SCENES ───────────────────────────────────────────────── */
+const SCENES = [
+
+  { id:'s0', steps:[
+    ()=>vis('s0-sub'),
+    ()=>vis('s0-code'),
+  ]},
+
+  { id:'s1', steps:[
+    ()=>vis('s1-li'),
+    ()=>vis('s1-sc'),
+    ()=>vis('s1-sc1'),
+    ()=>vis('s1-sc2'),
+    ()=>vis('s1-sc3'),
+    ()=>vis('s1-ex'),
+  ]},
+
+  { id:'s2', steps:[
+    ()=>vis('s2-t1'),
+
+    ()=>vis('s2-vid'),
+    ()=>vis('s2-q'),
+  ]},
+
+  /* Video appears FIRST, then context, then Turn & Talk prompt */
+  { id:'s3', steps:[
+    ()=>vis('s3-vid'),
+    ()=>vis('s3-t1'),
+    ()=>vis('s3-q'),
+  ]},
+
+  { id:'s4', steps:[
+    ()=>vis('s4-def'),
+    ()=>vis('s4-table'),
+
+    ()=>{ vis('s4-link'); 
+    vis('s4-model'); },
+  ]},
+
+  { id:'s5', steps:[
+    ()=>vis('s5-prompt'),
+    ()=>vis('s5-q'),
+    ()=>vis('s5-vid'),
+    ()=>vis('s5-bottom'),
+  ]},
+
+  { id:'s6', steps:[
+    ()=>vis('s6-body'),
+    ()=>vis('s6-morse'),
+    ()=>vis('s6-arrow'),
+    ()=>vis('s6-bin'),
+    ()=>vis('s6-callout'),
+  ]},
+
+  { id:'s7', steps:[
+    ()=>vis('s7-sub'),
+    ()=>vis('s7-c1'),
+    ()=>vis('s7-c2'),
+    ()=>vis('s7-c3'),
+    ()=>vis('s7-bottom'),
+  ]},
+
+  /* One definition at a time — panels swap in/out */
+  { id:'s8', steps:[
+    ()=>s8Show('s8-p1'),
+    ()=>s8Show('s8-p2'),
+    ()=>s8Show('s8-p3'),
+  ],
+  fullFn: ()=>s8Show('s8-p3'),
+  },
+
+  { id:'s9', steps:[
+    ()=>vis('s9-def'),
+    ()=>vis('s9-circles'),
+  ]},
+
+  /* Vocab check: each click shows a different binary example */
+  { id:'s10', steps:[
+    ()=>vis('s10-intro'),
+    ()=>s10Show('s10-p1'),   // 8-bit number
+    ()=>s10Show('s10-p2'),   // single 1
+    ()=>s10Show('s10-p3'),   // 8 zeros
+    ()=>s10Show('s10-p4'),   // 8 ones
+    ()=>s10Show('s10-p5'),   // single 0
+  ],
+  fullFn: ()=>s10Show('s10-p5'),
+  },
+
+  /* Powers of 2: each question then each answer revealed separately */
+  { id:'s11', steps:[
+    ()=>vis('s11-sub'),
+    ()=>vis('s11-r0'),
+    ()=>vis('s11-r1'),
+    ()=>vis('s11-r2'),
+    ()=>vis('s11-r3'),
+    ()=>vis('s11-r4'),
+    ()=>vis('p0'),
+    ()=>vis('p1'),
+    ()=>vis('p2'),
+    ()=>vis('p3'),
+    ()=>{ vis('p4'); vis('s11-pattern'); },
+  ],
+  fullFn: ()=>{ ['p0','p1','p2','p3','p4'].forEach(id=>vis(id)); }
+  },
+
+  { id:'s12', steps:[
+    ()=>vis('s12-context'),
+    ()=>vis('s12-grid'),
+    ()=>vis('s12-callout'),
+  ]},
+
+  { id:'s13', steps:[
+    ()=>vis('s13-q'),
+    ()=>vis('s13-grid'),
+    ()=>{ vis('s13-s1'); act('s13-s1'); },
+    ()=>{ vis('s13-s2'); act('s13-s2'); },
+    ()=>{ vis('s13-s3'); act('s13-s3'); vis('s13-note'); },
+    ()=>visAns('s13-ans'),
+  ],
+  fullFn: ()=>{ ['s13-s1','s13-s2','s13-s3'].forEach(id=>{ vis(id); act(id); }); visAns('s13-ans'); }
+  },
+
+  { id:'s14', steps:[
+    ()=>vis('s14-instr'),
+    ()=>vis('s14-a'),
+    ()=>vis('s14-b'),
+    ()=>vis('s14-steps'),
+    ()=>visAns('s14-ans-a'),
+    ()=>visAns('s14-ans-b'),
+  ],
+  fullFn: ()=>{ visAns('s14-ans-a'); visAns('s14-ans-b'); }
+  },
+
+  { id:'s15', steps:[
+    ()=>vis('s15-instr'),
+    ()=>vis('s15-grids'),
+  ]},
+
+  { id:'s16', steps:[
+    ()=>vis('s16-instr'),
+    ()=>vis('s16-grids'),
+  ]},
+
+  { id:'s17', steps:[
+    ()=>vis('s17-q1'),
+    ()=>vis('s17-q2'),
+    ()=>vis('s17-hint'),
+  ]},
+
+  /* Confidence check — s18-note removed per request */
+  { id:'s18', steps:[
+    ()=>vis('s18-prompt'),
+    ()=>stagger(['ci1','ci2','ci3','ci4','ci5']),
+  ],
+  fullFn: ()=>['ci1','ci2','ci3','ci4','ci5'].forEach(id=>vis(id))
+  },
+
+  /* Integer→Binary: animated column-by-column walkthrough for 13 */
+  { id:'s19', steps:[
+    ()=>vis('s19-question'),
+    ()=>vis('s19-grid'),
+    ()=>s19Col(0,'0','<span class="q-no">128 is bigger than 13.</span> Write <span class="mono-pink">0</span>. &nbsp; (13 remaining)'),
+    ()=>s19Col(1,'0','<span class="q-no">64 is bigger than 13.</span> Write <span class="mono-pink">0</span>. &nbsp; (13 remaining)'),
+    ()=>s19Col(2,'0','<span class="q-no">32 is bigger than 13.</span> Write <span class="mono-pink">0</span>. &nbsp; (13 remaining)'),
+    ()=>s19Col(3,'0','<span class="q-no">16 is bigger than 13.</span> Write <span class="mono-pink">0</span>. &nbsp; (13 remaining)'),
+    ()=>s19Col(4,'1','<span class="q-yes">8 fits into 13.</span> Write <span class="mono-pink">1</span>. &nbsp; 13 &minus; 8 = <strong style="color:white;">5</strong> remaining'),
+    ()=>s19Col(5,'1','<span class="q-yes">4 fits into 5.</span> Write <span class="mono-pink">1</span>. &nbsp; 5 &minus; 4 = <strong style="color:white;">1</strong> remaining'),
+    ()=>s19Col(6,'0','<span class="q-no">2 is bigger than 1.</span> Write <span class="mono-pink">0</span>. &nbsp; (1 remaining)'),
+    ()=>s19Col(7,'1','<span class="q-yes">1 fits into 1.</span> Write <span class="mono-pink">1</span>. &nbsp; 1 &minus; 1 = <strong style="color:white;">0</strong>. Done!'),
+    ()=>{ s19Done(); visAns('s19-ans'); },
+  ],
+  fullFn: ()=>{
+    // Restore completed grid for back-nav
+    const cols = document.querySelectorAll('#s19-bit-grid .bit-col');
+    const bits = ['0','0','0','0','1','1','0','1'];
+    cols.forEach((col, i) => {
+      col.classList.remove('current');
+      const v = col.querySelector('.bit-val');
+      if (v) { v.textContent = bits[i]; v.className = 'bit-val' + (bits[i]==='1' ? ' on' : ''); }
+    });
+    const q = document.getElementById('s19-col-q');
+    if (q) { q.innerHTML = '13 &nbsp;=&nbsp; <span class="mono-pink">0000 1101</span>'; q.classList.add('vis'); }
+    visAns('s19-ans');
+  }
+  },
+
+  { id:'s20', steps:[
+    ()=>vis('s20-instr'),
+    ()=>vis('s20-a'),
+    ()=>vis('s20-b'),
+    ()=>visAns('s20-ans-a'),
+    ()=>visAns('s20-ans-b'),
+  ],
+  fullFn: ()=>{ visAns('s20-ans-a'); visAns('s20-ans-b'); }
+  },
+
+  { id:'s21', steps:[
+    ()=>vis('s21-instr'),
+    ()=>vis('s21-content'),
+  ]},
+
+  { id:'s22', steps:[
+    ()=>vis('s22-instr'),
+    ()=>vis('s22-content'),
+  ]},
+
+];
+
+initPresentation(SCENES);
+</script>
+</body>
+</html>
