@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Packet Pandemonium — How to Play</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Barlow:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:   #0b203f;
+  --navy2:  #0e2849;
+  --navy3:  #122d55;
+  --pink:   #eb008b;
+  --pink2:  #ff2da0;
+  --green:  #4ade80;
+  --yellow: #facc15;
+  --orange: #f97316;
+  --purple: #a78bfa;
+  --red:    #ef4444;
+  --white:  #ffffff;
+  --dim:    rgba(255,255,255,0.45);
+  --mono:   'IBM Plex Mono', monospace;
+  --sans:   'Barlow', sans-serif;
+}
+
+html, body {
+  width: 100vw; height: 100vh;
+  overflow: hidden;
+  background: var(--navy);
+  font-family: var(--sans);
+  color: var(--white);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Subtle background texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Scene system ── */
+.scene {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+  z-index: 1;
+  padding: 48px 60px 64px;
+}
+
+.scene.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ── Progress bar ── */
+#progress {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 8px; align-items: center;
+  z-index: 100;
+}
+
+.prog-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+}
+
+.prog-dot.done   { background: rgba(235,0,139,0.5); }
+.prog-dot.active { background: var(--pink); width: 22px; border-radius: 4px; }
+
+/* ── Click hint ── */
+#click-hint {
+  position: fixed; bottom: 52px; right: 36px;
+  font-family: var(--mono); font-size: 0.6rem;
+  color: rgba(255,255,255,0.25); letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 100;
+  animation: hintPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ── Scene label ── */
+.scene-label {
+  font-family: var(--mono); font-size: 0.58rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--pink); margin-bottom: 10px;
+  opacity: 0; transform: translateY(6px);
+  transition: all 0.4s ease 0.1s;
+}
+
+.scene.active .scene-label { opacity: 1; transform: translateY(0); }
+
+/* ── Typography ── */
+.scene-title {
+  font-weight: 900; font-size: clamp(2rem, 4.5vw, 3.6rem);
+  line-height: 1.05; letter-spacing: -0.01em;
+  text-align: center; margin-bottom: 12px;
+  opacity: 0; transform: translateY(10px);
+  transition: all 0.45s ease 0.2s;
+}
+
+.scene.active .scene-title { opacity: 1; transform: translateY(0); }
+
+.scene-title .hl { color: var(--pink); }
+.scene-title .hl-green { color: var(--green); }
+.scene-title .hl-yellow { color: var(--yellow); }
+.scene-title .hl-orange { color: var(--orange); }
+.scene-title .hl-purple { color: var(--purple); }
+.scene-title .hl-red { color: var(--red); }
+
+.scene-sub {
+  font-size: clamp(0.85rem, 1.6vw, 1.1rem);
+  color: var(--dim); text-align: center;
+  max-width: 680px; line-height: 1.5;
+  opacity: 0; transform: translateY(8px);
+  transition: all 0.4s ease 0.35s;
+}
+
+.scene.active .scene-sub { opacity: 1; transform: translateY(0); }
+
+.rule-box {
+  background: rgba(15,40,73,0.9);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-left: 3px solid var(--pink);
+  padding: 12px 18px;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.85);
+  margin-top: 10px;
+  line-height: 1.5;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.rule-box.vis { opacity: 1; }
+
+/* ── Network SVG container ── */
+.net-wrap {
+  width: 100%;
+  max-width: 860px;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.5s ease 0.5s;
+  position: relative;
+}
+
+.scene.active .net-wrap { opacity: 1; }
+
+/* ── Node styles ── */
+.node-base {
+  transition: all 0.4s ease;
+}
+
+.node-circle {
+  fill: var(--navy2);
+  stroke: rgba(255,255,255,0.2);
+  stroke-width: 2;
+  transition: all 0.4s ease;
+}
+
+.node-label {
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: 20px;
+  fill: white;
+  dominant-baseline: central;
+  text-anchor: middle;
+  transition: all 0.4s ease;
+}
+
+.node-type {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  fill: rgba(255,255,255,0.4);
+  dominant-baseline: central;
+  text-anchor: middle;
+  letter-spacing: 0.08em;
+}
+
+/* Link line */
+.link {
+  stroke: rgba(255,255,255,0.15);
+  stroke-width: 2;
+  fill: none;
+  transition: all 0.4s ease;
+}
+
+.link.active-link {
+  stroke: var(--pink);
+  stroke-width: 2.5;
+  opacity: 0.8;
+}
+
+.link.blocked-link {
+  stroke: rgba(239,68,68,0.3);
+  stroke-dasharray: 5 4;
+}
+
+/* ── Packet chip ── */
+.pkt {
+  position: absolute;
+  width: 52px; height: 64px;
+  border-radius: 4px;
+  background: var(--navy3);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 2px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+
+.pkt-top {
+  width: 100%;
+  padding: 2px 4px;
+  border-radius: 3px 3px 0 0;
+  font-family: var(--mono);
+  font-size: 6px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.pkt-letter {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 22px;
+  color: white;
+  line-height: 1;
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.pkt-seq {
+  font-family: var(--mono);
+  font-size: 6px;
+  color: rgba(235,0,139,0.7);
+  padding-bottom: 3px;
+}
+
+.pkt.pkt-a .pkt-top { background: var(--pink); }
+.pkt.pkt-b .pkt-top { background: #0077b6; }
+
+/* Packet held at destination */
+.pkt-held {
+  display: inline-flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  width: 52px; height: 64px;
+  border-radius: 4px;
+  background: var(--navy3);
+  border: 1.5px solid rgba(255,255,255,0.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  transition: all 0.5s ease;
+}
+
+.pkt-held .pkt-top {
+  width: 100%; padding: 2px 4px;
+  border-radius: 3px 3px 0 0;
+  font-family: var(--mono); font-size: 6px;
+  font-weight: 700; color: rgba(255,255,255,0.9);
+  line-height: 1.4; flex-shrink: 0;
+}
+
+.pkt-held .pkt-letter {
+  font-family: var(--mono); font-weight: 700;
+  font-size: 22px; color: white; line-height: 1;
+  flex: 1; display: flex; align-items: center; justify-content: center;
+}
+
+.pkt-held .pkt-seq {
+  font-family: var(--mono); font-size: 6px;
+  color: rgba(235,0,139,0.7); padding-bottom: 3px;
+}
+
+/* ── Block X overlay ── */
+.block-x {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.block-x.vis { opacity: 1; }
+
+/* ── Queue indicator ── */
+.queue-label {
+  font-family: var(--mono); font-size: 9px;
+  fill: var(--orange); letter-spacing: 0.1em;
+  text-anchor: middle;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* ── Generic fade/slide-in animation helpers ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.4); }
+  70%  { transform: translate(-50%,-50%) scale(1.08); }
+  100% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+}
+
+@keyframes popInHeld {
+  0%   { opacity: 0; transform: scale(0.4); }
+  70%  { transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shake {
+  0%,100% { transform: translate(-50%,-50%) rotate(0deg); }
+  20%      { transform: translate(-50%,-50%) rotate(-6deg); }
+  40%      { transform: translate(-50%,-50%) rotate(5deg); }
+  60%      { transform: translate(-50%,-50%) rotate(-4deg); }
+  80%      { transform: translate(-50%,-50%) rotate(3deg); }
+}
+
+@keyframes disappear {
+  0%   { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+  50%  { opacity: 0.3; transform: translate(-50%,-50%) scale(1.3); }
+  100% { opacity: 0; transform: translate(-50%,-70%) scale(0); }
+}
+
+@keyframes highlight-pulse {
+  0%,100% { stroke-width: 2; }
+  50%      { stroke-width: 5; }
+}
+
+/* ── Title scene specific ── */
+#s0 .title-main {
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.3s forwards;
+}
+
+#s0 .title-sub {
+  font-family: var(--mono);
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  letter-spacing: 0.2em;
+  color: var(--dim);
+  text-transform: uppercase;
+  margin-top: 14px;
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.8s forwards;
+}
+
+#s0 .title-rule {
+  width: 80px; height: 3px;
+  background: var(--pink);
+  margin: 16px auto 0;
+  opacity: 0;
+  animation: fadeUp 0.5s ease 0.5s forwards;
+}
+
+/* ── Destination received row ── */
+.dest-row {
+  display: flex; gap: 10px;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 18px;
+  min-height: 70px;
+}
+
+.dest-label {
+  font-family: var(--mono); font-size: 0.65rem;
+  color: var(--dim); letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 4px;
+  text-align: center;
+}
+
+/* ── Scenario badge ── */
+.scenario-badge {
+  display: inline-block;
+  background: var(--pink);
+  color: white;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 10px;
+  border-radius: 2px;
+  margin-bottom: 8px;
+  opacity: 0;
+  transition: opacity 0.4s ease 0.15s;
+  text-transform: uppercase;
+}
+
+.scene.active .scenario-badge { opacity: 1; }
+
+/* ── Tick signal button look ── */
+.tick-signal {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(235,0,139,0.15);
+  border: 1.5px solid var(--pink);
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-family: var(--mono); font-size: 0.75rem;
+  color: var(--pink); font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.tick-signal.vis { opacity: 1; }
+
+/* ── Resend request ── */
+.resend-req {
+  background: rgba(239,68,68,0.12);
+  border: 1.5px solid var(--red);
+  border-radius: 3px;
+  padding: 8px 16px;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--red);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.resend-req.vis { opacity: 1; }
+
+/* ── Concept reveal ── */
+.concept-reveal {
+  margin-top: 14px;
+  background: rgba(15,40,73,0.8);
+  border-left: 3px solid var(--pink);
+  padding: 10px 16px;
+  border-radius: 0 3px 3px 0;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.5;
+  max-width: 600px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.concept-reveal.vis { opacity: 1; }
+.concept-reveal strong { color: var(--pink); font-weight: 700; }
+
+/* ── Node role cards for scene 1 ── */
+.role-cards {
+  display: flex; gap: 16px; margin-top: 24px;
+  flex-wrap: wrap; justify-content: center;
+}
+
+.role-card {
+  background: var(--navy2);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  padding: 14px 18px;
+  width: 160px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+  text-align: center;
+}
+
+.role-card.vis { opacity: 1; transform: translateY(0); }
+
+.role-card-circle {
+  width: 52px; height: 52px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 10px;
+  font-family: var(--sans); font-weight: 900;
+  font-size: 1.4rem;
+}
+
+.role-card-name {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.role-card-desc {
+  font-size: 0.72rem;
+  color: var(--dim);
+  line-height: 1.4;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PROGRESS + HINT
+============================================================ -->
+<div id="progress"></div>
+<div id="click-hint">click or press space to continue →</div>
+
+<!-- ============================================================
+     SCENE 0 — TITLE
+============================================================ -->
+<div class="scene" id="s0">
+  <div class="title-main">
+    Packet<br><span style="color:var(--pink)">Pandemonium</span>
+  </div>
+  <div class="title-rule"></div>
+  <div class="title-sub">How to play — Networks &amp; Data Transmission</div>
+</div>
+
+<!-- ============================================================
+     SCENE 1 — YOU ARE NODES
+============================================================ -->
+<div class="scene" id="s1">
+  <div class="scene-label">The Setup</div>
+  <div class="scene-title">You are all <span class="hl">nodes</span></div>
+  <div class="scene-sub">In a real network, routers receive data and pass it along to the next router. Today, each of you is a router.</div>
+  <div class="role-cards" id="role-cards">
+    <div class="role-card" id="rc0">
+      <div class="role-card-circle" style="background:rgba(74,222,128,0.15); border:2px solid var(--green)">
+        <span style="color:var(--green)">S</span>
+      </div>
+      <div class="role-card-name" style="color:var(--green)">Source</div>
+      <div class="role-card-desc">Sends the packet cards out into the network</div>
+    </div>
+    <div class="role-card" id="rc1">
+      <div class="role-card-circle" style="background:rgba(250,204,21,0.15); border:2px solid var(--yellow)">
+        <span style="color:var(--yellow)">D</span>
+      </div>
+      <div class="role-card-name" style="color:var(--yellow)">Destination</div>
+      <div class="role-card-desc">Receives packets and reassembles the message</div>
+    </div>
+    <div class="role-card" id="rc2">
+      <div class="role-card-circle" style="background:rgba(255,255,255,0.07); border:2px solid rgba(255,255,255,0.25)">
+        <span style="color:rgba(255,255,255,0.7)">A</span>
+      </div>
+      <div class="role-card-name" style="color:var(--dim)">Node</div>
+      <div class="role-card-desc">Receives a packet from a neighbour and passes it on</div>
+    </div>
+    <div class="role-card" id="rc3">
+      <div class="rule-box" id="rule-only-neighbours" style="text-align:left; width:100%; margin:0; font-size:0.72rem; padding:10px 12px; background:rgba(235,0,139,0.08); border-color:var(--pink)">
+        <span style="color:var(--pink); font-family:var(--mono); font-size:0.58rem; letter-spacing:0.1em; display:block; margin-bottom:4px; text-transform:uppercase">Rule</span>
+        You can only pass to nodes you are <strong style="color:white">directly connected to</strong> on the board.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCENE 2 — THE NETWORK
+============================================================ -->
+<div class="scene" id="s2">
+  <div class="scene-label">The Network</div>
+  <div class="scene-title">The <span class="hl">board</span> shows your connections</div>
+  <div class="scene-sub">Your teacher will draw the network. Lines show which nodes can pass directly to each other.</div>
+  <div class="net-wrap" style="margin-top:14px; transition: opacity 0.5s ease 0.5s">
+    <svg id="net-s2" viewBox="0 0 860 300" width="100%" style="overflow:visible">
+      <!-- Links -->
+      <line id="s2-lSA" class="link" x1="90" y1="150" x2="270" y2="70" opacity="0"/>
+      <line id="s2-lSC" class="link" x1="90" y1="150" x2="270" y2="230" opacity="0"/>
+      <line id="s2-lAB" class="link" x1="270" y1="70" x2="480" y2="150" opacity="0"/>
+      <line id="s2-lCB" class="link" x1="270" y1="230" x2="480" y2="150" opacity="0"/>
+      <line id="s2-lBD" class="link" x1="480" y1="150" x2="680" y2="150" opacity="0"/>
+
+      <!-- Nodes -->
+      <g id="s2-nS" opacity="0">
+        <circle cx="90" cy="150" r="32" class="node-circle" stroke="var(--green)" stroke-width="2.5"/>
+        <text x="90" y="150" class="node-label" style="fill:var(--green)">S</text>
+        <text x="90" y="192" class="node-type" style="fill:var(--green)">SOURCE</text>
+      </g>
+      <g id="s2-nA" opacity="0">
+        <circle cx="270" cy="70" r="28" class="node-circle"/>
+        <text x="270" y="70" class="node-label">A</text>
+        <text x="270" y="108" class="node-type">NODE</text>
+      </g>
+      <g id="s2-nB" opacity="0">
+        <circle cx="480" cy="150" r="28" class="node-circle"/>
+        <text x="480" y="150" class="node-label">B</text>
+        <text x="480" y="188" class="node-type">NODE</text>
+      </g>
+      <g id="s2-nC" opacity="0">
+        <circle cx="270" cy="230" r="28" class="node-circle"/>
+        <text x="270" y="230" class="node-label">C</text>
+        <text x="270" y="268" class="node-type">NODE</text>
+      </g>
+      <g id="s2-nD" opacity="0">
+        <circle cx="680" cy="150" r="32" class="node-circle" stroke="var(--yellow)" stroke-width="2.5"/>
+        <text x="680" y="150" class="node-label" style="fill:var(--yellow)">D</text>
+        <text x="680" y="192" class="node-type" style="fill:var(--yellow)">DEST</text>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCENE 3 — PACKET CARDS
+============================================================ -->
+<div class="scene" id="s3">
+  <div class="scene-label">The Packet Cards</div>
+  <div class="scene-title">A message breaks into <span class="hl">packets</span></div>
+  <div class="scene-sub">The Source student receives a set of cards — one per letter. Each card has a sequence number so the Destination can put them back in order.</div>
+  <div style="display:flex; gap:32px; align-items:flex-start; margin-top:28px; flex-wrap:wrap; justify-content:center">
+    <!-- Message -->
+    <div style="text-align:center">
+      <div style="font-family:var(--mono);font-size:0.6rem;color:var(--pink);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;opacity:0;transition:opacity 0.4s ease 0.5s" id="msg-label">The message</div>
+      <div style="font-family:var(--mono);font-weight:700;font-size:3.5rem;color:white;letter-spacing:0.08em;opacity:0;transition:opacity 0.4s ease 0.6s" id="msg-word">NET</div>
+    </div>
+    <div style="font-size:2rem;color:var(--pink);align-self:center;opacity:0;transition:opacity 0.4s ease 0.9s" id="arrow-break">→</div>
+    <!-- Cards -->
+    <div style="display:flex;gap:12px;align-items:flex-start" id="card-set">
+      <div class="pkt-held pkt-a" id="card-n" style="opacity:0;transform:scale(0.4)">
+        <div class="pkt-top" style="background:var(--pink)">1 of 3 · Set A</div>
+        <div class="pkt-letter">N</div>
+        <div class="pkt-seq">SEQ:001</div>
+      </div>
+      <div class="pkt-held pkt-a" id="card-e" style="opacity:0;transform:scale(0.4)">
+        <div class="pkt-top" style="background:var(--pink)">2 of 3 · Set A</div>
+        <div class="pkt-letter">E</div>
+        <div class="pkt-seq">SEQ:002</div>
+      </div>
+      <div class="pkt-held pkt-a" id="card-t" style="opacity:0;transform:scale(0.4)">
+        <div class="pkt-top" style="background:var(--pink)">3 of 3 · Set A</div>
+        <div class="pkt-letter">T</div>
+        <div class="pkt-seq">SEQ:003</div>
+      </div>
+    </div>
+    <!-- Rule -->
+    <div class="rule-box" id="pkt-rule" style="max-width:220px; align-self:center; font-size:0.78rem">
+      <span style="color:var(--pink);font-family:var(--mono);font-size:0.58rem;letter-spacing:0.1em;display:block;margin-bottom:5px;text-transform:uppercase">Rule</span>
+      Pass <strong style="color:white">one card at a time</strong> to a connected neighbour. Do not hand your whole stack at once.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCENE 4 — PACKETS TRAVEL (animated)
+============================================================ -->
+<div class="scene" id="s4">
+  <div class="scene-label">Routing</div>
+  <div class="scene-title">Packets find their <span class="hl">own route</span></div>
+  <div class="scene-sub">Each packet can take a different path. They do not need to follow each other.</div>
+  <div class="net-wrap" id="net4-wrap" style="position:relative; margin-top:10px">
+    <svg id="net-s4" viewBox="0 0 860 300" width="100%" style="overflow:visible">
+      <line class="link" x1="90" y1="150" x2="270" y2="70"/>
+      <line class="link" x1="90" y1="150" x2="270" y2="230"/>
+      <line class="link" x1="270" y1="70" x2="480" y2="150"/>
+      <line class="link" x1="270" y1="230" x2="480" y2="150"/>
+      <line class="link" x1="480" y1="150" x2="680" y2="150"/>
+      <!-- Source -->
+      <circle cx="90" cy="150" r="32" class="node-circle" stroke="var(--green)" stroke-width="2.5"/>
+      <text x="90" y="150" class="node-label" style="fill:var(--green)">S</text>
+      <text x="90" y="192" class="node-type" style="fill:var(--green)">SOURCE</text>
+      <!-- A -->
+      <circle cx="270" cy="70" r="28" class="node-circle" id="n4a"/>
+      <text x="270" y="70" class="node-label">A</text>
+      <text x="270" y="108" class="node-type">NODE</text>
+      <!-- B -->
+      <circle cx="480" cy="150" r="28" class="node-circle" id="n4b"/>
+      <text x="480" y="150" class="node-label">B</text>
+      <text x="480" y="188" class="node-type">NODE</text>
+      <!-- C -->
+      <circle cx="270" cy="230" r="28" class="node-circle" id="n4c"/>
+      <text x="270" y="230" class="node-label">C</text>
+      <text x="270" y="268" class="node-type">NODE</text>
+      <!-- Dest -->
+      <circle cx="680" cy="150" r="32" class="node-circle" stroke="var(--yellow)" stroke-width="2.5"/>
+      <text x="680" y="150" class="node-label" style="fill:var(--yellow)">D</text>
+      <text x="680" y="192" class="node-type" style="fill:var(--yellow)">DEST</text>
+    </svg>
+    <!-- Packets rendered as divs over SVG -->
+    <div id="pkt-N" class="pkt pkt-a" style="left:90px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">1/3 · A</div>
+      <div class="pkt-letter">N</div>
+      <div class="pkt-seq">SEQ:001</div>
+    </div>
+    <div id="pkt-E" class="pkt pkt-a" style="left:90px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">2/3 · A</div>
+      <div class="pkt-letter">E</div>
+      <div class="pkt-seq">SEQ:002</div>
+    </div>
+    <div id="pkt-T" class="pkt pkt-a" style="left:90px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">3/3 · A</div>
+      <div class="pkt-letter">T</div>
+      <div class="pkt-seq">SEQ:003</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCENE 5 — OUT OF ORDER + REASSEMBLY
+============================================================ -->
+<div class="scene" id="s5">
+  <div class="scene-label">Reassembly</div>
+  <div class="scene-title">They arrive <span class="hl">out of order</span></div>
+  <div class="scene-sub">That's fine — the sequence number tells the Destination how to sort them.</div>
+  <div style="margin-top:22px; display:flex; flex-direction:column; align-items:center; gap:14px">
+    <div class="dest-label">Destination receives:</div>
+    <div class="dest-row" id="dest-row">
+      <!-- cards pop in out of order: T, N, E -->
+    </div>
+    <div class="concept-reveal" id="sort-hint">
+      <strong>Sort by sequence number →</strong> &nbsp;001, 002, 003
+    </div>
+    <div class="dest-row" id="sorted-row" style="margin-top:0; opacity:0; transition: opacity 0.5s ease">
+      <div class="pkt-held">
+        <div class="pkt-top" style="background:var(--pink)">1/3 · A</div>
+        <div class="pkt-letter">N</div>
+        <div class="pkt-seq">SEQ:001</div>
+      </div>
+      <div class="pkt-held">
+        <div class="pkt-top" style="background:var(--pink)">2/3 · A</div>
+        <div class="pkt-letter">E</div>
+        <div class="pkt-seq">SEQ:002</div>
+      </div>
+      <div class="pkt-held">
+        <div class="pkt-top" style="background:var(--pink)">3/3 · A</div>
+        <div class="pkt-letter">T</div>
+        <div class="pkt-seq">SEQ:003</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 8px">
+        <span style="font-size:1.8rem;color:var(--dim)">→</span>
+      </div>
+      <div style="font-family:var(--mono);font-weight:700;font-size:3rem;color:white;align-self:center;letter-spacing:0.08em">NET ✓</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCENE 6 — BLOCKED LINK
+============================================================ -->
+<div class="scene" id="s6">
+  <div class="scenario-badge">Scenario — Blocked Link</div>
+  <div class="scene-title">A link gets <span class="hl-red">blocked</span></div>
+  <div class="scene-sub">The teacher draws ✕ on a connection. Any packet heading that way must find a new route immediately.</div>
+  <div class="net-wrap" style="margin-top:10px; position:relative">
+    <svg id="net-s6" viewBox="0 0 860 300" width="100%" style="overflow:visible">
+      <!-- S→A blocked, S→C active -->
+      <line id="s6-lSA" class="link" x1="90" y1="150" x2="270" y2="70" stroke="rgba(239,68,68,0.25)" stroke-dasharray="5 4"/>
+      <line id="s6-lSC" class="link" x1="90" y1="150" x2="270" y2="230"/>
+      <line id="s6-lAB" class="link" x1="270" y1="70" x2="480" y2="150" stroke="rgba(255,255,255,0.07)"/>
+      <line id="s6-lCB" class="link" x1="270" y1="230" x2="480" y2="150"/>
+      <line id="s6-lBD" class="link" x1="480" y1="150" x2="680" y2="150"/>
+
+      <!-- Block X on S→A -->
+      <g class="block-x" id="bx-sa">
+        <line x1="135" y1="90" x2="175" y2="120" stroke="var(--red)" stroke-width="3" stroke-linecap="round"/>
+        <line x1="175" y1="90" x2="135" y2="120" stroke="var(--red)" stroke-width="3" stroke-linecap="round"/>
+      </g>
+
+      <!-- Source -->
+      <circle cx="90" cy="150" r="32" class="node-circle" stroke="var(--green)" stroke-width="2.5"/>
+      <text x="90" y="150" class="node-label" style="fill:var(--green)">S</text>
+      <text x="90" y="192" class="node-type" style="fill:var(--green)">SOURCE</text>
+      <!-- A (greyed) -->
+      <circle cx="270" cy="70" r="28" class="node-circle" style="fill:rgba(11,32,63,0.4); stroke:rgba(255,255,255,0.08)"/>
+      <text x="270" y="70" class="node-label" style="fill:rgba(255,255,255,0.25)">A</text>
+      <text x="270" y="108" class="node-type" style="fill:rgba(255,255,255,0.15)">NODE</text>
+      <!-- B -->
+      <circle cx="480" cy="150" r="28" class="node-circle" id="n6b"/>
+      <text x="480" y="150" class="node-label">B</text>
+      <text x="480" y="188" class="node-type">NODE</text>
+      <!-- C (highlighted) -->
+      <circle cx="270" cy="230" r="28" class="node-circle" id="n6c"/>
+      <text x="270" y="230" class="node-label">C</text>
+      <text x="270" y="268" class="node-type">NODE</text>
+      <!-- Dest -->
+      <circle cx="680" cy="150" r="32" class="node-circle" stroke="var(--yellow)" stroke-width="2.5"/>
+      <text x="680" y="150" class="node-label" style="fill:var(--yellow)">D</text>
+      <text x="680" y="192" class="node-type" style="fill:var(--yellow)">DEST</text>
+    </svg>
+    <!-- Rerouting packet -->
+    <div id="pkt-R" class="pkt pkt-a" style="left:90px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">1/3 · A</div>
+      <div class="pkt-letter">N</div>
+      <div class="pkt-seq">SEQ:001</div>
+    </div>
+  </div>
+  <div class="concept-reveal" id="blocked-concept">
+    <strong>Key idea:</strong> Because packets travel independently, only packets on the blocked route are affected. Other routes keep moving normally.
+  </div>
+</div>
+
+<!-- ============================================================
+     SCENE 7 — SLOW NODE
+============================================================ -->
+<div class="scene" id="s7">
+  <div class="scenario-badge" style="background:var(--orange)">Scenario — Slow Node</div>
+  <div class="scene-title">A <span class="hl-orange">slow node</span> creates a queue</div>
+  <div class="scene-sub">A node marked <strong style="font-family:var(--mono);color:var(--orange)">~</strong> can only pass one packet when the teacher gives the <strong>Tick</strong> signal. Packets must wait.</div>
+  <div class="net-wrap" style="margin-top:6px; position:relative">
+    <svg id="net-s7" viewBox="0 0 860 300" width="100%" style="overflow:visible">
+      <line class="link" x1="90" y1="150" x2="270" y2="70"/>
+      <line class="link" x1="270" y1="70" x2="480" y2="150"/>
+      <line class="link" x1="480" y1="150" x2="680" y2="150" stroke="rgba(255,255,255,0.08)"/>
+
+      <circle cx="90" cy="150" r="32" class="node-circle" stroke="var(--green)" stroke-width="2.5"/>
+      <text x="90" y="150" class="node-label" style="fill:var(--green)">S</text>
+      <text x="90" y="192" class="node-type" style="fill:var(--green)">SOURCE</text>
+
+      <!-- A normal -->
+      <circle cx="270" cy="70" r="28" class="node-circle"/>
+      <text x="270" y="70" class="node-label">A</text>
+      <text x="270" y="108" class="node-type">NODE</text>
+
+      <!-- B — slow node -->
+      <circle cx="480" cy="150" r="34" class="node-circle" stroke="var(--orange)" stroke-width="2.5" id="n7b-ring"/>
+      <text x="480" y="150" class="node-label" style="fill:var(--orange)">~</text>
+      <text x="480" y="196" class="node-type" style="fill:var(--orange)">SLOW</text>
+
+      <!-- Dest (dim — unreachable until tick) -->
+      <circle cx="680" cy="150" r="32" class="node-circle" style="stroke:rgba(250,204,21,0.3)" stroke-width="2.5"/>
+      <text x="680" y="150" class="node-label" style="fill:rgba(250,204,21,0.4)">D</text>
+      <text x="680" y="192" class="node-type" style="fill:rgba(250,204,21,0.3)">DEST</text>
+
+      <!-- Queue label above B -->
+      <text x="480" y="36" class="queue-label" id="qlabel">QUEUE ▼</text>
+    </svg>
+    <!-- Queue packets pile up at B -->
+    <div id="q-pkt1" class="pkt pkt-a" style="left:480px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">1/3</div>
+      <div class="pkt-letter">N</div>
+      <div class="pkt-seq">001</div>
+    </div>
+    <div id="q-pkt2" class="pkt pkt-a" style="left:480px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">2/3</div>
+      <div class="pkt-letter">E</div>
+      <div class="pkt-seq">002</div>
+    </div>
+    <div id="q-pkt3" class="pkt pkt-a" style="left:480px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">3/3</div>
+      <div class="pkt-letter">T</div>
+      <div class="pkt-seq">003</div>
+    </div>
+    <!-- Released packet -->
+    <div id="q-pkt-go" class="pkt pkt-a" style="left:480px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">1/3</div>
+      <div class="pkt-letter">N</div>
+      <div class="pkt-seq">001</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;margin-top:10px;flex-wrap:wrap;justify-content:center">
+    <div class="tick-signal" id="tick-sig">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" stroke="var(--pink)" stroke-width="1.5" fill="none"/><line x1="8" y1="4.5" x2="8" y2="8.5" stroke="var(--pink)" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="11" r="1" fill="var(--pink)"/></svg>
+      TICK — pass one packet
+    </div>
+    <div class="concept-reveal" id="slow-concept" style="margin:0; max-width:400px">
+      <strong>Key idea:</strong> This is network congestion — too much data, not enough bandwidth at one point.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCENE 8 — PACKET DROP
+============================================================ -->
+<div class="scene" id="s8">
+  <div class="scenario-badge" style="background:var(--red)">Scenario — Packet Drop</div>
+  <div class="scene-title">A packet gets <span class="hl-red">dropped</span></div>
+  <div class="scene-sub">The teacher silently pockets a card mid-transit. The Destination notices a gap in the sequence and must request a resend.</div>
+  <div class="net-wrap" style="margin-top:8px; position:relative">
+    <svg id="net-s8" viewBox="0 0 860 300" width="100%" style="overflow:visible">
+      <line class="link" x1="90" y1="150" x2="270" y2="70"/>
+      <line class="link" x1="270" y1="70" x2="480" y2="150"/>
+      <line class="link" x1="480" y1="150" x2="680" y2="150"/>
+      <circle cx="90" cy="150" r="32" class="node-circle" stroke="var(--green)" stroke-width="2.5"/>
+      <text x="90" y="150" class="node-label" style="fill:var(--green)">S</text>
+      <text x="90" y="192" class="node-type" style="fill:var(--green)">SOURCE</text>
+      <circle cx="270" cy="70" r="28" class="node-circle"/>
+      <text x="270" y="70" class="node-label">A</text>
+      <text x="270" y="108" class="node-type">NODE</text>
+      <circle cx="480" cy="150" r="28" class="node-circle"/>
+      <text x="480" y="150" class="node-label">B</text>
+      <text x="480" y="188" class="node-type">NODE</text>
+      <circle cx="680" cy="150" r="32" class="node-circle" stroke="var(--yellow)" stroke-width="2.5"/>
+      <text x="680" y="150" class="node-label" style="fill:var(--yellow)">D</text>
+      <text x="680" y="192" class="node-type" style="fill:var(--yellow)">DEST</text>
+    </svg>
+    <!-- The dropped packet -->
+    <div id="drop-pkt" class="pkt pkt-a" style="left:90px;top:150px;display:none">
+      <div class="pkt-top" style="background:var(--pink)">2/3 · A</div>
+      <div class="pkt-letter">E</div>
+      <div class="pkt-seq">SEQ:002</div>
+    </div>
+  </div>
+  <!-- What destination holds -->
+  <div style="margin-top:10px; text-align:center">
+    <div class="dest-label" id="drop-dest-label" style="opacity:0; transition:opacity 0.4s ease">Destination received:</div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:8px;align-items:center">
+      <div class="pkt-held" id="drop-c1" style="opacity:0; transform:scale(0.4); transition: all 0.4s ease">
+        <div class="pkt-top" style="background:var(--pink)">1/3 · A</div>
+        <div class="pkt-letter">N</div>
+        <div class="pkt-seq">SEQ:001</div>
+      </div>
+      <div style="width:52px;height:64px;border:2px dashed var(--red);border-radius:4px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.4s ease" id="drop-gap">
+        <span style="color:var(--red);font-family:var(--mono);font-size:1.3rem;font-weight:700">?</span>
+      </div>
+      <div class="pkt-held" id="drop-c3" style="opacity:0; transform:scale(0.4); transition: all 0.4s ease">
+        <div class="pkt-top" style="background:var(--pink)">3/3 · A</div>
+        <div class="pkt-letter">T</div>
+        <div class="pkt-seq">SEQ:003</div>
+      </div>
+    </div>
+    <div class="resend-req" id="resend-req">
+      ⚠ MISSING PACKET 2 OF 3 — SOURCE, PLEASE RESEND SEQ:002
+    </div>
+    <div class="concept-reveal" id="drop-concept" style="margin-top:10px">
+      <strong>Key idea:</strong> In real networks this is handled automatically by TCP — the destination acknowledges every packet, and the source retransmits any that go missing.
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+const SCENES = ['s0','s1','s2','s3','s4','s5','s6','s7','s8'];
+let current = 0;
+let animating = false;
+
+// ── Progress dots ──
+const prog = document.getElementById('progress');
+SCENES.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'prog-dot';
+  d.id = 'pd'+i;
+  prog.appendChild(d);
+});
+
+function updateDots(n) {
+  SCENES.forEach((_,i) => {
+    const d = document.getElementById('pd'+i);
+    d.className = 'prog-dot' + (i < n ? ' done' : '') + (i === n ? ' active' : '');
+  });
+}
+
+// ── Scene transitions ──
+function goTo(n) {
+  if (n < 0 || n >= SCENES.length || animating) return;
+  animating = true;
+
+  const prev = document.getElementById(SCENES[current]);
+  if (prev) prev.classList.remove('active');
+
+  current = n;
+  const next = document.getElementById(SCENES[current]);
+  next.classList.add('active');
+  updateDots(current);
+
+  setTimeout(() => {
+    animating = false;
+    triggerScene(current);
+  }, 100);
+}
+
+function advance() { goTo(current + 1 < SCENES.length ? current + 1 : current); }
+
+document.addEventListener('click', advance);
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' || e.code === 'ArrowRight') { e.preventDefault(); advance(); }
+  if (e.code === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); }
+});
+
+// ── Easing ──
+function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+// ── Packet mover ──
+// Moves a DOM element along waypoints [{x,y}...] at given px/ms speed
+function movePacket(el, waypoints, speed, onDone) {
+  let segIdx = 0;
+  let segT = 0;
+
+  // calculate segment durations
+  const segs = [];
+  for (let i = 0; i < waypoints.length - 1; i++) {
+    const dx = waypoints[i+1].x - waypoints[i].x;
+    const dy = waypoints[i+1].y - waypoints[i].y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    segs.push({ dx, dy, dist, dur: dist / speed });
+  }
+
+  let last = null;
+
+  function step(ts) {
+    if (!last) last = ts;
+    const dt = ts - last; last = ts;
+
+    if (segIdx >= segs.length) {
+      if (onDone) onDone();
+      return;
+    }
+
+    const seg = segs[segIdx];
+    segT += dt;
+
+    if (segT >= seg.dur) {
+      // snap to end of segment, move to next
+      const end = waypoints[segIdx + 1];
+      el.style.left = end.x + 'px';
+      el.style.top  = end.y + 'px';
+      segIdx++;
+      segT = 0;
+      if (segIdx >= segs.length) {
+        if (onDone) onDone();
+        return;
+      }
+    } else {
+      const t = easeInOut(segT / seg.dur);
+      const start = waypoints[segIdx];
+      el.style.left = (start.x + seg.dx * t) + 'px';
+      el.style.top  = (start.y + seg.dy * t) + 'px';
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
+// SVG ratio: viewBox 860×300, rendered at actual width
+function svgScale(wrap) {
+  const svg = wrap.querySelector('svg');
+  const rect = svg.getBoundingClientRect();
+  return { sx: rect.width / 860, sy: rect.height / 300, ox: rect.left - wrap.getBoundingClientRect().left, oy: rect.top - wrap.getBoundingClientRect().top };
+}
+
+function pt(wrap, vx, vy) {
+  const { sx, sy, ox, oy } = svgScale(wrap);
+  return { x: ox + vx * sx, y: oy + vy * sy };
+}
+
+// ── Per-scene animations ──
+function triggerScene(n) {
+  clearAllPackets();
+  switch(n) {
+    case 0: break; // title — CSS handles it
+    case 1: animScene1(); break;
+    case 2: animScene2(); break;
+    case 3: animScene3(); break;
+    case 4: animScene4(); break;
+    case 5: animScene5(); break;
+    case 6: animScene6(); break;
+    case 7: animScene7(); break;
+    case 8: animScene8(); break;
+  }
+}
+
+function clearAllPackets() {
+  document.querySelectorAll('.pkt').forEach(p => {
+    p.style.display = 'none';
+    p.style.opacity = '1';
+    p.style.animation = '';
+  });
+}
+
+// Scene 1 — role cards stagger in
+function animScene1() {
+  ['rc0','rc1','rc2','rc3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) {
+      setTimeout(() => { el.classList.add('vis'); }, 400 + i * 200);
+    }
+  });
+}
+
+// Scene 2 — nodes and links appear sequentially
+function animScene2() {
+  const els = [
+    ['s2-nS', 200],
+    ['s2-lSA', 450], ['s2-lSC', 550],
+    ['s2-nA', 600], ['s2-nC', 700],
+    ['s2-lAB', 850], ['s2-lCB', 950],
+    ['s2-nB', 1000],
+    ['s2-lBD', 1200],
+    ['s2-nD', 1350],
+  ];
+  els.forEach(([id, delay]) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.style.opacity = '1';
+    }, delay);
+  });
+}
+
+// Scene 3 — message word, then cards pop in
+function animScene3() {
+  const ml = document.getElementById('msg-label');
+  const mw = document.getElementById('msg-word');
+  const ab = document.getElementById('arrow-break');
+  const pr = document.getElementById('pkt-rule');
+  if (ml) ml.style.opacity = '1';
+  if (mw) mw.style.opacity = '1';
+  setTimeout(() => { if (ab) ab.style.opacity = '1'; }, 900);
+
+  const cards = ['card-n','card-e','card-t'];
+  cards.forEach((id, i) => {
+    setTimeout(() => {
+      const c = document.getElementById(id);
+      if (c) { c.style.opacity = '1'; c.style.transform = 'scale(1)'; c.style.transition = 'all 0.35s cubic-bezier(0.175,0.885,0.32,1.4)'; }
+    }, 1100 + i * 220);
+  });
+  setTimeout(() => { if (pr) pr.classList.add('vis'); }, 1900);
+}
+
+// Scene 4 — packets animate along routes
+function animScene4() {
+  const wrap = document.getElementById('net4-wrap');
+
+  // node positions in viewBox coords
+  const S = {x:90,  y:150};
+  const A = {x:270, y:70 };
+  const B = {x:480, y:150};
+  const C = {x:270, y:230};
+  const D = {x:680, y:150};
+
+  function toWrap(vx, vy) { return pt(wrap, vx, vy); }
+
+  const speed = 0.18; // px/ms in viewBox units
+
+  function scaledWaypoints(pts) {
+    return pts.map(p => toWrap(p.x, p.y));
+  }
+
+  // N: S → A → B → D
+  const pN = document.getElementById('pkt-N');
+  const pE = document.getElementById('pkt-E');
+  const pT = document.getElementById('pkt-T');
+
+  [pN, pE, pT].forEach(p => {
+    const pos = toWrap(S.x, S.y);
+    p.style.left = pos.x + 'px';
+    p.style.top  = pos.y + 'px';
+  });
+
+  setTimeout(() => {
+    pN.style.display = 'flex';
+    pN.style.animation = 'popIn 0.35s ease forwards';
+    setTimeout(() => {
+      movePacket(pN, scaledWaypoints([S, A, B, D]), speed, () => {
+        pN.style.animation = '';
+      });
+    }, 400);
+  }, 600);
+
+  // E: S → C → B → D (offset start)
+  setTimeout(() => {
+    pE.style.display = 'flex';
+    pE.style.animation = 'popIn 0.35s ease forwards';
+    setTimeout(() => {
+      movePacket(pE, scaledWaypoints([S, C, B, D]), speed, () => {
+        pE.style.animation = '';
+      });
+    }, 350);
+  }, 1100);
+
+  // T: S → A → B → D (delayed)
+  setTimeout(() => {
+    pT.style.display = 'flex';
+    pT.style.animation = 'popIn 0.35s ease forwards';
+    setTimeout(() => {
+      movePacket(pT, scaledWaypoints([S, A, B, D]), speed, () => {
+        pT.style.animation = '';
+      });
+    }, 350);
+  }, 1600);
+}
+
+// Scene 5 — out of order arrival, then sort
+function animScene5() {
+  const row = document.getElementById('dest-row');
+  row.innerHTML = '';
+
+  // Cards arrive: T first (3/3), then N (1/3), then E (2/3)
+  const arrivals = [
+    { seq:'003', letter:'T', label:'3/3 · A' },
+    { seq:'001', letter:'N', label:'1/3 · A' },
+    { seq:'002', letter:'E', label:'2/3 · A' },
+  ];
+
+  arrivals.forEach(({ seq, letter, label }, i) => {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'pkt-held';
+      c.style.opacity = '0'; c.style.transform = 'scale(0.4)';
+      c.innerHTML = `<div class="pkt-top" style="background:var(--pink)">${label}</div><div class="pkt-letter">${letter}</div><div class="pkt-seq">SEQ:${seq}</div>`;
+      row.appendChild(c);
+      requestAnimationFrame(() => {
+        c.style.transition = 'all 0.35s cubic-bezier(0.175,0.885,0.32,1.4)';
+        c.style.opacity = '1'; c.style.transform = 'scale(1)';
+      });
+    }, 500 + i * 700);
+  });
+
+  // After all 3 arrive, show sort hint + sorted row
+  setTimeout(() => {
+    const hint = document.getElementById('sort-hint');
+    if (hint) hint.classList.add('vis');
+  }, 500 + 3 * 700 + 500);
+
+  setTimeout(() => {
+    const sr = document.getElementById('sorted-row');
+    if (sr) sr.style.opacity = '1';
+    row.style.opacity = '0.3';
+    row.style.transition = 'opacity 0.5s ease';
+  }, 500 + 3 * 700 + 1400);
+}
+
+// Scene 6 — blocked link, packet reroutes
+function animScene6() {
+  const bx = document.getElementById('bx-sa');
+  if (bx) bx.classList.add('vis');
+
+  const wrap = document.getElementById('s6')?.querySelector('.net-wrap');
+  if (!wrap) return;
+
+  const S = {x:90,  y:150};
+  const C = {x:270, y:230};
+  const B = {x:480, y:150};
+  const D = {x:680, y:150};
+
+  const pR = document.getElementById('pkt-R');
+  const pos = pt(wrap, S.x, S.y);
+  pR.style.left = pos.x + 'px'; pR.style.top = pos.y + 'px';
+
+  setTimeout(() => {
+    pR.style.display = 'flex';
+    pR.style.animation = 'popIn 0.35s ease forwards';
+
+    // Packet tries to go toward A, then detours — animate S → C → B → D
+    setTimeout(() => {
+      // Brief move toward A then redirect
+      const aPos = pt(wrap, 155, 115); // midpoint S→A
+      movePacket(pR, [pos, aPos], 0.12, () => {
+        // shake to show "blocked"
+        pR.style.animation = 'shake 0.4s ease';
+        setTimeout(() => {
+          pR.style.animation = '';
+          // reroute via C
+          movePacket(pR, [
+            pt(wrap, S.x, S.y),
+            pt(wrap, C.x, C.y),
+            pt(wrap, B.x, B.y),
+            pt(wrap, D.x, D.y)
+          ], 0.16, () => {
+            const concept = document.getElementById('blocked-concept');
+            if (concept) concept.classList.add('vis');
+          });
+        }, 450);
+      });
+    }, 400);
+  }, 800);
+}
+
+// Scene 7 — slow node queue
+function animScene7() {
+  const wrap = document.getElementById('s7')?.querySelector('.net-wrap');
+  if (!wrap) return;
+
+  const S = {x:90,  y:150};
+  const A = {x:270, y:70 };
+  const B = {x:480, y:150};
+  const D = {x:680, y:150};
+
+  const p1 = document.getElementById('q-pkt1');
+  const p2 = document.getElementById('q-pkt2');
+  const p3 = document.getElementById('q-pkt3');
+  const pGo = document.getElementById('q-pkt-go');
+  const qlabel = document.getElementById('qlabel');
+  const tickSig = document.getElementById('tick-sig');
+  const concept = document.getElementById('slow-concept');
+
+  function startPos(el) {
+    const pos = pt(wrap, S.x, S.y);
+    el.style.left = pos.x + 'px'; el.style.top = pos.y + 'px';
+  }
+
+  [p1,p2,p3,pGo].forEach(startPos);
+
+  const queuePos = pt(wrap, B.x, B.y);
+
+  // Packet 1 arrives at B
+  setTimeout(() => {
+    p1.style.display = 'flex'; p1.style.animation = 'popIn 0.3s ease forwards';
+    setTimeout(() => {
+      movePacket(p1, [pt(wrap,S.x,S.y), pt(wrap,A.x,A.y), queuePos], 0.2, () => {
+        // stacked slightly above centre
+        p1.style.top = (parseFloat(p1.style.top) - 10) + 'px';
+        qlabel.style.opacity = '1';
+      });
+    }, 300);
+  }, 500);
+
+  // Packet 2 arrives at B
+  setTimeout(() => {
+    p2.style.display = 'flex'; p2.style.animation = 'popIn 0.3s ease forwards';
+    setTimeout(() => {
+      movePacket(p2, [pt(wrap,S.x,S.y), pt(wrap,A.x,A.y), queuePos], 0.2, () => {
+        p2.style.top = (parseFloat(p1.style.top) - 18) + 'px';
+      });
+    }, 300);
+  }, 1400);
+
+  // Packet 3 arrives at B
+  setTimeout(() => {
+    p3.style.display = 'flex'; p3.style.animation = 'popIn 0.3s ease forwards';
+    setTimeout(() => {
+      movePacket(p3, [pt(wrap,S.x,S.y), pt(wrap,A.x,A.y), queuePos], 0.2, () => {
+        p3.style.top = (parseFloat(p2.style.top) - 18) + 'px';
+      });
+    }, 300);
+  }, 2300);
+
+  // Tick signal appears
+  setTimeout(() => {
+    tickSig.classList.add('vis');
+  }, 3300);
+
+  // Tick — release packet 1
+  setTimeout(() => {
+    p1.style.display = 'none';
+    pGo.style.display = 'flex';
+    const bPos = pt(wrap, B.x, B.y);
+    pGo.style.left = bPos.x + 'px'; pGo.style.top = bPos.y + 'px';
+    pGo.style.animation = 'popIn 0.25s ease forwards';
+    setTimeout(() => {
+      movePacket(pGo, [bPos, pt(wrap, D.x, D.y)], 0.2, () => {
+        concept.classList.add('vis');
+        // shift queue down
+        p2.style.top = queuePos.y + 'px';
+        if (p3) p3.style.top = (queuePos.y - 18) + 'px';
+      });
+    }, 300);
+  }, 4200);
+}
+
+// Scene 8 — packet drop
+function animScene8() {
+  const wrap = document.getElementById('s8')?.querySelector('.net-wrap');
+  if (!wrap) return;
+
+  const S = {x:90,  y:150};
+  const A = {x:270, y:70 };
+  const B = {x:480, y:150};
+  const D = {x:680, y:150};
+
+  const dp = document.getElementById('drop-pkt');
+  const pos = pt(wrap, S.x, S.y);
+  dp.style.left = pos.x + 'px'; dp.style.top = pos.y + 'px';
+
+  setTimeout(() => {
+    dp.style.display = 'flex'; dp.style.animation = 'popIn 0.35s ease forwards';
+    setTimeout(() => {
+      // Travels S → A, then midpoint A→B — and disappears
+      const midAB = pt(wrap, 375, 110);
+      movePacket(dp, [pos, pt(wrap,A.x,A.y), midAB], 0.18, () => {
+        // Disappear (teacher pockets)
+        dp.style.animation = 'disappear 0.5s ease forwards';
+        setTimeout(() => {
+          dp.style.display = 'none';
+
+          // Destination receives 1 and 3 but not 2
+          const dl = document.getElementById('drop-dest-label');
+          const c1 = document.getElementById('drop-c1');
+          const gap = document.getElementById('drop-gap');
+          const c3 = document.getElementById('drop-c3');
+
+          if (dl) dl.style.opacity = '1';
+          setTimeout(() => {
+            if (c1) { c1.style.opacity = '1'; c1.style.transform = 'scale(1)'; c1.style.transition = 'all 0.35s cubic-bezier(0.175,0.885,0.32,1.4)'; }
+          }, 300);
+          setTimeout(() => {
+            if (gap) gap.style.opacity = '1';
+          }, 800);
+          setTimeout(() => {
+            if (c3) { c3.style.opacity = '1'; c3.style.transform = 'scale(1)'; c3.style.transition = 'all 0.35s cubic-bezier(0.175,0.885,0.32,1.4)'; }
+          }, 1300);
+          setTimeout(() => {
+            const rr = document.getElementById('resend-req');
+            if (rr) rr.classList.add('vis');
+          }, 2100);
+          setTimeout(() => {
+            const dc = document.getElementById('drop-concept');
+            if (dc) dc.classList.add('vis');
+          }, 3000);
+        }, 500);
+      });
+    }, 400);
+  }, 600);
+}
+
+// ── Init ──
+updateDots(0);
+document.getElementById('s0').classList.add('active');
+triggerScene(0);
+</script>
+</body>
+</html>
