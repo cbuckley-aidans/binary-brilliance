@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Technology — How Might We?</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="presentation.css">
+</head>
+<body>
+
+<div id="progress"></div>
+
+
+<!-- ── s0: TITLE ──────────────────────────────────────────── -->
+<div class="scene" id="s0" style="align-items:center; justify-content:center; text-align:center;">
+  <div class="eyebrow" style="text-align:center; align-self:center;">Food Technology &mdash; Design Context</div>
+  <div class="scene-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">What we <span class="hl">eat</span> matters.</div>
+  <div class="scene-rule" style="align-self:center;"></div>
+  <div class="reveal" id="s0-sub" style="font-size:clamp(0.9rem,1.8vw,1.2rem); color:var(--dim); max-width:560px; line-height:1.7;">
+    From what we know about nutrition to how we design for better choices.
+  </div>
+</div>
+
+
+<!-- ── s1: LEARNING INTENTION ─────────────────────────────── -->
+<div class="scene" id="s1">
+  <div class="eyebrow">Learning Intention</div>
+  <div class="scene-title">What are we learning <span class="hl">today?</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s1-li">
+    <div class="def-card">
+      <div class="def-label">Learning Intention</div>
+      <div class="def-body">Understand how nutrition knowledge connects to real design problems, and use 'How Might We' statements to frame those problems without prescribing solutions.</div>
+    </div>
+  </div>
+
+  <div class="reveal" id="s1-sc">
+    <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+      <div class="def-label">Success Criteria</div>
+      <div class="def-body">
+        <div class="reveal" id="s1-sc1" style="color:var(--pink); margin-bottom:6px;">I can recall the Australian dietary guidelines and identify gaps in my own eating patterns.</div>
+        <div class="reveal" id="s1-sc2" style="color:var(--pink); margin-bottom:6px;">I can explain how ultra-processed food and low dietary fibre connect to health risks in young people.</div>
+        <div class="reveal" id="s1-sc3" style="color:var(--pink);">I can write a 'How Might We' statement with a specific user, a friction point, and no solution hiding inside it.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s2: STOP & JOT — draw the plate from memory ──────── -->
+<div class="scene" id="s2">
+  <div class="checks">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+  </div>
+  <div class="scene-title">Draw it from <span class="hl">memory.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="two-col" style="flex:1; min-height:0;">
+    <div class="col-l" style="justify-content:center; gap:16px;">
+      <div class="reveal" id="s2-task" style="font-size:clamp(0.9rem,1.6vw,1.1rem); color:rgba(255,255,255,0.85); line-height:1.7;">
+        On your whiteboard, draw the <strong style="color:white;">Australian Guide to Healthy Eating</strong> plate from memory.
+      </div>
+      <div class="reveal" id="s2-cues">
+        <div class="callout">Include: the sections of the plate, which food groups they represent, and roughly how much space each gets.</div>
+      </div>
+      <div class="reveal" id="s2-note" style="font-size:clamp(0.75rem,1.1vw,0.85rem); color:var(--dim); font-style:italic;">
+        No looking anything up. Chin your whiteboard when done.
+      </div>
+    </div>
+    <div class="col-r" style="justify-content:center; align-items:center;">
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s3: REVEAL — the real plate ───────────────────────── -->
+<div class="scene" id="s3">
+  <div class="scene-title">The real <span class="hl">plate.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="two-col" style="flex:1; min-height:0; align-items:flex-start;">
+    <div class="col-l" style="justify-content:center; align-items:center;">
+      <div class="reveal" id="s3-img" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:8px;">
+        <img src="https://media.healthdirect.org.au/images/inline/original/five-food-groups---australian-guide-to-healthy-eating-521d6e.jpg"
+             alt="Australian Guide to Healthy Eating plate"
+             style="width:100%; max-height:370px; object-fit:contain; border-radius:4px;">
+        <span style="font-size:0.58rem; color:var(--dim); letter-spacing:0.12em; text-transform:uppercase;">Source: Healthdirect Australia / Eat for Health, Australian Government</span>
+      </div>
+    </div>
+    <div class="col-r" style="gap:12px; justify-content:center;">
+      <div class="reveal" id="s3-card">
+        <div class="def-card">
+          <div class="def-label">The 5 Food Groups</div>
+          <div class="def-body" style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
+            <div class="reveal" id="s3-g1" style="padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.07);">🥦 &nbsp; Vegetables &amp; legumes <span style="font-size:0.75em; color:var(--dim);">(largest portion)</span></div>
+            <div class="reveal" id="s3-g2" style="padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.07);">🌾 &nbsp; Grain foods &mdash; mostly wholegrain</div>
+            <div class="reveal" id="s3-g3" style="padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.07);">🥩 &nbsp; Lean meats, fish, eggs, nuts &amp; legumes</div>
+            <div class="reveal" id="s3-g4" style="padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.07);">🍎 &nbsp; Fruit</div>
+            <div class="reveal" id="s3-g5" style="padding:4px 0;">🥛 &nbsp; Dairy &amp; alternatives <span style="font-size:0.75em; color:var(--dim);">(smallest section)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s4: TURN & TALK + COLD CALL — what got wrong ─────── -->
+<div class="scene" id="s4">
+  <div class="checks">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+  </div>
+  <div class="scene-title">How did you <span class="hl">go?</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s4-instr" style="font-style:italic; color:var(--dim); font-size:clamp(0.8rem,1.3vw,0.92rem); margin-bottom:16px;">
+    Turn to your partner and discuss both questions below. Be ready to share with the class.
+  </div>
+
+  <div class="q-cards">
+    <div class="q-card reveal" id="s4-q1">
+      <div class="q-card-lbl">Question 1</div>
+      <div class="q-card-text">What did you get <strong style="color:var(--pink);">most wrong</strong> compared to the real plate? What surprised you about the proportions?</div>
+    </div>
+    <div class="q-card reveal" id="s4-q2">
+      <div class="q-card-lbl">Question 2</div>
+      <div class="q-card-text">If you drew your <strong style="color:var(--pink);">actual eating</strong> rather than the recommended plate — what would look different?</div>
+    </div>
+  </div>
+
+  <div class="bottom-bar reveal" id="s4-bottom">
+    <div class="bottom-bar-text">Most Australians eat far too few vegetables and far too much from outside the five food groups entirely.</div>
+  </div>
+</div>
+
+
+<!-- ── s5: FINGER VOTE — rank food groups ────────────────── -->
+<div class="scene" id="s5">
+  <div class="checks">
+    <img src="checksforunderstanding/fingervote.png" alt="Finger Vote">
+  </div>
+  <div class="scene-title">Your <span class="hl">personal plate.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s5-instr" style="font-size:clamp(0.88rem,1.5vw,1.05rem); color:rgba(255,255,255,0.85); margin-bottom:16px;">
+    For each food group, hold up <strong style="color:var(--pink);">1 to 5 fingers</strong> to show how often you personally eat it.
+    <span style="display:block; font-size:0.82em; color:var(--dim); margin-top:4px;">1 = rarely or never &nbsp;&nbsp;&nbsp; 5 = every single day</span>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:9px; flex:1; justify-content:center;">
+    <div class="reveal" id="s5-g1" style="display:flex; align-items:center; gap:16px; padding:11px 18px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:4px;">
+      <div style="font-size:clamp(0.88rem,1.4vw,1rem);">🥦 &nbsp; Vegetables &amp; legumes</div>
+    </div>
+    <div class="reveal" id="s5-g2" style="display:flex; align-items:center; gap:16px; padding:11px 18px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:4px;">
+      <div style="font-size:clamp(0.88rem,1.4vw,1rem);">🌾 &nbsp; Grain foods (wholegrain or high-fibre varieties)</div>
+    </div>
+    <div class="reveal" id="s5-g3" style="display:flex; align-items:center; gap:16px; padding:11px 18px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:4px;">
+      <div style="font-size:clamp(0.88rem,1.4vw,1rem);">🥩 &nbsp; Lean meats, fish, eggs, nuts &amp; legumes</div>
+    </div>
+    <div class="reveal" id="s5-g4" style="display:flex; align-items:center; gap:16px; padding:11px 18px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:4px;">
+      <div style="font-size:clamp(0.88rem,1.4vw,1rem);">🍎 &nbsp; Fruit</div>
+    </div>
+    <div class="reveal" id="s5-g5" style="display:flex; align-items:center; gap:16px; padding:11px 18px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:4px;">
+      <div style="font-size:clamp(0.88rem,1.4vw,1rem);">🥛 &nbsp; Dairy &amp; alternatives</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s6: TURN & TALK — which cancer is rising? ─────────── -->
+<div class="scene" id="s6">
+  <div class="checks">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+  </div>
+  <div class="scene-title">An uncomfortable <span class="hl">question.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s6-context" style="font-size:clamp(0.88rem,1.5vw,1.05rem); color:rgba(255,255,255,0.85); line-height:1.7; max-width:700px; margin-bottom:18px;">
+    Cancer rates are generally declining in older Australians — better screening, better treatment. But for people <strong style="color:white;">under 50</strong>, one specific cancer is trending in the wrong direction.
+  </div>
+
+  <div class="reveal" id="s6-q">
+    <div class="callout" style="font-size:clamp(0.95rem,1.7vw,1.2rem);">
+      <strong>Turn and talk:</strong> which form of cancer do you think is <span style="color:var(--pink);">rising fastest</span> among young people?<br>
+      <span style="font-weight:400; font-size:0.82em; color:rgba(255,255,255,0.55); display:block; margin-top:6px;">Make an estimate — then we'll see who's right.</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s7: REVEAL — colorectal cancer + stats ────────────── -->
+<div class="scene" id="s7">
+  <div class="checks">
+    <img src="checksforunderstanding/silentsolo.png" alt="Silent Solo">
+  </div>
+  <div class="scene-title">It's <span class="hl">bowel cancer.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="two-col" style="flex:1; min-height:0; align-items:flex-start;">
+    <div class="col-l" style="gap:13px;">
+      <div class="reveal" id="s7-intro" style="font-size:clamp(0.85rem,1.4vw,1rem); color:rgba(255,255,255,0.8); line-height:1.7;">
+        Colorectal (bowel) cancer is Australia's <strong style="color:white;">second most common cancer</strong>. Rates in adults over 50 have been slowly declining. In young people, the trend is the opposite.
+      </div>
+      <div class="reveal" id="s7-s1">
+        <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+          <div class="def-label">Rising rates</div>
+          <div class="def-body">Colorectal cancer in Australians <strong style="color:var(--pink);">under 50</strong> has risen approximately 2&ndash;3% per year since the early 1990s.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s7-s2">
+        <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+          <div class="def-label">Global picture</div>
+          <div class="def-body"><strong style="color:var(--pink);">1 in 10</strong> new colorectal cancer diagnoses globally are now in people under 50 — a figure that has roughly doubled since the 1990s.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-r" style="gap:13px;">
+      <div class="reveal" id="s7-s3">
+        <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+          <div class="def-label">Australia specifically</div>
+          <div class="def-body">Around <strong style="color:var(--pink);">15,500</strong> Australians are diagnosed with bowel cancer each year. It kills more Australians under 50 than any other cancer.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s7-link">
+        <div class="callout"><strong>The consistent finding:</strong> researchers point to two dietary factors driving this — a rise in <strong>ultra-processed food</strong> consumption and a sharp decline in <strong>dietary fibre</strong>.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s8: STOP & JOT — reasons why ──────────────────────── -->
+<div class="scene" id="s8">
+  <div class="checks">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+  </div>
+  <div class="scene-title">Why is this <span class="hl">happening?</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s8-prompt" style="font-weight:700; color:var(--pink); margin-bottom:10px;">On your whiteboard:</div>
+  <div class="reveal" id="s8-task" style="font-size:clamp(0.88rem,1.5vw,1.05rem); color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom:14px;">
+    Write down as many reasons as you can think of for why young people today might be eating more ultra-processed food and less dietary fibre than previous generations.
+  </div>
+  <div class="reveal" id="s8-cues">
+    <div class="callout">Think about: cost, convenience, marketing, what's available, cooking skills, time, social norms, portion sizes, food environments...</div>
+  </div>
+
+  <div class="bottom-bar reveal" id="s8-bottom">
+    <div class="bottom-bar-text">What do your reasons have in common? What would need to change?</div>
+  </div>
+</div>
+
+
+<!-- ── s9: SILENT SOLO — define dietary fibre ────────────── -->
+<div class="scene" id="s9">
+  <div class="checks">
+    <img src="checksforunderstanding/silentsolo.png" alt="Silent Solo">
+  </div>
+  <div class="scene-title">What is <span class="hl">dietary fibre?</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="two-col" style="flex:1; min-height:0; align-items:flex-start;">
+    <div class="col-l" style="gap:13px;">
+      <div class="reveal" id="s9-def">
+        <div class="def-card">
+          <div class="def-label">Definition</div>
+          <div class="def-body">Dietary fibre is a type of carbohydrate found in plant foods that the body cannot fully digest. Instead of being absorbed into the bloodstream, it passes largely intact through the digestive system — feeding beneficial gut bacteria and supporting bowel health along the way.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s9-types">
+        <div class="def-card">
+          <div class="def-label">Two main types</div>
+          <div class="def-body">
+            <strong style="color:var(--pink);">Soluble fibre</strong> — dissolves in water; slows digestion, helps manage blood sugar and cholesterol. Found in oats, legumes, and fruit.<br><br>
+            <strong style="color:var(--pink);">Insoluble fibre</strong> — does not dissolve; adds bulk and helps material move through the gut. Found in wholegrain bread, vegetables, and nuts.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-r" style="gap:13px; justify-content:center;">
+      <div class="reveal" id="s9-rdi">
+        <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+          <div class="def-label">Recommended daily intake</div>
+          <div style="font-size:clamp(1.3rem,3vw,2.2rem); font-weight:900; color:var(--pink); margin:8px 0;">25&ndash;30g per day</div>
+        </div>
+      </div>
+      <div class="reveal" id="s9-actual">
+        <div class="def-card" style="border-left:3px solid rgba(255,255,255,0.2); border-radius:0 4px 4px 0;">
+          <div class="def-label">What most Australians actually consume</div>
+          <div style="font-size:clamp(1.3rem,3vw,2.2rem); font-weight:900; color:rgba(255,255,255,0.55); margin:8px 0;">15&ndash;20g per day</div>
+          <div class="def-body" style="font-size:0.82em; color:var(--dim);">Teenagers typically get even less than this.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s9-why">
+        <div class="callout"><strong>Why it matters here:</strong> fibre feeds the gut microbiome, reduces inflammation in the bowel lining, and is one of the strongest dietary predictors of colorectal cancer risk.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s10: FINGER VOTE — ultraprocessed vs fibre ────────── -->
+<div class="scene" id="s10">
+  <div class="checks">
+    <img src="checksforunderstanding/fingervote.png" alt="Finger Vote">
+  </div>
+  <div class="scene-title">Know your <span class="hl">food.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s10-instr" style="font-size:clamp(0.85rem,1.4vw,1rem); color:rgba(255,255,255,0.8); margin-bottom:14px;">
+    Five items are numbered below. Hold up the number of fingers that matches your answer for each question.
+  </div>
+
+  <!-- Item list -->
+  <div class="reveal" id="s10-items" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;">
+    <div style="display:flex; align-items:center; gap:10px; padding:9px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; flex:1; min-width:160px;">
+      <div style="font-weight:900; color:var(--pink); font-size:1.1rem;">1</div><div>Packet of chips</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; padding:9px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; flex:1; min-width:160px;">
+      <div style="font-weight:900; color:var(--pink); font-size:1.1rem;">2</div><div>Canned lentil soup</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; padding:9px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; flex:1; min-width:160px;">
+      <div style="font-weight:900; color:var(--pink); font-size:1.1rem;">3</div><div>Instant noodles</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; padding:9px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; flex:1; min-width:160px;">
+      <div style="font-weight:900; color:var(--pink); font-size:1.1rem;">4</div><div>Banana</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px; padding:9px 16px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:4px; flex:1; min-width:160px;">
+      <div style="font-weight:900; color:var(--pink); font-size:1.1rem;">5</div><div>Wholegrain bread</div>
+    </div>
+  </div>
+
+  <div class="reveal" id="s10-q1">
+    <div class="callout" style="margin-bottom:8px;"><strong>Q1 —</strong> Which item(s) are <strong style="color:var(--pink);">ultra-processed</strong>? (NOVA classification Group 4)</div>
+  </div>
+  <div class="reveal" id="s10-q2">
+    <div class="callout" style="margin-bottom:8px;"><strong>Q2 —</strong> Which item(s) contain the most meaningful <strong style="color:var(--pink);">dietary fibre</strong>?</div>
+  </div>
+  <div class="reveal" id="s10-ans">
+    <div class="callout" style="border-left-color:rgba(255,255,255,0.25); font-size:0.88em;">
+      <strong>Ultra-processed: 1 &amp; 3</strong> (chips, instant noodles) &nbsp;&mdash;&nbsp; <strong>High fibre: 2, 4 &amp; 5</strong> (lentil soup, banana, wholegrain bread)
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s11: FOOD PSYCHOLOGY ───────────────────────────────── -->
+<div class="scene" id="s11">
+  <div class="scene-title">Making it <span class="hl">look good.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="two-col" style="flex:1; min-height:0; align-items:flex-start;">
+    <div class="col-l" style="gap:13px;">
+      <div class="reveal" id="s11-intro" style="font-size:clamp(0.85rem,1.4vw,1rem); color:rgba(255,255,255,0.8); line-height:1.7;">
+        Fast food companies spend enormous amounts on food styling and photography. The goal isn't to show you what the food actually looks like — it's to trigger desire before you think critically about the choice.
+      </div>
+      <div class="reveal" id="s11-t1">
+        <div class="def-card">
+          <div class="def-label">Visual distraction</div>
+          <div class="def-body">Burgers are almost always photographed with vivid green lettuce, bright red tomato, and fresh garnishes. This pulls your eye toward colour and freshness, away from the grey or brown processed component in the middle.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s11-t2">
+        <div class="def-card">
+          <div class="def-label">Colour psychology</div>
+          <div class="def-body">Red and yellow are used heavily across fast food brands — they stimulate appetite and urgency. Warm lighting hides oil sheen and makes chips appear crispier than they are.</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-r" style="gap:13px;">
+      <div class="reveal" id="s11-t3">
+        <div class="def-card">
+          <div class="def-label">Portion deception</div>
+          <div class="def-body">Products are shot at flattering angles with props chosen to make portions look larger. Food stylists routinely use non-food materials — motor oil instead of syrup, hairspray on fruit — to maintain "perfect" appearances under studio lighting.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s11-so-what">
+        <div class="callout"><strong>So what?</strong> If a product needs this much effort just to look appealing, what does that tell us about the design problem we're actually trying to solve in a food app?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s12: PIVOT — section break to HMW ─────────────────── -->
+<div class="scene" id="s12" style="align-items:center; justify-content:center; text-align:center;">
+  <div class="eyebrow" style="text-align:center; align-self:center;">Design Thinking</div>
+  <div class="scene-title" style="font-size:clamp(2.4rem,6vw,4.5rem);">How Might <span class="hl">We?</span></div>
+  <div class="scene-rule" style="align-self:center;"></div>
+  <div class="reveal" id="s12-sub" style="font-size:clamp(0.9rem,1.8vw,1.2rem); color:var(--dim); max-width:500px; line-height:1.6;">
+    Designing questions that open solutions.
+  </div>
+</div>
+
+
+<!-- ── s13: HMW LEARNING INTENTION ───────────────────────── -->
+<div class="scene" id="s13">
+  <div class="eyebrow">Learning Intention</div>
+  <div class="scene-title">What are we learning <span class="hl">now?</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s13-li">
+    <div class="def-card">
+      <div class="def-label">Learning Intention</div>
+      <div class="def-body">Understand how to write a strong 'How Might We' statement that frames a design problem without prescribing a solution.</div>
+    </div>
+  </div>
+
+  <div class="reveal" id="s13-sc">
+    <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+      <div class="def-label">Success Criteria</div>
+      <div class="def-body">
+        <div class="reveal" id="s13-sc1" style="color:var(--pink); margin-bottom:8px;">I can write a HMW statement that identifies a specific user, a friction point or desire, and leaves the solution completely open.</div>
+        <div class="reveal" id="s13-sc2" style="color:var(--dim); font-size:0.9em; font-style:italic;">Example: HMW help [user / situation] [do / feel / avoid] so that [outcome]?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ── s14: HOOK — what's stopping them? ─────────────────── -->
+<div class="scene" id="s14">
+  <div class="checks">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+  </div>
+  <div class="scene-title">What's stopping <span class="hl">them?</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="two-col" style="flex:1; min-height:0; align-items:flex-start;">
+    <div class="col-l" style="gap:14px; justify-content:flex-start;">
+      <div class="reveal" id="s14-problem">
+        <div class="def-card">
+          <div class="def-label">The Problem</div>
+          <div class="def-body" style="font-size:clamp(1rem,1.9vw,1.35rem); font-weight:700; color:white; line-height:1.4;">Students at our school café don't choose healthy options.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s14-task" style="font-size:clamp(0.88rem,1.5vw,1.05rem); color:rgba(255,255,255,0.85); line-height:1.7;">
+        <strong style="color:var(--pink);">On your whiteboard:</strong><br>Write down as many reasons as you can think of for why students avoid healthy choices at the café.
+      </div>
+      <div class="reveal" id="s14-cues">
+        <div class="callout">Think about: cost, time, what looks appealing, social pressure...</div>
+      </div>
+    </div>
+    <div class="col-r" style="gap:14px; justify-content:flex-start; padding-top:4px;">
+      <div class="reveal" id="s14-pivot">
+        <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+          <div class="def-label">After sharing</div>
+          <div class="def-body">What do your reasons tell us about what students actually <strong style="color:var(--pink);">need</strong> — not just what they're doing wrong?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar reveal" id="s14-bottom">
+    <div class="bottom-bar-text">What do your reasons tell us about what students actually need?</div>
+  </div>
+</div>
+
+
+<!-- ── s15: I DO — Goldilocks Rule ───────────────────────── -->
+<div class="scene" id="s15">
+  <div class="header-row">
+    <div>
+      <div class="eyebrow">Worked Example</div>
+      <div class="scene-title">The Goldilocks <span class="hl">Rule</span></div>
+    </div>
+    <div class="phase-pill" style="margin-top:8px;">I Do</div>
+  </div>
+  <div class="scene-rule"></div>
+
+  <div class="three-col" style="flex:1; align-items:stretch; margin-top:4px;">
+    <div class="tcol reveal" id="s15-broad">
+      <div class="def-card" style="height:100%;">
+        <div class="def-label" style="color:rgba(255,255,255,0.35);">Too Broad</div>
+        <div class="def-body" style="font-style:italic; color:rgba(255,255,255,0.65); margin-bottom:14px; line-height:1.5;">"How might we make healthy eating better for everyone?"</div>
+        <div style="width:100%; height:1px; background:rgba(255,255,255,0.07); margin-bottom:12px;"></div>
+        <div style="font-size:clamp(0.72rem,1.1vw,0.82rem); color:var(--dim); line-height:1.55;">No specific user, no context, no traction — could mean anything.</div>
+      </div>
+    </div>
+    <div class="tcol reveal" id="s15-right">
+      <div class="def-card" style="height:100%; border-color:rgba(235,0,139,0.5); background:rgba(235,0,139,0.06);">
+        <div class="def-label">Just Right</div>
+        <div class="def-body" style="font-style:italic; color:rgba(255,255,255,0.8); margin-bottom:14px; line-height:1.5;">"How might we help students who are in a rush feel confident a healthy choice won't slow them down?"</div>
+        <div style="width:100%; height:1px; background:rgba(235,0,139,0.2); margin-bottom:12px;"></div>
+        <div style="font-size:clamp(0.72rem,1.1vw,0.82rem); color:rgba(255,255,255,0.7); line-height:1.55;">Specific user + situation, clear friction point, solution completely open.</div>
+      </div>
+    </div>
+    <div class="tcol reveal" id="s15-narrow">
+      <div class="def-card" style="height:100%;">
+        <div class="def-label" style="color:rgba(255,255,255,0.35);">Too Narrow</div>
+        <div class="def-body" style="font-style:italic; color:rgba(255,255,255,0.65); margin-bottom:14px; line-height:1.5;">"How might we add a calorie filter for items under 400kJ to the app?"</div>
+        <div style="width:100%; height:1px; background:rgba(255,255,255,0.07); margin-bottom:12px;"></div>
+        <div style="font-size:clamp(0.72rem,1.1vw,0.82rem); color:var(--dim); line-height:1.55;">Already a solution — the design thinking is over before it began.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal" id="s15-rule" style="margin-top:14px;">
+    <div class="callout">Look for: <strong>specific user</strong> &nbsp;·&nbsp; <strong>a friction point or desire</strong> &nbsp;·&nbsp; <strong style="color:var(--pink);">NO solution hidden inside the question</strong></div>
+  </div>
+</div>
+
+
+<!-- ── s16: WE DO — Sort & Fix ───────────────────────────── -->
+<div class="scene" id="s16">
+  <div class="checks">
+    <img src="checksforunderstanding/coldcall.png" alt="Cold Call">
+    <img src="checksforunderstanding/turnandtalk.png" alt="Turn and Talk">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+  </div>
+  <div class="header-row">
+    <div class="scene-title">Sort <span class="hl">&amp; Fix</span></div>
+    <div class="phase-pill">We Do</div>
+  </div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s16-instr" style="font-style:italic; color:var(--dim); font-size:clamp(0.8rem,1.3vw,0.92rem); margin-bottom:14px;">
+    Label each statement: Too Broad, Too Narrow, or Just Right. Fix the wrong ones on your whiteboard.
+  </div>
+
+  <div class="reveal" id="s16-a" style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="font-weight:900; color:var(--pink); font-size:1.15rem; flex-shrink:0;">a)</div>
+    <div style="font-style:italic; font-size:clamp(0.88rem,1.4vw,1rem); flex:1; line-height:1.5;">"How might we improve health?"</div>
+    <div style="font-size:0.75rem; color:var(--dim); font-family:var(--mono); flex-shrink:0;">Hint: Who is the user? What is the context?</div>
+  </div>
+
+  <div class="reveal" id="s16-b" style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="font-weight:900; color:var(--pink); font-size:1.15rem; flex-shrink:0;">b)</div>
+    <div style="font-style:italic; font-size:clamp(0.88rem,1.4vw,1rem); flex:1; line-height:1.5;">"How might we add a calorie search filter for items under 400kJ to the ordering screen?"</div>
+  </div>
+
+  <div class="reveal" id="s16-c" style="display:flex; align-items:baseline; gap:20px; padding:14px 0; border-top:1px solid rgba(255,255,255,0.08); border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="font-weight:900; color:var(--pink); font-size:1.15rem; flex-shrink:0;">c)</div>
+    <div style="font-style:italic; font-size:clamp(0.88rem,1.4vw,1rem); flex:1; line-height:1.5;">"How might we help students who skip breakfast find a filling, affordable option at the café?"</div>
+  </div>
+
+  <div class="bottom-bar reveal" id="s16-bottom">
+    <div class="bottom-bar-text">Be ready to share your fix. Did you accidentally sneak a solution in?</div>
+  </div>
+</div>
+
+
+<!-- ── s17: SENTENCE FRAME ────────────────────────────────── -->
+<div class="scene" id="s17" style="justify-content:center;">
+  <div class="eyebrow">The Sentence Frame</div>
+  <div class="scene-title">Write it <span class="hl">this way.</span></div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s17-frame" style="margin-top:8px;">
+    <div class="def-card" style="padding:28px 32px;">
+      <div class="def-label">How Might We — Template</div>
+      <div style="font-size:clamp(1.05rem,2.1vw,1.6rem); font-weight:900; line-height:1.8; margin-top:10px;">
+        How might we help <span class="hl">[specific user / situation]</span><br>
+        <span style="font-weight:400; font-size:0.72em; color:rgba(255,255,255,0.55);">[do / feel / avoid something]</span><br>
+        so that <span style="color:rgba(255,255,255,0.7); font-size:0.88em;">[outcome]?</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal" id="s17-warn" style="margin-top:10px;">
+    <div class="callout"><strong>Watch the outcome:</strong> it should describe a result for the user, not prescribe what the solution looks like. If it sounds like a feature, pull back.</div>
+  </div>
+</div>
+
+
+<!-- ── s18: YOU DO ────────────────────────────────────────── -->
+<div class="scene" id="s18">
+  <div class="checks">
+    <img src="checksforunderstanding/stopandjot.png" alt="Stop and Jot">
+  </div>
+  <div class="header-row">
+    <div class="scene-title">Your <span class="hl">Turn</span></div>
+    <div class="phase-pill">You Do</div>
+  </div>
+  <div class="scene-rule"></div>
+
+  <div class="reveal" id="s18-instr" style="font-style:italic; color:var(--dim); font-size:clamp(0.8rem,1.3vw,0.92rem); margin-bottom:14px;">
+    Write two HMW statements on your whiteboard — one for each user below.
+  </div>
+
+  <div class="two-col" style="flex:1; min-height:0; align-items:stretch;">
+    <div class="col-l reveal" id="s18-a">
+      <div class="def-card" style="height:100%;">
+        <div class="def-label" style="letter-spacing:0.15em;">a) &nbsp; The easy user</div>
+        <div class="def-body" style="margin-bottom:18px; font-size:clamp(0.9rem,1.5vw,1.05rem);">A student who already wants to eat well but keeps running into barriers.</div>
+        <div style="width:100%; height:1px; background:rgba(255,255,255,0.1); margin-bottom:14px;"></div>
+        <div style="font-style:italic; font-size:clamp(0.75rem,1.1vw,0.85rem); color:var(--dim);">Write: HMW help [this user] …</div>
+      </div>
+    </div>
+    <div class="col-r reveal" id="s18-b">
+      <div class="def-card" style="height:100%; border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+        <div class="def-label" style="letter-spacing:0.15em;">b) &nbsp; The harder user</div>
+        <div class="def-body" style="margin-bottom:18px; font-size:clamp(0.9rem,1.5vw,1.05rem);">A student who just wants something fast and cheap and doesn't really care about nutrition.</div>
+        <div style="width:100%; height:1px; background:rgba(235,0,139,0.2); margin-bottom:14px;"></div>
+        <div style="font-style:italic; font-size:clamp(0.75rem,1.1vw,0.85rem); color:var(--dim);">This one is harder — be specific about their actual motivation.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-bar reveal" id="s18-bottom">
+    <div class="bottom-bar-text">Two different users &rarr; two very different design directions. That's the point.</div>
+  </div>
+</div>
+
+
+<!-- ── s19: CONFIDENCE CHECK ─────────────────────────────── -->
+<div class="scene" id="s19">
+  <div class="checks" style="align-self:flex-start;">
+    <img src="checksforunderstanding/fingervote.png" alt="Finger Vote">
+    <img src="checksforunderstanding/volunteer.png" alt="Volunteer">
+  </div>
+  <div class="scene-title">How <span class="hl">confident</span> are you?</div>
+  <div class="scene-rule"></div>
+
+  <div style="display:flex; gap:28px; width:100%; flex:1; min-height:0; align-items:flex-start;">
+    <div style="flex:1.2; display:flex; flex-direction:column; gap:14px;">
+      <div class="reveal" id="s19-prompt" style="font-size:clamp(0.85rem,1.4vw,1rem); color:rgba(255,255,255,0.85);">
+        Show me on 5 fingers — how confident are you writing a HMW independently?
+      </div>
+      <div class="conf-scale" style="max-width:100%;">
+        <div class="conf-item" id="ci1"><div class="conf-num">1</div><div class="conf-lbl">Not sure at all</div></div>
+        <div class="conf-item" id="ci2"><div class="conf-num">2</div><div class="conf-lbl">Need more practice</div></div>
+        <div class="conf-item" id="ci3"><div class="conf-num">3</div><div class="conf-lbl">Getting there</div></div>
+        <div class="conf-item" id="ci4"><div class="conf-num">4</div><div class="conf-lbl">Fairly confident</div></div>
+        <div class="conf-item hi" id="ci5"><div class="conf-num">5</div><div class="conf-lbl">I've got this</div></div>
+      </div>
+      <div class="callout reveal" id="s19-note" style="border-left:none; border-top:3px solid var(--pink); border-radius:3px; text-align:center;">
+        Showing <strong>1&ndash;2 fingers</strong> — we'll do more practice before moving on.
+      </div>
+    </div>
+
+    <div style="flex:1; display:flex; flex-direction:column; gap:13px;">
+      <div class="reveal" id="s19-share">
+        <div class="def-card" style="border-left:3px solid var(--pink); border-radius:0 4px 4px 0;">
+          <div class="def-label">Then share aloud</div>
+          <div class="def-body">Volunteer to read out your <strong style="color:var(--pink);">'harder user'</strong> HMW statement.</div>
+        </div>
+      </div>
+      <div class="reveal" id="s19-check">
+        <div class="def-card">
+          <div class="def-label">Quick checklist</div>
+          <div class="def-body" style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
+            <div class="reveal" id="s19-c1">&#x2713; &nbsp; Does it name a specific user?</div>
+            <div class="reveal" id="s19-c2">&#x2713; &nbsp; Does it describe a friction point or desire?</div>
+            <div class="reveal" id="s19-c3" style="color:var(--pink);">&#x2713; &nbsp; Is there <strong>no solution</strong> hiding inside it?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="presentation.js"></script>
+<script>
+const SCENES = [
+
+  { id:'s0', steps:[
+    () => vis('s0-sub'),
+  ]},
+
+  { id:'s1', steps:[
+    () => vis('s1-li'),
+    () => vis('s1-sc'),
+    () => vis('s1-sc1'),
+    () => vis('s1-sc2'),
+    () => vis('s1-sc3'),
+  ]},
+
+  { id:'s2', steps:[
+    () => vis('s2-task'),
+    () => vis('s2-cues'),
+    () => vis('s2-note'),
+  ]},
+
+  { id:'s3', steps:[
+    () => vis('s3-img'),
+    () => vis('s3-card'),
+    () => vis('s3-g1'),
+    () => vis('s3-g2'),
+    () => vis('s3-g3'),
+    () => vis('s3-g4'),
+    () => vis('s3-g5'),
+  ]},
+
+  { id:'s4', steps:[
+    () => vis('s4-instr'),
+    () => vis('s4-q1'),
+    () => vis('s4-q2'),
+    () => vis('s4-bottom'),
+  ]},
+
+  { id:'s5', steps:[
+    () => vis('s5-instr'),
+    () => stagger(['s5-g1','s5-g2','s5-g3','s5-g4','s5-g5'], 110),
+  ],
+  fullFn: () => ['s5-g1','s5-g2','s5-g3','s5-g4','s5-g5'].forEach(id => vis(id))
+  },
+
+  { id:'s6', steps:[
+    () => vis('s6-context'),
+    () => vis('s6-q'),
+  ]},
+
+  { id:'s7', steps:[
+    () => vis('s7-intro'),
+    () => vis('s7-s1'),
+    () => vis('s7-s2'),
+    () => vis('s7-s3'),
+    () => vis('s7-link'),
+  ]},
+
+  { id:'s8', steps:[
+    () => vis('s8-prompt'),
+    () => vis('s8-task'),
+    () => vis('s8-cues'),
+    () => vis('s8-bottom'),
+  ]},
+
+  { id:'s9', steps:[
+    () => vis('s9-def'),
+    () => vis('s9-types'),
+    () => vis('s9-rdi'),
+    () => vis('s9-actual'),
+    () => vis('s9-why'),
+  ]},
+
+  { id:'s10', steps:[
+    () => vis('s10-instr'),
+    () => vis('s10-items'),
+    () => vis('s10-q1'),
+    () => vis('s10-q2'),
+    () => vis('s10-ans'),
+  ]},
+
+  { id:'s11', steps:[
+    () => vis('s11-intro'),
+    () => vis('s11-t1'),
+    () => vis('s11-t2'),
+    () => vis('s11-t3'),
+    () => vis('s11-so-what'),
+  ]},
+
+  { id:'s12', steps:[
+    () => vis('s12-sub'),
+  ]},
+
+  { id:'s13', steps:[
+    () => vis('s13-li'),
+    () => vis('s13-sc'),
+    () => vis('s13-sc1'),
+    () => vis('s13-sc2'),
+  ]},
+
+  { id:'s14', steps:[
+    () => vis('s14-problem'),
+    () => vis('s14-task'),
+    () => vis('s14-cues'),
+    () => vis('s14-pivot'),
+    () => vis('s14-bottom'),
+  ]},
+
+  { id:'s15', steps:[
+    () => vis('s15-broad'),
+    () => vis('s15-right'),
+    () => vis('s15-narrow'),
+    () => vis('s15-rule'),
+  ]},
+
+  { id:'s16', steps:[
+    () => vis('s16-instr'),
+    () => vis('s16-a'),
+    () => vis('s16-b'),
+    () => vis('s16-c'),
+    () => vis('s16-bottom'),
+  ]},
+
+  { id:'s17', steps:[
+    () => vis('s17-frame'),
+    () => vis('s17-warn'),
+  ]},
+
+  { id:'s18', steps:[
+    () => vis('s18-instr'),
+    () => vis('s18-a'),
+    () => vis('s18-b'),
+    () => vis('s18-bottom'),
+  ]},
+
+  { id:'s19', steps:[
+    () => vis('s19-prompt'),
+    () => stagger(['ci1','ci2','ci3','ci4','ci5']),
+    () => vis('s19-note'),
+    () => vis('s19-share'),
+    () => vis('s19-check'),
+    () => vis('s19-c1'),
+    () => vis('s19-c2'),
+    () => vis('s19-c3'),
+  ],
+  fullFn: () => ['ci1','ci2','ci3','ci4','ci5'].forEach(id => vis(id))
+  },
+
+];
+
+initPresentation(SCENES);
+</script>
+</body>
+</html>
