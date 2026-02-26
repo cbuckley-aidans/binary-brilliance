@@ -125,8 +125,8 @@ function _goBack() {
 }
 
 // ── Viewport scale-to-fit ──────────────────────────────────
-const REF_W = 1920;
-const REF_H = 1080;
+const REF_W = 1280;
+const REF_H = 720;
 
 function _fitToViewport() {
   const scale   = Math.min(window.innerWidth / REF_W, window.innerHeight / REF_H);
