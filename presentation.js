@@ -124,6 +124,32 @@ function _goBack() {
   if (_current > 0) _goTo(_current - 1, false);
 }
 
+// ── Viewport scale-to-fit ──────────────────────────────────
+const REF_W = 1920;
+const REF_H = 1080;
+
+function _fitToViewport() {
+  const scale   = Math.min(window.innerWidth / REF_W, window.innerHeight / REF_H);
+  const offsetX = (window.innerWidth  - REF_W * scale) / 2;
+  const offsetY = (window.innerHeight - REF_H * scale) / 2;
+
+  document.querySelectorAll('.scene').forEach(el => {
+    el.style.width           = REF_W + 'px';
+    el.style.height          = REF_H + 'px';
+    el.style.left            = offsetX + 'px';
+    el.style.top             = offsetY + 'px';
+    el.style.right           = 'auto';
+    el.style.bottom          = 'auto';
+    el.style.transform       = `scale(${scale})`;
+    el.style.transformOrigin = 'top left';
+  });
+
+  const prog = document.getElementById('progress');
+  if (prog) {
+    prog.style.bottom = (offsetY + 20 * scale) + 'px';
+  }
+}
+
 // ── Init (called by each lesson HTML) ─────────────────────
 function initPresentation(scenes) {
   _scenes = scenes;
@@ -157,6 +183,8 @@ function initPresentation(scenes) {
   });
 
   _updateDots(0);
+   _fitToViewport();
+  window.addEventListener('resize', _fitToViewport);
   document.getElementById(_scenes[0].id).classList.add('active');
   setTimeout(() => _runStep(), 300);
 }
